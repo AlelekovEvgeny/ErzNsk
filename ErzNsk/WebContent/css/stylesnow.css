@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+	color: white;
+	font-style: italic;
+}
+
+/*Кадры анимации*/
+@keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+ 100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+@-moz-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+@-webkit-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+ 50% {background-color:#b4cfe0;}
+ 100% {background-position: 500px 1000px, 400px 400px, 300px 300px; background-color:#6b92b9;}
+}
+
+@-ms-keyframes snow {
+0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+ 100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}
+}
+
+
+body {
+	background-color: #6b92b9; 
+	background-image: url('../image/snow.png'), url('../image/snow3.png'), url('../image/snow2.png');
+	
+	-webkit-animation: snow 20s linear infinite;
+	-moz-animation: snow 20s linear infinite;
+	-ms-animation: snow 20s linear infinite;
+	animation: snow 20s linear infinite;
+}
+
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  padding-top: 80px;
+  margin: 0 auto;
+}
+.form-signin.form-signin-heading,
+ {
+  margin-bottom: 10px;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+#newyear {
+	width: 800px;
+	margin: 200px auto;
+	
+	text-align: center;
+	color: white;
+	font: 100px/1 'Lobster', cursive;
+	
+	text-shadow: 0px 0px 4px rgba(255,255,255, 0.5);
+}

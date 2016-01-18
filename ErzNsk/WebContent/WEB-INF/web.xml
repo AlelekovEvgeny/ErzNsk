@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>ErzNsk</display-name>
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>List1</servlet-name>
+    <servlet-class>servlet.List1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>List1</servlet-name>
+    <url-pattern>/List1</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LoginController</servlet-name>
+    <servlet-class>servlet.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginController</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>servlet.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoadZu2Controller</servlet-name>
+    <servlet-class>servlet.LoadZu2Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadZu2Controller</servlet-name>
+    <url-pattern>/loadZu2</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoadZpController</servlet-name>
+    <servlet-class>servlet.LoadZpController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadZpController</servlet-name>
+    <url-pattern>/loadZp</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoadErrorController</servlet-name>
+    <servlet-class>servlet.LoadErrorController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadErrorController</servlet-name>
+    <url-pattern>/loadError</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoadAppakController</servlet-name>
+    <servlet-class>servlet.LoadAppakController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadAppakController</servlet-name>
+    <url-pattern>/loadAppak</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MessageController</servlet-name>
+    <servlet-class>servlet.MessageController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MessageController</servlet-name>
+    <url-pattern>/message</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ExcelEditController</servlet-name>
+    <servlet-class>servlet.ExcelEditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExcelEditController</servlet-name>
+    <url-pattern>/excelEdit</url-pattern>
+  </servlet-mapping>
+  
+  
+   <servlet>
+    <servlet-name>WsAnswer</servlet-name>
+    <servlet-class>servlet.WsAnswer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WsAnswer</servlet-name>
+    <url-pattern>/wsAnswer</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LoadCountRab</servlet-name>
+    <servlet-class>servlet.LoadCountRab</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadCountRab</servlet-name>
+    <url-pattern>/loadCountRab</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LoadGoznakError</servlet-name>
+    <servlet-class>servlet.LoadGoznakError</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadGoznakError</servlet-name>
+    <url-pattern>/loadGoznakError</url-pattern>
+  </servlet-mapping>
+  
+   <filter>
+    <filter-name>EncofingFilter</filter-name>
+    <filter-class>filter.EncofingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncofingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
+  <mime-mapping>    
+            <extension>js</extension>        
+            <mime-type>application/javascript</mime-type>        
+        </mime-mapping>
+ 
+  
+</web-app>

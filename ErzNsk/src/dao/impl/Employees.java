@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "employees")
+@XmlRootElement(name = "List")
 @XmlAccessorType (XmlAccessType.FIELD)
 public class Employees 
 {
-	@XmlElement(name = "employee")
+	@XmlElement(name = "person")
 	private List<Employee> employees = null;
 
 	public List<Employee> getEmployees() {

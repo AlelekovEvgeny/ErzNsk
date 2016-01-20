@@ -11,33 +11,38 @@ import javax.xml.bind.Unmarshaller;
 import dao.impl.Employee;
 import dao.impl.Employees;
 import dao.impl.Secondlist;
+import help.Const;
 
 
 public class UtilParseDbXml {
 
-	public  void marshalingExample(Employees em) throws JAXBException {
+	public  void marshalingExample(String name,Employees em) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(em.getClass());
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-		jaxbMarshaller.marshal(em, System.out);
-		jaxbMarshaller.marshal(em, new File("c:/temp/employees.xml"));
+		jaxbMarshaller.marshal(em, new File(Const.OUTPUTDONE+name+".xml"));
 	}
 		
-	public  void unMarshalingExample() throws JAXBException {
+	public  ArrayList<ArrayList<String>> unMarshalingExample(String name) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(Employees.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		Employees emps = (Employees) jaxbUnmarshaller.unmarshal(new File("c:/temp/employees.xml"));
+		Employees emps = (Employees) jaxbUnmarshaller.unmarshal(new File(Const.OUTPUTDONE+name+".xml"));
 
+		ArrayList<ArrayList<String>> colBig = new ArrayList<ArrayList<String>>();
+		
 		for (Employee emp : emps.getEmployees()) {
-			System.out.println(emp.getId());
-			System.out.println(emp.getIncome());
+			ArrayList<Secondlist> sl = emp.getLs();
+			
+			colBig.add(sl.get(0).getSecond());
 		}
+		
+		return colBig;
 	}
 
 	
-	public void marshaling(ArrayList<ArrayList<String>> ls ) throws JAXBException
+	public void marshaling(String name,ArrayList<ArrayList<String>> ls ) throws JAXBException
 	{
 		Employees employees = new Employees();
 		employees.setEmployees(new ArrayList<Employee>());
@@ -60,7 +65,7 @@ public class UtilParseDbXml {
 
 		}
 		
-		marshalingExample(employees);
+		marshalingExample(name,employees);
 	}
 
 }

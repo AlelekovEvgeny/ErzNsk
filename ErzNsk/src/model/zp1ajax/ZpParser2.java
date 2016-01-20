@@ -46,37 +46,68 @@ public class ZpParser2 extends DefaultHandler {
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException 
     {
     	curElement = qName;
+    	ArrayList<String> zpRecordOnList = null;
+    	
+    	
+    	    	
     	
     	if (curElement.equals("IN1")) 
     	{
     		zpRecord.setNpp(nppCounter - 1);
     		zpRecord.setDinput(curDate);
-    		/*
-    		try { 
-    			
-    			//äîáîâëÿåì â òàáëèöó
-    			new RecordH().addrecord(zpRecord); 
-    		} catch (SQLException e) { 
-    			e.printStackTrace(); 
-    		}
-    		*/
     		
-    		ArrayList<String> zpRecordOnList = new ArrayList<String>();
-    		zpRecordOnList.add(zpRecord.toString());
+    		zpRecordOnList = new ArrayList<String>();
+    		//zpRecordOnList.add(zpRecord.toString());
+    		zpRecordOnList.add(zpRecord.getMSA_2());
+    		zpRecordOnList.add(zpRecord.getPID_3_CX_1_1());
+    		zpRecordOnList.add(zpRecord.getPID_3_CX_1_2());
+    		zpRecordOnList.add(zpRecord.getOkato2());
+    		zpRecordOnList.add(zpRecord.getIN1_3_CX_1());
+    		zpRecordOnList.add(zpRecord.getIN1_12());
+    		zpRecordOnList.add(zpRecord.getIN1_13());
+    		zpRecordOnList.add(zpRecord.getIN1_15());
+    		zpRecordOnList.add(zpRecord.getIN1_35());
+    		zpRecordOnList.add(zpRecord.getIN1_36());
+    		zpRecordOnList.add(zpRecord.getQri1());
+    		zpRecordOnList.add(zpRecord.getQri2());
+    		zpRecordOnList.add(zpRecord.getQri3());
+    		zpRecordOnList.add(zpRecord.getQri4());
+    		zpRecordOnList.add(String.valueOf(zpRecord.getNpp()));
+    		zpRecordOnList.add(zpRecord.getDinput());
+    		zpRecordOnList.add(zpRecord.getPID7());
+    		zpRecordOnList.add(zpRecord.getPID8());
+    		zpRecordOnList.add(zpRecord.getPID29());
+    		
     		cl.setListRows(zpRecordOnList);
-    		
-
-    		
     		
         }
     	if (curElement.equals("QRI"))
     	{
     		zpRecord.setDinput(curDate);
     		zpRecord.setNpp(100);
-    		ArrayList<String> zpRecordOnList = new ArrayList<String>();
-    		zpRecordOnList.add(zpRecord.toString());
-    		cl.setListRows(zpRecordOnList);
+    		zpRecordOnList = new ArrayList<String>();
     		
+    		zpRecordOnList.add(zpRecord.getMSA_2());
+    		zpRecordOnList.add(zpRecord.getPID_3_CX_1_1());
+    		zpRecordOnList.add(zpRecord.getPID_3_CX_1_2());
+    		zpRecordOnList.add(zpRecord.getOkato2());
+    		zpRecordOnList.add(zpRecord.getIN1_3_CX_1());
+    		zpRecordOnList.add(zpRecord.getIN1_12());
+    		zpRecordOnList.add(zpRecord.getIN1_13());
+    		zpRecordOnList.add(zpRecord.getIN1_15());
+    		zpRecordOnList.add(zpRecord.getIN1_35());
+    		zpRecordOnList.add(zpRecord.getIN1_36());
+    		zpRecordOnList.add(zpRecord.getQri1());
+    		zpRecordOnList.add(zpRecord.getQri2());
+    		zpRecordOnList.add(zpRecord.getQri3());
+    		zpRecordOnList.add(zpRecord.getQri4());
+    		zpRecordOnList.add(String.valueOf(zpRecord.getNpp()));
+    		zpRecordOnList.add(zpRecord.getDinput());
+    		zpRecordOnList.add(zpRecord.getPID7());
+    		zpRecordOnList.add(zpRecord.getPID8());
+    		zpRecordOnList.add(zpRecord.getPID29());
+    		
+    		cl.setListRows(zpRecordOnList);
 
         }
     	curElement = "";
@@ -94,7 +125,6 @@ public class ZpParser2 extends DefaultHandler {
 			 */
 		case "PID.29":
 			zpRecord.setPID29(new String(ch, start, length));
-			//System.out.println("×åðåç get "+zpRecord.getPID29()+ " "+zpRecord.getMSA_2());
 			break;
 			
 		case "PID.7": 
@@ -125,19 +155,12 @@ public class ZpParser2 extends DefaultHandler {
 			
 			
 			case "CX.1": 
-				/*
-				 * 
-				 * åñëè pid.3 ïåðâûé
-				 */
 				if (pidCounter == 1)
 				{ 
 					zpRecord.setPID_3_CX_1_1(new String(ch, start, length));
 					break;
 				}
-				/*
-				 *  åñëè pid.3 âòîðîé èëè òðåòèé
-				 */
-				if (pidCounter == 2 || pidCounter == 3)
+				if (pidCounter > 1)
 				{ 
 					zpRecord.setPID_3_CX_1_2(new String(ch, start, length));
 					break;
@@ -186,7 +209,7 @@ public class ZpParser2 extends DefaultHandler {
 			case "QRI.2": 
 				qriCounter++;
 				switch (qriCounter) {
-					case 1: zpRecord.setQri1(new String(ch, start, length));break;
+//					case 1: zpRecord.setQri1(new String(ch, start, length));break;
 					case 2: zpRecord.setQri2(new String(ch, start, length));break;
 					case 3: zpRecord.setQri3(new String(ch, start, length));break;
 					case 4: zpRecord.setQri4(new String(ch, start, length));break; 

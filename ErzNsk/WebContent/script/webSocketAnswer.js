@@ -109,6 +109,7 @@ ws.onmessage =function(event)
     }
     if(polucheno == "> получен" )
     {
+    	console.log(datauprmessZP);
     	var kluch;
     	nowCount= 0;
     	var uprak2 = event.data.substring(10,52);
@@ -128,12 +129,12 @@ ws.onmessage =function(event)
     	hotInstan3.clear();
     	
     	//	блок spinner'а (включение)
-    /*  	 $("#dim2").css("height", $(document).height());
+      	 $("#dim2").css("height", $(document).height());
    		 $("#dim2").fadeIn();
    	     spinner.spin($('#spinner_center')[0]);
    	      ajax_cnt++;   	 	
         
-   	*/
+   	
    	  // $('.nav-pills li:eq(2) a').tab('show');
 	   	var myData2 = {uprak2, datauprmessZP, kluch}
 	   	 var jqxhr = $.getJSON( "ImportZP1fromXMLToHandsontable",myData2, function(er)
@@ -147,15 +148,6 @@ ws.onmessage =function(event)
 	   		//$('.nav-pills li:eq(1) a').tab('show');
 	   		 // вставляем данные на второй лист с большого запроса (upmessa)
 	   		 hotInstan2.loadData(ev.data2upr);
-	   		 
-	 		 
-	   	// блок spinner (выключение) 
-	 /*		ajax_cnt--;
-	 	    if (ajax_cnt <= 0) {
-	 	       spinner.stop();
-	 	       $('#dim2').fadeOut();
-	 	       ajax_cnt = 0;
-	 	 	}*/
 	   	 })
    	      
 	  .fail( function(error) {
@@ -164,6 +156,14 @@ ws.onmessage =function(event)
         
 	 .always(function()
 	 { 
+		// блок spinner (выключение) 
+	 		ajax_cnt--;
+	 	    if (ajax_cnt <= 0) {
+	 	       spinner.stop();
+	 	       $('#dim2').fadeOut();
+	 	       ajax_cnt = 0;
+	 	 	}
+		 
 	 });
     }
 };

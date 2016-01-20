@@ -23,8 +23,9 @@ public class ZpRecord2  {
 	private int npp;
 	private String dinput;
 	private String PID7;
+	private String PID8;
 	private String PID29;
-	   private String PID8;
+   
 
 		public String getMSA_2() {
 		return MSA_2;

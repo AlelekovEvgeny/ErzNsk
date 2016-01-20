@@ -6,26 +6,15 @@ import java.util.List;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import loadparse.Load;
 import loadparse.ZpLoadMock;
@@ -44,27 +33,22 @@ import message.MessageA08v01;
 import message.MessageA13p09;
 import message.MessageA24p10;
 import message.MessageA24p102;
-import message.MessageA24p10com;
 import message.MessageP26;
 import message.MessageP27;
 import message.MessageZp1;
 import message.MessageZp1Fiod;
 import message.MessageZp1pr;
 import message.MessageZp9;
-import model.handsontable.ListWeb;
 import model.handsontable.ListWebForXMLQuery;
-import model.xml.Db;
 
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 import org.apache.catalina.websocket.WsOutbound;
-import org.hibernate.property.access.spi.GetterMethodImpl;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import answer.AnswerData;
 import answer.AnswerZp;
@@ -151,7 +135,7 @@ public class WsAnswer extends WebSocketServlet {
 							if(arg0.toString().length() >= 11 && arg0.toString().substring(2, 9).equals("Zp1Ajax"))
 							{
 									listKluchi.add(arg0.toString());
-									System.out.println("Зашла на сервер сокет второя часть запроса zp1ajax "+ listKluchi);
+									System.out.println("Зашла на сервер сокет второя часть запроса zp1ajax ");
 							}
 							else
 							{
@@ -196,7 +180,7 @@ public class WsAnswer extends WebSocketServlet {
 					}		
 				}			
 				// for debug
-				 System.out.println("Итог пойманных ключей в серверной вэбсокета "+listKluchi);
+				 System.out.println("Итог пойманных ключей в серверной вэбсокета");
 				
 				
 				// распознаем вошли ли 2 ключа : zp1 и 1 или 0
@@ -217,8 +201,12 @@ public class WsAnswer extends WebSocketServlet {
 							if(listKluchi.get(1).substring(2, 9).equals("Zp1Ajax"))
 							{
 								
-								System.out.println("ловим ajax "+ listKluchi);
-								methoZp1(request,myoutbound,listKluchi.get(1));
+								System.out.println("ловим ajax ");
+								try {
+										methoZp1(request,myoutbound,listKluchi.get(1));
+								} catch (JAXBException e) {
+										e.printStackTrace();
+								}
 								// очищаем коллекцию ключей 
 								listKluchi.clear();
 							}
@@ -345,7 +333,6 @@ public class WsAnswer extends WebSocketServlet {
 
 						Load zpLoad = new ZpLoadMock();
 						if (zpLoad.load(fileUpr2)) {
-							Desktop des = null;
 							String excelFile = userMachine + ".xls";
 							File excelFileEssence = new File("\\\\asu-paa\\ErzNsk\\" + excelFile);
 							if (excelFileEssence.exists()) {
@@ -389,10 +376,10 @@ public class WsAnswer extends WebSocketServlet {
 
 		}
 		
-		private void methoZp1(HttpServletRequest request,WsOutbound myoutbound,String stList) throws IOException {
+		private void methoZp1(HttpServletRequest request,WsOutbound myoutbound,String stList) throws IOException, JAXBException {
 			 int pERSON_SURNAME = 0,pERSON_KINDFIRSTNAME = 1,pERSON_KINDLASTNAME = 2,pERSON_BIRTHDAY = 3, pERSON_ADDRESSID= 4,  PERSON_SERPOLICY = 5, PERSON_NUMPOLICY = 6,pERSON_SEX=7,pERSON_SERDOC = 8,pERSON_NUMDOC = 9,PERSON_REGNUMBER = 10,pERSON_LINKSMOESTABLISHMENTID = 11,PERSON_ESTABLISHMENTAMBUL = 12,PERSON_DATECHANGE = 13, PERSON_ESTABLISHMENTDENT = 14,PERSON_SOCIALID = 15,PERSON_STATUSID = 16,pERSON_DOCPERSONID = 17,PERSON_INSPECTION = 18,PERSON_OPERATION = 19,PERSON_STATUSREC = 20,PERSON_OUTID = 21,PERSON_INSPECTORID = 22,PERSON_ESTABLISHMENTID = 23,PERSON_DATEPOLICY = 24,pERSON_DATEINPUT = 25,eNP = 26,SMO_OLD = 27,PERSONADD_ADDRESSID = 28,PERSONADD_PRIM = 29,sNILS = 30,bORN = 31,dATEPASSPORT = 32,rUSSIAN = 33,TELEDOM = 34,TELEWORK = 35,EMAIL = 36,TELE2 = 37,DOK_VI = 38,eNP_PA= 39,ZA = 40,zAD= 41,ZAP = 42,PRED = 43,d_V= 44,d_SER= 45,d_NUM= 46,D_DATE = 47,METHOD = 48,PETITION = 49,FPOLIC = 50,pR_FAM = 51,pR_IM= 52,pR_OT= 53,PR_TEL = 54,PR_ADRES = 55,vS_NUM= 56,vS_DATE= 57,D1 = 58,d2=59,ENP_DATE = 60,lAST_FAM =61,lAST_IM= 62,lAST_OT= 63,lAST_DR= 64,KATEG = 65,DATE_PRIK = 66,MSA =67;    
 			 int d_13= 777, eNP_1= 777,eNP_2= 777, p14cx1= 777,p14cx5= 777,p14cx6= 777,p14cx7= 777,uSER_PERSON_SURNAME= 777,xPN1= 777,xPN2 = 777,xPN3= 777,uSERNAME= 777,zADMINUS1= 777,zADPLUS40= 777,nBLANC= 777,vS_DATEPLUS1= 777,uSER_ENP= 777,uSER_PERSON_KINDFIRSTNAME= 777,uSER_PERSON_KINDLASTNAME= 777,uSER_SMO= 777,uSER_D_12= 777, d_12_PLUS1= 777,uSER_DOC_DATE= 777,uSER_DOCID= 777,uSER_NUMDOC= 777,uSER_SERDOC= 777,pFR_NOTID= 777,pFR_ID= 777, pFR_SNILS= 777,uSER_POL= 777,uSER_D_13= 777,uSER_OKATO_3= 777,uSER_TYPE_POL= 777,oKATO_3 = 777, tYPE_POL = 777,d_12 = 777,pOL = 777;
-
+			 UtilParseDbXml utilparsedbXml = new UtilParseDbXml();
 			 
 			
 			 
@@ -402,17 +389,15 @@ public class WsAnswer extends WebSocketServlet {
 			// если передаем аргумент 0 то отрабатывают методы быстрого запроса если ничего(и убрать запятую те только два аргумента) то большой запрос отрабатывает
 			if (messageZp1.create(userMachine,stList,0))
 			{
-				// for debug
-				//System.out.println("h "+messageZp1.getDataList()+"		"+messageZp1.getDataList().size() );
 				String file = "50000-" + messageZp1.getGuidBhs()+ ".uprmes";
 				String fileUpr2 = "50000-" + messageZp1.getGuidBhs();
-				File to_file = new File(Const.OUTPUTDONE + fileUpr2+ ".uprak2");
-				
 				String sentMessages = "";
+				File to_file = new File(Const.OUTPUTDONE + fileUpr2+ ".uprak2");
+				utilparsedbXml.marshaling("50000-" + messageZp1.getGuidBhs(),messageZp1.getDataList());
 				
 				CharBuffer buffer3 = CharBuffer.wrap("Отправлен "+ file);
 				myoutbound.writeTextMessage(buffer3);
-
+				
 				while ("".equals(sentMessages)) {
 					try {
 						Thread.sleep(60000);
@@ -429,19 +414,10 @@ public class WsAnswer extends WebSocketServlet {
 							 * ПЕРЕДАЕМ  в wbAnswer.js json формат Uprmes'a (коллекция которая формирует uprmess)
 							 * на основе этих данных формируется второй лист web экселя
 							 * 
+							 * По этому ключу .fromdbforuprmess, будем ловить на клиентской стороне сокета название файла и дальше его там передать 
 							 */
-						
-						
-						/*
-						 * Парсим в xml запрос из нашей базы(Person + PersonAdd)   
-						 */
-						request.getSession().setAttribute("collect", messageZp1.getDataList());
-					
-						
-						
-						
 						// дописываем в конце ключ чтобы порсить на клиенте и передавать дальше
-						CharBuffer buffer777 = CharBuffer.wrap(messageZp1.getDataList().toString()+".fromdbforuprmess");
+						CharBuffer buffer777 = CharBuffer.wrap("50000-" + messageZp1.getGuidBhs()+".fromdbforuprmess");
 						// улетает на сокет wbAnswer.js  c данными для упрмеса (данные которые из базы)
 						myoutbound.writeTextMessage(buffer777);
 						// отправляем сообщение что получен упрак2

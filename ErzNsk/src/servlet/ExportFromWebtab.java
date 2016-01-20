@@ -146,7 +146,6 @@ private static final long serialVersionUID = 1L;
 							 if(f.get(0).trim().equalsIgnoreCase(gh.get(26).trim()))
 							 {
 								 d_d2 =  gh.get(59);
-								 System.out.println(f.get(0) +"  "+ d_d2);
 							 }
 							 
 						 }
@@ -546,7 +545,7 @@ private static final long serialVersionUID = 1L;
 	 int sht = 0;
      for (int i = 0; i < ls.size(); i++)
      {
-    	 System.out.println(ls.get(i).get(7)+"  "+ls.get(i).get(3)+"  "+ls.get(i).get(4)+"  "+ls.get(i).get(5)+"  "+ls.get(i).get(6)+"  "+ls.get(i).get(13)+"  "+ls.get(i).get(14)+"  "+ls.get(i).get(15)+" "+ls.get(i).get(16)+"  "+ls.get(i).get(17)+"  "+ls.get(i).get(18));
+    	 //System.out.println(ls.get(i).get(7)+"  "+ls.get(i).get(3)+"  "+ls.get(i).get(4)+"  "+ls.get(i).get(5)+"  "+ls.get(i).get(6)+"  "+ls.get(i).get(13)+"  "+ls.get(i).get(14)+"  "+ls.get(i).get(15)+" "+ls.get(i).get(16)+"  "+ls.get(i).get(17)+"  "+ls.get(i).get(18));
 			 if(	(ls.get(i).get(7).equals("")||ls.get(i).get(3).equals("")||ls.get(i).get(4).equals("")||ls.get(i).get(5).equals("")||ls.get(i).get(6).equals("")||ls.get(i).get(13).equals("")||ls.get(i).get(14).equals("")||ls.get(i).get(15).equals("")||ls.get(i).get(16).equals("")||ls.get(i).get(17).equals("")||ls.get(i).get(18).equals("")		)	 && !ls.get(i).get(0).contains("A08") )
 			 {
 				sht = sht +1;
@@ -599,14 +598,12 @@ private static final long serialVersionUID = 1L;
 	 		+ "and ( pa.enp = '"+p1+"' or pa.enp = '"+p2+"')"
 	 		+ ")";
 	 
-	 System.out.println(queryInDB);
 	 stmt = conn.prepareStatement(queryInDB);
      rs = stmt.executeQuery();
     
      while (rs.next())
      {
     	 status = rs.getString(1);
-    	 System.out.println("Response query "+ status);
      }
      stmt.close();
 	 return Integer.valueOf(status);

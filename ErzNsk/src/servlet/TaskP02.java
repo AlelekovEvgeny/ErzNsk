@@ -135,7 +135,7 @@ private static final long serialVersionUID = 1L;
 	  		 if(x <= 10)zadershka = 1000;
 	  		 if(x <= 50 && x > 10)zadershka = 200;
 	  		 if(x <= 100 && x > 50)zadershka = 100;
-	  		 if(x <= 999999999 && x > 100)zadershka = 10;
+	  		 if(x <= 999999999 && x > 100)zadershka = 2;
 	  		 double res =0;
 	  		
 	  		 // добовляем 1-строку (шапку) из листа 1
@@ -160,7 +160,6 @@ private static final long serialVersionUID = 1L;
 		  			row.add(list.get(i));
 		  			try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}
 		  			table.add(row);
-		  			//System.out.println("table "+i+" - "+table);
 		  			
 		  			// вычисляем процент отработаннго по количеству переданых строк с листа 1
 		  			 res =(double)  i/x;

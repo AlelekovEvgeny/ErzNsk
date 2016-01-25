@@ -44,8 +44,8 @@ private static final long serialVersionUID = 1L;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
     	// этот атрибут сессии устанавливается в DelEmptyRowsFromWebExcel...
-    	Integer fk = (int) request.getSession().getAttribute("fa");
-    	
+    	Integer fk ;
+    	if(request.getSession().getAttribute("fa") != null){  fk = (int) request.getSession().getAttribute("fa");}else{fk = 0;}
     		response.setContentType("application/json");
     	    response.setCharacterEncoding("UTF-8");
     	    response.getWriter().write(String.valueOf(fk));

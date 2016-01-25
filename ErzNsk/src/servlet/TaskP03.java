@@ -15,10 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,14 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import model.handsontable.ListWeb;
 import model.handsontable.ListWebForXMLQuery;
-import model.handsontable.ListWebForXMLQuery2;
 import oracle.ConnectionPoolOracle;
 
-import oracle.net.aso.l;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -54,6 +47,7 @@ private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+    	
     	ArrayList<String> l = new ArrayList<String>();
 		Statement stat = null;
 		ResultSet res = null;
@@ -73,7 +67,7 @@ private static final long serialVersionUID = 1L;
 	        l.add("4654543221540000");
 	       */ 
 			//включить
-			stat.executeQuery("update person_enp_output set pack_id = 100 where pack_id=0 and status = 18");
+			stat.executeQuery("update person_enp_output set pack_id = 100,df=SYSDATE,prim='"+request.getSession().getAttribute("username")+"'  where pack_id=0 and status = 18");
 			 // 1. get received JSON data from request
 		  	    request.setCharacterEncoding("UTF-8");
 		        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -112,19 +106,9 @@ private static final long serialVersionUID = 1L;
 
 	  	 private ArrayList<ArrayList<String>> method(ListWebForXMLQuery listWeb,HttpServletRequest request,ArrayList<String> list) throws FileNotFoundException, IOException
 	  	 {
+	  		int x = 0;
 	  		 ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>(); 
-	  		 int x = list.size()-1;
-	  		 System.out.println("test "+x);
-	  		 // задержка по умолчанию
-	  		 int zadershka=1000;
-	  		 // задаем задержку в зависимости от количества обрабатываемы строк (чем больше строк тем меньше задержка)
-	  		 if(x <= 10)zadershka = 1000;
-	  		 if(x <= 50 && x > 10)zadershka = 200;
-	  		 if(x <= 100 && x > 50)zadershka = 100;
-	  		 if(x <= 5000 && x > 100)zadershka = 10;
-	  		 double res =0;
-	  		
-	  		 // добовляем 1-строку (шапку) из листа 1
+	  		 // добавляем 1-строку (шапку) из листа 1
 	  		 for (int i = 0; i < 1; i++)
 	  		 {
 	  			 // берем шапку
@@ -138,19 +122,32 @@ private static final long serialVersionUID = 1L;
 	  			 table.add(row); 
 	  			 
 	  		 }	
-	  		 // добовляем остальные строки (выгруженные из базы енп)
-	  		    for (int i = 0; i < list.size(); i++) 
-	  		    {
-		  			ArrayList<String> row = new ArrayList<String>();
-		  			row.add(list.get(i));
-		  			table.add(row);
-		  			try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}
-		  			// вычисляем процент отработаннго по количеству переданых строк с листа 1
-		  			 res =(double)  i/x;
-		  			 int dd =(int) (res *100.0);
-		  			 request.getSession().setAttribute("fa", dd); 
-			    }
-	  		 
+	  		 if( list.size()>0 ){
+		  		 x = list.size();
+		  		 // задержка по умолчанию
+		  		 int zadershka=1000;
+		  		 // задаем задержку в зависимости от количества обрабатываемы строк (чем больше строк тем меньше задержка)
+		  		 if(x <= 10)zadershka = 1000;
+		  		 if(x <= 50 && x > 10)zadershka = 200;
+		  		 if(x <= 100 && x > 50)zadershka = 100;
+		  		 if(x <= 10000000 && x > 100)zadershka = 10;
+		  		 double res =0;
+		  		
+		  		
+		  		 // добвляем остальные строки (выгруженные из базы енп)
+		  		    for (int i = 0; i < list.size(); i++) 
+		  		    {
+			  			ArrayList<String> row = new ArrayList<String>();
+			  			row.add(list.get(i));
+			  			table.add(row);
+			  			try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}
+			  			// вычисляем процент отработаннго по количеству переданых строк с листа 1
+			  			 res =(double)  i+1/x;
+			  			 int dd =(int) (res *100.0);
+			  			 request.getSession().setAttribute("fa", dd); 
+				    }
+	  		 }
+	  		 else {request.getSession().setAttribute("fa", 100);}
 	  		 return table;
   	     }
 }

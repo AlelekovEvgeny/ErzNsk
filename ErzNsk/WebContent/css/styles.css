@@ -43,7 +43,7 @@
 }
 
 
-.btn#menuindex,.btn#menuindexws,.btn#menuindexwsYN,.btn#drugiezaprosi,#taskP03,#taskP02,#buttonZP9,#ZP1Ajax,#buttonA08P02{
+.btn#menuindex,.btn#menuindexws,.btn#menuindexwsYN,.btn#drugiezaprosi,#taskP03,#taskP02,#buttonZP9,#ZP1Ajax,#buttonA08P02,#processErrorGZ{
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -63,7 +63,7 @@
 }
 
 
-.btn#menuindex:hover,.btn#menuindexws:hover,.btn#menuindexwsYN:hover,.btn#drugiezaprosi:hover,#taskP03:hover,#taskP02:hover,#buttonZP9:hover,#ZP1Ajax:hover,#buttonA08P02:hover{
+.btn#menuindex:hover,.btn#menuindexws:hover,.btn#menuindexwsYN:hover,.btn#drugiezaprosi:hover,#taskP03:hover,#taskP02:hover,#buttonZP9:hover,#ZP1Ajax:hover,#buttonA08P02:hover,#processErrorGZ:hover{
 	background-color: #088A68;
 }
 

@@ -1496,16 +1496,14 @@ $('button#drugiezaprosi').click(function ()
 						<ul class="dropdown-menu" id="dr2" role="menu">
 							<li>
 								<button class="btn btn-primary" id="drugiezaprosi"
-									data-toggle="modal" data-target="#myModal">Запрос по
-									ФИО Д</button>
-								<button class="btn btn-primary" id="drugiezaprosi"
-									data-toggle="modal" data-target="#myModal1">Запрос
-									ЕНП-внеш -> Енп-вн</button>
+									data-toggle="modal" data-target="#myModal">Запрос по ФИО Д</button>
+								<button class="btn btn-primary" id="drugiezaprosi" data-toggle="modal" data-target="#myModal1">Запрос ЕНП-внеш -> Енп-вн</button>
 								<button class="btn btn-primary" id="drugiezaprosi"
 									data-toggle="modal" data-target="#myModal2">Исправление внеш ЕНП</button>
 									<button class="btn btn-primary" id="drugiezaprosi"data-toggle="modal" data-target="#myModal3" disabled="disabled">Сгенерировать ЕНП</button>
 									<button class="btn btn-primary" id="taskP03">Задание П03</button>
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
+									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обрабтка ошибок ГОЗНАКА</button>	
 							</li>
 						</ul></li>
 					<!-- КОНЕЦ ДРУГИЕ ЗАПРОСЫ -->
@@ -1571,6 +1569,38 @@ $('button#drugiezaprosi').click(function ()
 						</div>
 					</div>
 					<!-- Конец Блок Запрос по ФИОД -->
+							<!-- исправление ошибок гознака -->
+					<div class="modal fade" id="myModalprocessErrorGZ" role="dialog"
+						aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button btn-primary" class="close"
+										data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h3 class="modal-title">Исправление ошибок ГОЗНАКА</h3>
+									<p>Исправление ошибок из мешка ошибок</p>
+									Ошибки можно скачать с владки "Ошибки гознака" расположенного в панели меню. Потом закачать здесь, предварительно
+									оставить те ошибки которые хотите чтобы обработались.
+
+								</div>
+								<div class="modal-body">
+									<form action="processerror" method="post" enctype="multipart/form-data">
+										Выберите файл для загрузки формата .xls :<input type="file"
+											name="fileName"> <br>
+										<button type="submit" class="btn btn-primary">Начать обработку</button>
+										<button type="button" class="btn btn-success" id="su1">Помощь</button>
+									</form>
+
+									<div id="texthelpqueryoutenp" style="margin-top: 15px"></div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"
+										data-dismiss="modal">Закрыть окно</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- КОНЕЦ исправление ошибок гознака -->
 					<!-- Запрос ЕНП-внеш -> Енп-вн -->
 					<div class="modal fade" id="myModal1" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">

@@ -321,7 +321,8 @@ public abstract class MessageCommon implements Message {
 			pid3_5.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " ¹ ") + dataList.get(i).get(PERSON_NUMDOC)));
 			pid3_5.addContent(new Element("CX.5", namespace).addContent("23"));
 			String d2 = dataList.get(i).get(D2);
-			String d2minus3year = String.valueOf(Integer.parseInt(d2.substring(0, 4)) - 3) + d2.substring(4);
+			String d2minus3year ="";
+			if(!d2.equals("")) {	d2minus3year = String.valueOf(Integer.parseInt(d2.substring(0, 4)) - 3) + d2.substring(4);}
 			pid3_5.addContent(new Element("CX.7", namespace).addContent(d2minus3year));
 			pid3_5.addContent(new Element("CX.8", namespace).addContent(dataList.get(i).get(D2)));
 		}

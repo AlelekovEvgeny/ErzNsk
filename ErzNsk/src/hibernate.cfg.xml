@@ -1,6 +1,6 @@
 <!DOCTYPE hibernate-configuration PUBLIC 
     "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
    <session-factory>
      <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
@@ -9,11 +9,12 @@
      <property name="connection.password">asu</property>
      <property name="connection.pool_size">10</property>
      <property name="dialect">org.hibernate.dialect.OracleDialect</property>
-     <property name="show_sql">true</property>
-     <property name="hbm2ddl.auto">update</property>
-     <property name="hibernate.connection.autocommit">false</property>
+     <property name="show_sql">false</property>
+     <property name="hbm2ddl.auto">validate</property>
+     <property name="hibernate.connection.autocommit">true</property>
      <property name="current_session_context_class">thread</property>
 
-     <mapping class="loadparse.ZpRecord" />
+     <mapping class="pylypiv.errorGZ.domain.Person" />
+     <mapping class="pylypiv.errorGZ.domain.PersonAdd" />
    </session-factory>
 </hibernate-configuration>

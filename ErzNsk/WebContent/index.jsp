@@ -182,71 +182,6 @@ $(document).ready(function()
 				// второй лист				
 	    	   var data2 = [[ 'PERSON_SERDOC','PERSON_NUMDOC','PERSON_DOCPERSONID','PERSON_SURNAME','PERSON_KINDFIRSTNAME','PERSON_KINDLASTNAME','PERSON_BIRTHDAY','PERSON_SEX	PERSON_LINKSMOESTABLISHMENTID','ENP	PERSON_ADDRESSID','PERSON_DATEINPUT','SNILS','BORN','DATEPASSPORT','ENP_PA','VS_NUM','VS_DATE','ZAD','D2','SMO','D_12','D_13','OKATO_3','TYPE_POL','POL','ENP_1','ENP_2','P14CX1','P14CX5','P14CX6','P14CX7','XPN1','XPN2','XPN3','USERNAME','ZADMINUS1','ZADPLUS40','NBLANC','VS_DATEPLUS1','USER_ENP','USER_PERSON_SURNAME','USER_PERSON_KINDFIRSTNAME','USER_PERSON_KINDLASTNAME','USER_SMO','USER_D_12','USER_D_13','USER_OKATO_3','USER_TYPE_POL','USER_POL','NVL((SELECTALFA3FROMDEVELOPER.OKSMOWHEREO.KOD=RUSSIANANDROWNUM=1),RUS)','D_V','D_SER','D_NUM','PR_FAM','PR_IM','PR_OT','LAST_FAM','LAST_IM','LAST_OT','LAST_DR	PFR_SNILS','PFR_ID','PFR_NOTID','USER_SERDOC','USER_NUMDOC','USER_DOCID','USER_DOC_DATE','D_12_PLUS1'],
 	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	       	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
-	    	               [ ' ', ' ',' ' ,' '],
 	       	               [ ' ', ' ',' ' ,' '],
 	       	               [ ' ', ' ',' ' ,' '],
 	    	               [ ' ', ' ',' ' ,' '],
@@ -269,74 +204,7 @@ $(document).ready(function()
 	    	    // Третий лист 
 	    	             
   	              var data3 = [['ENP','PERSON_SURNAME','PERSON_KINDFIRSTNAME','PERSON_KINDLASTNAME','TRUNC(P.PERSON_BIRTHDAY)','GD','ENP_1','ENP_2','OKATO_2','SMO','D_12','D_13','OKATO_3','TYPE_POL','POL','QRI_1','QRI_2','QRI_3','QRI_4','NPP','D_INPUT','PID7','PID8','PID29'],
-   	               [ ' ', ' ',' ' ,' '],
-   	            [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
-	               [ ' ', ' ',' ' ,' '],
+   	             
 	               [ ' ', ' ',' ' ,' '],
 	               [ ' ', ' ',' ' ,' '],
 	               [ ' ', ' ',' ' ,' '],
@@ -374,10 +242,14 @@ $(document).ready(function()
 			    	            	 		var wd3 = hot3.countCols()-hot3.countEmptyCols(true);
 			    	            	 		console.log('list1row '+e1+' list1col '+ wd1);
 			    	            	 		
-			    	            	 		$("#dim2").css("height", $(document).height());
-		        	        	     		 $("#dim2").fadeIn();
-		        	        	     		 spinner.spin($('#spinner_center')[0]);
-		        	        	        	 ajax_cnt++;
+			    	            	 		if( !ajax_cnt) // if 0
+			    	            	 		{
+			    	            	 			$("#dim2").css("height", $(document).height());
+			        	        	     		 $("#dim2").fadeIn();
+			        	        	     		 spinner.spin($('#spinner_center')[0]);
+			        	        	        	 ajax_cnt++;
+			    	            	 		}
+			    	            	 		console.log('test'+ajax_cnt);
 		        	        	        	 
 		        	        	        		if ($('#zaprosWebExcel').attr("value") != '')
 		        	        	        		{
@@ -391,8 +263,10 @@ $(document).ready(function()
 			    	            	 		 
 			    	      	                $.post('ExportToExcelFromEmdedTable',JSON.stringify(myData),function(res)
 			    	      	                {
-			    	      	                	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
-			        	      	            },'json');
+			    	      	                	if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; }
+			    	      	                	console.log('test'+ajax_cnt);
+			        	      	            },'json')
+			        	      	          	.error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
 			      	            
 		     	        }
 	              });
@@ -534,13 +408,19 @@ $(document).ready(function()
  		        				         if('A08P02howINsmo' === ids){ var gouser = "zapros=A08P02howINsmo";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
  		        				          
  		        				         
+ 		        				        $("#dim2").css("height", $(document).height());
+	        	        	     		$("#dim2").fadeIn();
+	        	        	     		spinner.spin($('#spinner_center')[0]);
+	        	        	        	 ajax_cnt++;
+        	        	        	    
  		        				        $.post('ExportFromWebtab',JSON.stringify(myDatap02),function(res)
 	    		    	      	                {
  		        				        			hotInstance.loadData(res.list1);
 	    		        	      	            },'json')
  		        				         .done(function(ev)
         				    		   	 {
- 		        				        	 
+ 		        				        		$('#btnexportfromhandsontableTOExcel').trigger('click');
+ 		        				        	 	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
  		        				        		if(ev.info > 0){console.log('info '+ev.info); setTimeout ("$('#warning1').modal('show');", 2000);}
  		        				        		// берем значение с нажатой кнопки  с меню запросы ффомс (кнопка верхнего уровня)
 		        	            	 			var val = $('#'+id).attr("value");
@@ -553,8 +433,10 @@ $(document).ready(function()
 		        	            	 			// устанавливаем value кнопке запрос несформирован или сформирован
 		        	            	 			$('#zaprosWebExcel').prop('value', val);
 		        	            	 			
+		        	            	 			
  		        				        	 
-       				    	 	   	     });
+       				    	 	   	     })
+       				    	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
 	        	            	 	}
  		        	            }
 			        	     });	

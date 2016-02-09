@@ -35,6 +35,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.xml.sax.SAXException;
 
 import pylypiv.errorGZ.main.Data;
+import pylypiv.errorGZ.messages.MessageA08p03;
 import pylypiv.errorGZ.messages.MessageA08p03pr;
 import pylypiv.errorGZ.messages.MessageA08p16;
 import pylypiv.errorGZ.messages.MessageA24p10;
@@ -120,118 +121,18 @@ public class ProcessErrorGZ extends HttpServlet {
 							List<ArrayList<String>> task = createTasks(bag);
 							// запускаем в поток
 							List<String> listEnpForDeleteFromExcel =  new ArrayList<String>();
-							try {
-								threads(task,listEnpForDeleteFromExcel);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							try { threads(task,listEnpForDeleteFromExcel); } catch (InterruptedException e) {e.printStackTrace();}
 							System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
 							deleteFromTaskXLS(listEnpForDeleteFromExcel,absolutePath);
-				            
-				         //   loadToExcelResalt(resaltQuery,absolutePath);
-				            
 				            downloadExcel(response,absolutePath);
 		            }
 		            else
 		            {
 		            	
 		            }
-				            
-		          
-		        
-		        
-				
         }
-            
-      // String ss = fileSaveDir.getAbsolutePath() + File.separator;
-       //System.out.println("зфср1 "+ss);
-        
-  
-       // request.getSession().setAttribute("message", fileName + " File uploaded successfully!");
-       // request.getSession().setAttribute("absolutePath",absolutePath);
-       // getServletContext().getRequestDispatcher("/response.jsp").forward(
-       //         request, response);
     }
-  
-    private void loadToExcelResalt( List<ArrayList<String>> resaltQuery, String absolutePath) throws FileNotFoundException, IOException
-    {
-    	POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(absolutePath));
-		HSSFWorkbook wb = new HSSFWorkbook(fs);	
-		HSSFSheet sheet = wb.getSheetAt(1);	
-		
-		HSSFRow excelRow = null;
-		HSSFCell excelCell = null;
-		
-		//wb.getSheetAt(1).shiftRows(0, 0, 1);
-		
-		//зачищаем лист
-				int rows = sheet.getPhysicalNumberOfRows();
-				for(int i = 0; i < rows ; i++)
-				{
-					excelRow = sheet.createRow(i + 1);
-					sheet.removeRow(excelRow);
-				}		
-		
-		excelRow = sheet.createRow(0);
-		excelRow = sheet.getRow(0);			
-		excelCell = excelRow.createCell(0);
-		excelCell = excelRow.getCell(0);
-		excelCell.setCellValue("Внешний ЕНП");
-		
-		//excelRow = sheet.createRow(0);
-		excelRow = sheet.getRow(0);			
-		excelCell = excelRow.createCell(1);
-		excelCell = excelRow.getCell(1);
-		excelCell.setCellValue("Внутренний ЕНП");
-		
-		
-		// определяем количество строк в нашей коллекции
-		rows = resaltQuery.size();
-		System.out.println("Количество исходящих строк" + rows);
-		
-		 // Style the cell with borders all around.
-        CellStyle style = wb.createCellStyle();
-        style.setBorderBottom(CellStyle.BORDER_THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderLeft(CellStyle.BORDER_THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderRight(CellStyle.BORDER_THIN);
-        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderTop(CellStyle.BORDER_THIN);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
-   
 
-		
-		for(int i = 1; i <= rows ; i++)
-		{
-			excelRow = sheet.createRow(i);
-			excelRow = sheet.getRow(i);			
-			excelCell = excelRow.createCell(0);
-			excelCell = excelRow.getCell(0);
-			excelCell.setCellValue(resaltQuery.get(i-1).get(0));
-			excelCell.setCellStyle(style);
-			
-			excelCell = excelRow.createCell(1);
-			excelCell = excelRow.getCell(1);
-			excelCell.setCellValue(resaltQuery.get(i-1).get(1));
-			excelCell.setCellStyle(style);
-		
-		}	
-		
-		
-		
-		
-		HSSFRow row = wb.getSheetAt(1).getRow(0);
-		for(int colNum = 0; colNum< row.getLastCellNum();colNum++)    wb.getSheetAt(1).autoSizeColumn(colNum);
-	
-		wb.setSheetName(0, "Исходные данные");
-		wb.setSheetName(1, "Результат");
-		
-		FileOutputStream fileOut = new FileOutputStream(absolutePath);
-		wb.write(fileOut);
-		fileOut.close();
-    }
     
     /*
      * Метод парсит загруженный эксель, создает запрос и возвращает коллекцию с 
@@ -318,29 +219,7 @@ public class ProcessErrorGZ extends HttpServlet {
         }
         return "";
     }
-   /*
-    * Формируем текст запроса 
-    */
-    private String textQuery(List<ArrayList<String>> listRow)
-    {
-    	StringBuilder sqlStr = new StringBuilder();
-    	sqlStr.append("");
-    	
-    	for(int i=0;i<listRow.size();i++)
-		{
-			ArrayList<String> list = listRow.get(i);
-			sqlStr.append("select ad.enp, t.enp from person t , personadd ad where t.person_addressid = ad.personadd_addressid and ad.enp='").append(list.get(0)).append("' union ");
-			
-		}
-    	String query = sqlStr.toString();
-    	// убираем последний union
-    			query = query.substring(0, query.length()-6);
-    			//for debug
-    			//System.out.println("Test "+ query);
-    			return query;
-    }
-    
-    
+   
     /*
      * Выргужаем фаил и удаляем с сервака
      * 
@@ -424,8 +303,13 @@ public class ProcessErrorGZ extends HttpServlet {
 		    							{
 		    								// проверяем ответ zp1 после объединения
 		    								filename = new MessageZp1(fileTransfer, res, person).create();
-		    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после объединения");
-		    								if(ul.checkRespons(zp,taskQueue.get(0),person)){person.setZp(person.getZpList().get(0));	System.out.println("Check is double response OK");}else
+		    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после первой попытки объединения");
+		    								if(ul.checkRespons(zp,taskQueue.get(0),person))
+		    								{
+		    									person.setZp(person.getZpList().get(0));	System.out.println("Check is double response OK");
+		    									
+		    								}
+		    								else
 		    								{
 		    									System.out.println("Check is double response BAD");
 		    									// цепляем вторую часть ответа из zp1 (она будет участвовать в объединении в блоке pid2 в первом блоке участвуют данные из нашей базы)
@@ -435,7 +319,7 @@ public class ProcessErrorGZ extends HttpServlet {
 				    							{
 		    			    						// проверяем ответ zp1 после объединения
 				    								filename = new MessageZp1(fileTransfer, res, person).create();
-				    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после объединения");
+				    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после второй объединения");
 				    								if(ul.checkRespons(zp,taskQueue.get(0),person))
 				    								{
 					    								// присваиваем последнюю запись с npp
@@ -449,6 +333,7 @@ public class ProcessErrorGZ extends HttpServlet {
 	    									}
 		    							}
 		    				}		
+		    				// check vs
 		    				if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
 		    				{
 		    					listcol.remove(0);
@@ -457,12 +342,40 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					return;
 	    					}else
 		    				{
+	    						/*
+	    						 * Check if all fio and  bithday is empty, then send p03
+	    						 * e.g. before we a union on p24 and now is send p03
+	    						 */
+	    						if(taskQueue.get(3).equals("") && taskQueue.get(4).equals("") && taskQueue.get(5).equals("") && taskQueue.get(6).equals(""))
+	    						{
+	    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03"+ filename);
+	    							if(ul.waitUprak2(filename, "Wait response A03P03 "+filename))
+	    							{
+	    								// send and check resalt п03
+	    								filename = new MessageZp1(fileTransfer, res, person).create();
+	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 ");
+	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday empty)"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
+	    								else
+		    							{
+		    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday empty)");
+		    							}
+	    							}
+	    							
+	    						}
 		    					//проверка даты рождения
 		    					if(taskQueue.get(2).equals(taskQueue.get(3))){
 		    						System.out.println("Bithday OK");
+		    						// check fam firtsname and lastname with old fio 
 		    						if(	taskQueue.get(7).trim().equals(taskQueue.get(4).trim()) && taskQueue.get(5).trim().equals(taskQueue.get(8).trim()) && taskQueue.get(6).trim().equals(taskQueue.get(9).trim())	)
 		    						{
-		    							
+	    								// send and check resalt п03
+	    								filename = new MessageZp1(fileTransfer, res, person).create();
+	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 ");
+	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
+	    								else
+		    							{
+		    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )");
+		    							}
 		    						}else
 		    							{
 		    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr"+ filename);
@@ -525,7 +438,6 @@ public class ProcessErrorGZ extends HttpServlet {
 		return taskQueue;
     }
     
-	@SuppressWarnings("static-access")
 	private void threads(List<ArrayList<String>> ts,List<String> listEnpForDeleteFromExcel) throws InterruptedException
     {
     	ExecutorService exec = Executors.newCachedThreadPool();
@@ -557,31 +469,43 @@ public class ProcessErrorGZ extends HttpServlet {
 		HSSFCell excelCell = null;
 		int rows = sheet.getPhysicalNumberOfRows();
 	
-		int posrow = 0;
-					// коллекция енп для удаления и эксель
-					for(int t=0;t< listEnpForDeleteFromExcel.size();t++)
-					{
-						int lastRowNum=sheet.getLastRowNum();
-						String s = listEnpForDeleteFromExcel.get(t);
-					  // бежим по строкам экселя (после удаления последняя строка меняется)
-					  for(int y=1;y<lastRowNum;y++)
-					  {
-						  excelRow = sheet.getRow(y);
-						  // берем столбец с енп с экселя
-						  excelCell = excelRow.getCell(1);
-						  String enpfromExcel = excelCell.getStringCellValue();
-						  // сравниеваем енп из коллекции и в эекселе => если равны то удаляем строчку
-						  if(s.equals(enpfromExcel))
-						  {
-							  System.out.println("Posicion row for delete "+excelCell.getRowIndex()+" Enp for deleting "+s+" lastRowNum= "+lastRowNum);
-							  posrow = excelCell.getRowIndex()+1;
-							 // System.out.println("row = "+posrow);
-						  }
-						  
-					  }
-					  
-					  sheet.shiftRows(posrow, lastRowNum, -1);
-					}
+		int rowIndex = 0;
+		for(int t=0;t< listEnpForDeleteFromExcel.size();t++)
+		{
+			int lastRowNum=sheet.getLastRowNum();
+			String s = listEnpForDeleteFromExcel.get(t);
+			for(int y=1;y<=lastRowNum;y++)
+			  {
+				  excelRow = sheet.getRow(y);
+				  // берем столбец с енп с экселя
+				  excelCell = excelRow.getCell(1);
+				  String enpfromExcel = excelCell.getStringCellValue();
+				  // сравниеваем енп из коллекции и в эекселе => если равны то удаляем строчку
+				  if(s.equals(enpfromExcel))
+				  {
+					  System.out.println("Posicion row for delete "+excelCell.getRowIndex()+" Enp for deleting "+s+" lastRowNum= "+lastRowNum);
+					  rowIndex = excelCell.getRowIndex();
+				  }
+			  }
+			if(rowIndex>=0&&rowIndex<lastRowNum){ sheet.shiftRows(rowIndex+1,lastRowNum, -1);}
+			if(rowIndex==lastRowNum)
+			{
+		        HSSFRow removingRow=sheet.getRow(rowIndex);
+		        if(removingRow!=null){sheet.removeRow(removingRow);}
+		    }
+		}
+		/*	
+		for(int i=0;i<2;i++){
+			int lastRowNum=sheet.getLastRowNum();
+			System.out.println("lastRowNum "+ lastRowNum);
+			if(2 > lastRowNum){lastRowNum = 2;}
+			if(3 > lastRowNum){lastRowNum = 3;}
+			sheet.shiftRows(2, 2, -1);
+			sheet.shiftRows(3, 3, -1);
+		}
+		 */
+		
+	
 		System.out.println("Auto на первом этапе обработала = " +listEnpForDeleteFromExcel.size());
 		FileOutputStream fileOut = new FileOutputStream(absolutePath);
 		wb.write(fileOut);

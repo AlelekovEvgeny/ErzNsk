@@ -836,7 +836,7 @@ $('#ZP1Ajax').click(function ()
 		        searchInDirectory(r);
    	     });
 
-<!--Скрипт выпадающего меню. Кнопка запросы -->
+//Скрипт выпадающего меню. Кнопка запросы 
 	
 			$('a#zapros').click(function ()
 			{

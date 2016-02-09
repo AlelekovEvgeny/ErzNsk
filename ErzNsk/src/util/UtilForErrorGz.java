@@ -55,7 +55,7 @@ public class UtilForErrorGz {
 		{
 			if(m.getNpp()==0 &&  m.getIn1_35().equals("Â") && m.getIn1_15().equals("50000") && m.getIn1_36().equals(vsNum) && (	m.getIn1_13() == null ||m.getIn1_13().getTime().after(dateNow)	 ))
 			{
-				System.out.println("Check is Vsnum OK "+ m.getMsa2()+" "+enpinput+ " "+ m.getPid3cx1_1()+" "+m.getIn1_36()+" "+m.getIn1_35());
+				//System.out.println("Check is Vsnum OK "+ m.getMsa2()+" "+enpinput+ " "+ m.getPid3cx1_1()+" "+m.getIn1_36()+" "+m.getIn1_35());
 				i ++;
 				
 			}

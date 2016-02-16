@@ -22,6 +22,7 @@ public class Zp {
 	private int npp;
 	private Calendar dateinput = new GregorianCalendar();
 	private Calendar pid7;
+	private String pid8;
 	
 	public String getMsa2() {
 		return msa2;
@@ -134,6 +135,12 @@ public class Zp {
 				+ ", qri1=" + qri1 + ", qri2=" + qri2 + ", qri3=" + qri3
 				+ ", qri4=" + qri4 + ", npp=" + npp + ", dateinput="
 				+ dateinput + ", pid7=" + pid7 + "]";
+	}
+	public String getPid8() {
+		return pid8;
+	}
+	public void setPid8(String pid8) {
+		this.pid8 = pid8;
 	}
 	
 }

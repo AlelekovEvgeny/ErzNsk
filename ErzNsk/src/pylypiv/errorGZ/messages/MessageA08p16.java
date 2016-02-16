@@ -61,14 +61,26 @@ public class MessageA08p16 extends MessageImpl {
 		pid3_4cx4.addContent(new Element("HD.2", namespace).addContent("1.2.643.2.40.3.3.1"));
 		pid3_4cx4.addContent(new Element("HD.3", namespace).addContent("ISO"));
 		pid3_4.addContent(new Element("CX.5", namespace).addContent("NI"));
-				
+		
+		/* Enter last fio 
+		 * 
+		 */
+		
 		Element pid5 = new Element("PID.5", namespace);
 		pid.addContent(pid5);
 		pid5.addContent(new Element("XPN.1", namespace)
-		.addContent(new Element("FN.1", namespace).addContent(data.getPerson().getPerson_surname())));
-		pid5.addContent(new Element("XPN.2", namespace).addContent(data.getPerson().getPerson_kindfirstname()));
-		pid5.addContent(new Element("XPN.3", namespace).addContent(data.getPerson_kindlastname()));
-
+		.addContent(new Element("FN.1", namespace).addContent(data.getPerson().getPersonAdd().getLast_fam())));
+		pid5.addContent(new Element("XPN.2", namespace).addContent(data.getPerson().getPersonAdd().getLast_im()));
+		if(data.getPerson().getPersonAdd().getLast_ot().equals("мер"))
+		{
+			pid5.addContent(new Element("XPN.3", namespace).addContent(""));
+		}else{pid5.addContent(new Element("XPN.3", namespace).addContent(data.getPerson().getPersonAdd().getLast_ot()));}
+		
+		
+		/* Bythday is new 
+		 * 
+		 */
+		
 		pid.addContent(new Element("PID.7", namespace).addContent(data.getPerson_birthday()));
 		
 		pid.addContent(new Element("PID.8", namespace).addContent(data.getPerson_sex()));
@@ -111,7 +123,16 @@ public class MessageA08p16 extends MessageImpl {
 		in1_1.addContent(in1_1_16);
 		in1_1_16.addContent(new Element("XPN.1", namespace).addContent(new Element("FN.1", namespace).addContent(data.getPerson().getPersonAdd().getLast_fam())));
 		in1_1_16.addContent(new Element("XPN.2", namespace).addContent(data.getPerson().getPersonAdd().getLast_im()));
-		in1_1_16.addContent(new Element("XPN.3", namespace).addContent(data.getPerson().getPersonAdd().getLast_ot()));
+		
+		if(data.getPerson().getPersonAdd().getLast_ot().equals("мер") || data.getPerson().getPersonAdd().getLast_ot().equals("-"))
+		{
+			in1_1_16.addContent(new Element("XPN.3", namespace).addContent(""));
+		}
+		else
+		{
+			in1_1_16.addContent(new Element("XPN.3", namespace).addContent(data.getPerson().getPersonAdd().getLast_ot()));
+		}
+		
 
 		in1_1.addContent(new Element("IN1.18", namespace).addContent(data.getZpPid7()));
 		

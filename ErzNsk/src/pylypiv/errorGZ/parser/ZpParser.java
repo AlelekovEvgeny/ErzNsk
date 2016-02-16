@@ -62,6 +62,7 @@ public class ZpParser extends DefaultHandler {
     		zp1.setNpp(zp.getNpp());
     		zp1.setDateinput(zp.getDateinput());
     		zp1.setPid7(zp.getPid7());
+    		zp1.setPid8(zp.getPid8());
    			zpLoader.getZp().add(zp1);
         }
     	curElement = "";
@@ -77,6 +78,14 @@ public class ZpParser extends DefaultHandler {
 					zp.setPid7(new GregorianCalendar(Integer.parseInt(s.substring(0, 4)), Integer.parseInt(s.substring(5, 7)) - 1, Integer.parseInt(s.substring(8))));
 				} else {
 					//zp.setPid7("");
+				}
+				break;
+			case "PID.8": 
+				s = new String(ch, start, length);
+				if(s.length() == 1) { 
+					zp.setPid8(s);
+				} else {
+					zp.setPid8("");
 				}
 				break;
 			case "MSA.2": 

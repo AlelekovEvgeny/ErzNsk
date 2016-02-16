@@ -299,8 +299,7 @@ public class WsAnswer extends WebSocketServlet {
 				if (task.add(userMachine)) {
 					if (messageZp1.create(userMachine)) {
 						new AnswerData().loadToExcel(messageZp1.getDataList(),userMachine + ".xls");
-						String file = "50000-" + messageZp1.getGuidBhs()
-								+ ".uprmes";
+						String file = "50000-" + messageZp1.getGuidBhs() + ".uprmes";
 						String fileUpr2 = "50000-" + messageZp1.getGuidBhs();
 						String sentMessages = "";
 						File to_file = new File(Const.OUTPUTDONE + fileUpr2+ ".uprak2");
@@ -317,16 +316,13 @@ public class WsAnswer extends WebSocketServlet {
 							}
 
 							if (to_file.exists()) {
-								sentMessages = "> ѕолучен "
-										+ to_file.toString();
-								CharBuffer buffer5 = CharBuffer
-										.wrap(sentMessages);
+								sentMessages = "> ѕолучен " + to_file.toString();
+								CharBuffer buffer5 = CharBuffer.wrap(sentMessages);
 								// условие открыти€ эксель
-								if (ConstantiNastrojki.openWorkbookXls == 1)
-									myoutbound.writeTextMessage(buffer5);
-							} else {
-								CharBuffer buffer6 = CharBuffer
-										.wrap("> ожидаем ответа uprak2");
+								if (ConstantiNastrojki.openWorkbookXls == 1) myoutbound.writeTextMessage(buffer5);
+							} else 
+							{
+								CharBuffer buffer6 = CharBuffer.wrap("> ожидаем ответа uprak2");
 								myoutbound.writeTextMessage(buffer6);
 							}
 						}
@@ -416,7 +412,7 @@ public class WsAnswer extends WebSocketServlet {
 							 * 
 							 * ѕо этому ключу .fromdbforuprmess, будем ловить на клиентской стороне сокета название файла и дальше его там передать 
 							 */
-						// дописываем в конце ключ чтобы порсить на клиенте и передавать дальше
+						// дописываем в конце ключ чтобы парсить на клиенте и передавать дальше
 						CharBuffer buffer777 = CharBuffer.wrap("50000-" + messageZp1.getGuidBhs()+".fromdbforuprmess");
 						// улетает на сокет wbAnswer.js  c данными дл€ упрмеса (данные которые из базы)
 						myoutbound.writeTextMessage(buffer777);
@@ -771,8 +767,6 @@ public class WsAnswer extends WebSocketServlet {
 		private void messageforallquery(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {
 			if (mes.create(userMachine, list,kluch)) 
 			{
-				// new AnswerData().loadToExcel(mes.getDataList(), userMachine +
-				// ".xls");
 				String file = "50000-" + mes.getGuidBhs() + ".uprmes";
 				String fileUpr2 = "50000-" + mes.getGuidBhs();
 				String sentMessages = "";
@@ -812,17 +806,21 @@ public class WsAnswer extends WebSocketServlet {
 		private void messageforallquery2(Message mes, WsOutbound myoutbound,
 				ArrayList<ArrayList<String>> list, String kluch) throws Exception {
 			if (mes.create(userMachine, list,kluch)) {
-				// new AnswerData().loadToExcel(mes.getDataList(), userMachine +
-				// ".xls");
+				
+				UtilParseDbXml utilparsedbXml = new UtilParseDbXml();
+				
 				String file = "50000-" + mes.getGuidBhs() + ".uprmes";
 				String fileUpr2 = "50000-" + mes.getGuidBhs();
 				String sentMessages = "";
 				File to_file = new File(Const.OUTPUTDONE + fileUpr2 + ".uprak2");
+				
+				utilparsedbXml.marshaling("50000-" + mes.getGuidBhs(),mes.getDataList());
 
 				CharBuffer buffer3 = CharBuffer.wrap("ќтправлен " + file);
 				myoutbound.writeTextMessage(buffer3);
 
-				if (ConstantiNastrojki.otladkaXML.equals("0")) {
+				if (ConstantiNastrojki.otladkaXML.equals("0"))
+				{
 					while ("".equals(sentMessages)) {
 						try {
 							Thread.sleep(10000);
@@ -841,7 +839,7 @@ public class WsAnswer extends WebSocketServlet {
 							 * 
 							 */
 							// дописываем в конце ключ чтобы порсить на клиенте и передавать дальше
-							CharBuffer buffer777 = CharBuffer.wrap(mes.getDataList().toString()+".fromdbforuprmess");
+							CharBuffer buffer777 = CharBuffer.wrap("50000-" + mes.getGuidBhs()+".fromdbforuprmess");
 							// улетает на сокет wbAnswer.js  c данными дл€ упмеса (данные которые из базы)
 							myoutbound.writeTextMessage(buffer777);
 							// отправл€ем сообщение что получен упрак2

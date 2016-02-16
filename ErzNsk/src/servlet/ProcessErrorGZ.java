@@ -34,9 +34,12 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.xml.sax.SAXException;
 
+import pylypiv.errorGZ.dao.Factory;
+import pylypiv.errorGZ.domain.Person;
 import pylypiv.errorGZ.main.Data;
 import pylypiv.errorGZ.messages.MessageA08p03;
 import pylypiv.errorGZ.messages.MessageA08p03pr;
+import pylypiv.errorGZ.messages.MessageA08p03pr_newDr;
 import pylypiv.errorGZ.messages.MessageA08p16;
 import pylypiv.errorGZ.messages.MessageA24p10;
 import pylypiv.errorGZ.messages.MessageZp1;
@@ -342,61 +345,262 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					return;
 	    					}else
 		    				{
-	    						/*
-	    						 * Check if all fio and  bithday is empty, then send p03
-	    						 * e.g. before we a union on p24 and now is send p03
-	    						 */
-	    						if(taskQueue.get(3).equals("") && taskQueue.get(4).equals("") && taskQueue.get(5).equals("") && taskQueue.get(6).equals(""))
+	    						if(getNppZero(zp).equals(String.valueOf(Integer.valueOf(person.getPerson_sex()))) )
 	    						{
-	    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03"+ filename);
-	    							if(ul.waitUprak2(filename, "Wait response A03P03 "+filename))
-	    							{
-	    								// send and check resalt п03
-	    								filename = new MessageZp1(fileTransfer, res, person).create();
-	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 ");
-	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday empty)"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
-	    								else
+			    						/*
+			    						 * Check if all fio and  bithday is empty, then send p03
+			    						 * e.g. before we a union on p24 and now is send p03
+			    						 */
+			    						if(taskQueue.get(3).equals("") && taskQueue.get(4).equals("") && taskQueue.get(5).equals("") && taskQueue.get(6).equals(""))
+			    						{
+			    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
+			    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last empty "+filename))
+			    							{
+			    								// send and check resalt п03
+			    								filename = new MessageZp1(fileTransfer, res, person).create();
+			    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 when all last empty ");
+			    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday empty)"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
+			    								else
+				    							{
+				    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday empty)");
+				    								System.out.println("Trying to learn a data our person from db");
+				    								/*
+					    								1. Делаем запрос в нашу бд по енп пришедшему на zp1 
+					    								2. Через set устанавливаем объекту data  замолчанные им ласты 
+					    								3. выполняем п03pr
+					    							*/	 		
+				    								for(Zp m : zp)
+				    								{
+				    									if(m.getNpp() == 0)
+				    									{
+				    										 Person p =  Factory.getInstance().getPersonDAO().getPerson(m.getPid3cx1_1());
+				    										 // хотя бы по одному пункту должно быть равенство (т.е. либо ластфам=фам или ластотчест=отчест и тд...)
+				    										 if(equalsInitials(p,person))
+				    										 {
+				    											 person.getPerson().getPersonAdd().setLast_fam(p.getPerson_surname());
+					    										 person.getPerson().getPersonAdd().setLast_im(p.getPerson_kindfirstname());
+					    										 person.getPerson().getPersonAdd().setLast_ot(p.getPerson_kindlastname());
+					    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
+				    										 }else
+				    										 {
+				    											 System.out.println("Есть подозрение что это др чел "+ filename);
+				    										 }
+				    										 
+				    										 
+				    									}
+				    								} 
+				    								
+				    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after set last fiod "+ filename);
+				    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod "+filename))
+					    							{
+				    									// проверяем результат п03
+					    								filename = new MessageZp1(fileTransfer, res, person).create();
+					    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr after set last fiod ");
+					    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+					    								{
+					    									listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr "+ filename);
+				    									}else
+				    									{
+				    										System.out.println("VSnum is NO after A08P03pr after set last fiod - EXIT");
+				    										
+				    									}
+					    							}
+				    								
+				    							}
+			    							}
+			    							
+			    						}
+			    					
+				    					//проверка даты рождения
+				    					if(taskQueue.get(2).equals(taskQueue.get(3)) ){
+				    						System.out.println("Bithday OK");
+				    						// check fam firtsname and lastname with old fio 
+				    						if(	taskQueue.get(7).trim().equals(taskQueue.get(4).trim()) && taskQueue.get(5).trim().equals(taskQueue.get(8).trim()) && taskQueue.get(6).trim().equals(taskQueue.get(9).trim())	)
+				    						{
+				    							
+				    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last equalswith firs fiod"+ filename);
+				    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last equalswith firs fiod"+filename))
+				    							{
+				    								// send and check resalt п03
+				    								filename = new MessageZp1(fileTransfer, res, person).create();
+				    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 when all last equalswith firs fiod");
+				    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
+				    								else
+					    							{
+					    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )");
+					    							}
+				    							}	
+				    						}else
+				    							{
+				    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr "+ filename);
+				    								if(ul.waitUprak2(filename, "Wait response A03P03pr "+filename))
+					    							{
+				    									// проверяем результат п03
+					    								filename = new MessageZp1(fileTransfer, res, person).create();
+					    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
+					    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+					    								{
+					    									listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr "+ filename);
+				    									}
+					    								else
+					    								{ 
+					    									System.out.println("NO set VSNUm after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio )");
+						    								System.out.println("Trying to learn a data our person from db");
+						    								/*
+							    								1. Делаем запрос в нашу бд по енп пришедшему на zp1 
+							    								2. Через set устанавливаем объекту data  замолчанные им ласты 
+							    								3. выполняем п03pr
+							    							*/	 		
+						    								for(Zp m : zp)
+						    								{
+						    									if(m.getNpp() == 0)
+						    									{
+						    										 Person p =  Factory.getInstance().getPersonDAO().getPerson(m.getPid3cx1_1());
+						    										 // хотя бы по одному пункту должно быть равенство (т.е. либо ластфам=фам или ластотчест=отчест и тд...)
+						    										 if(equalsInitials(p,person))
+						    										 {
+						    											 person.getPerson().getPersonAdd().setLast_fam(p.getPerson_surname());
+							    										 person.getPerson().getPersonAdd().setLast_im(p.getPerson_kindfirstname());
+							    										 person.getPerson().getPersonAdd().setLast_ot(p.getPerson_kindlastname());
+							    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
+						    										 }else
+						    										 {
+						    											 System.out.println("Есть подозрение что это др чел "+ filename);
+						    											 return;
+						    										 }
+						    										 
+						    										 
+						    									}
+						    								}
+						    								
+						    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )"+ filename);
+						    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
+							    							{
+						    									// проверяем результат п03
+							    								filename = new MessageZp1(fileTransfer, res, person).create();
+							    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )");
+							    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+							    								{
+							    									listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio ) "+ filename);
+						    									}else
+						    									{
+						    										System.out.println("VSnum is NO after A08P03pr after set last fiod - EXIT; condition if last birthday=bythday and diffrent last fio vs fio ");
+						    										
+						    									}
+							    							}
+						    								
+						    								
+					    									
+					    								}
+					    							}
+				    								
+				    								
+				    							}
+				    					}else
+				    					{
+				    						System.out.println("Bythday different");
+				    						/*
+				    						 * Если ласт др !=др и ласт др =='' и ласт фио не пустые то отправляем по предыдущим
+				    						 * доработать тк идет изменение существенное половозрастно в точке 7777777
+				    						 */
+				    						if(taskQueue.get(3).equals(""))
+				    						{
+
+			    								// не пустые ласты фио
+			    								if(	!taskQueue.get(4).trim().equals("") && !taskQueue.get(8).trim().equals("") && !taskQueue.get(9).trim().equals("")	)
+					    						{
+			    									filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr (condition if last bythday!=bythday and lasr fio != '') ) - "+ filename);
+				    								if(ul.waitUprak2(filename, "Wait response A03P03pr (condition if last bythday!=bythday and lasr fio != '') "+filename))
+					    							{
+				    									// проверяем результат п03
+					    								filename = new MessageZp1(fileTransfer, res, person).create();
+					    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr (condition if last bythday!=bythday and lasr fio != '') ");
+					    								if(ul.checkVsandBythday(zp,taskQueue.get(1),taskQueue.get(0),taskQueue.get(2)))
+					    								{
+					    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if last bythday!=bythday and lasr fio != '')"+ filename);
+				    									}
+					    								else
+					    								{
+				    										System.out.println("VSnum is NO after A08P03pr (condition if last bythday!=bythday and lasr fio != '') - "+filename);
+				    									}
+					    							}
+					    						}
+			    								else
+			    								{
+			    									System.out.println("Не полныые ласты фио" + filename);
+			    								}
+			    								
+		    								
+			    							}else
+			    							{
+			    								/* Если ласт др != др и ласт др не пусто
+			    								   1.  не пустые ласты фио.........?????? дорабатывать комбинации
+			    								пока не делал   2.  Проверка что застрахованный стоит на 50000 окато (тк на другой территории нельзя поменять др)
+			    								   3.  п16 со старыми ластами ставим новую др
+			    								   4.  п03pr уже с измененной др и старыми ластами
+			    								   
+			    								*/ 
+			    								if(	!taskQueue.get(4).trim().equals("") && !taskQueue.get(8).trim().equals("") && !taskQueue.get(9).trim().equals("")	)
+					    						{
+			    									filename = new MessageA08p16(fileTransfer, res, person).create(); System.out.println("Send A08P16pr (condition if last bythday!= && !'' bythday && last fio!='' ) ) - "+ filename);
+			    									if(ul.waitUprak2(filename, "Wait response A03P16pr (condition if last bythday!=bythday and lasr fio != '') "+filename))
+					    							{
+				    									filename = new MessageA08p03pr_newDr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr (condition if last bythday!= && !'' bythday && last fio!='' ) ) - "+ filename);
+				    									if(ul.waitUprak2(filename, "Wait response A03P03pr (condition if last bythday!=bythday and lasr fio != '') "+filename))
+						    							{
+				    										filename = new MessageZp1(fileTransfer, res, person).create();
+						    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr (condition if last bythday!=bythday and lasr fio != '') -" + filename);
+						    								if(ul.checkVsandBythday(zp,taskQueue.get(1),taskQueue.get(0),taskQueue.get(2)))
+						    								{
+						    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr(bythday)+A08P03pr (condition if last bythday!=bythday and lasr fio != '')"+ filename);
+					    									}else
+					    									{
+					    										System.out.println("VSnum is NO after A08P16pr(bythday)+A08P03pr (condition if last bythday!=bythday and lasr fio != '')"+ filename);
+					    									}
+						    							}
+					    							}
+
+					    						}
+			    								else
+			    								{
+			    									System.out.println("Не полныые ласты фио (condition if last bythday!= && !'' bythday)" + filename);
+			    								}
+			    							}
+				    						
+				    					}
+		    					}
+	    						else
+	    						{
+	    							System.out.println("РАЗНЫЙ ПОЛ в ответе Zp1 и в базе Person");
+	    							
+	    							if(	!taskQueue.get(4).trim().equals("") && !taskQueue.get(8).trim().equals("") && !taskQueue.get(9).trim().equals("")	)
+		    						{
+	    								filename = new MessageA08p16(fileTransfer, res, person).create(); System.out.println("Send A08P16pr the set new sex - "+ filename);
+    									if(ul.waitUprak2(filename, "Wait response A03P16pr the set new sex -"+filename))
 		    							{
-		    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday empty)");
+    										filename = new MessageA08p03pr_newDr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after chanche sex - "+ filename);
+	    									if(ul.waitUprak2(filename, "Wait response A03P03pr after chanche sex "+filename))
+			    							{
+	    										filename = new MessageZp1(fileTransfer, res, person).create();
+			    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr after chanche sex -" + filename);
+			    								if(ul.checkVsandBythday(zp,taskQueue.get(1),taskQueue.get(0),taskQueue.get(2)))
+			    								{
+			    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr + A08P03pr after chanche sex"+ filename);
+		    									}else
+		    									{
+		    										System.out.println("VSnum is NO after A08P16pr + A08P03pr after chanche sex"+ filename);
+		    									}
+			    							}
 		    							}
-	    							}
+		    						}
 	    							
 	    						}
-		    					//проверка даты рождения
-		    					if(taskQueue.get(2).equals(taskQueue.get(3))){
-		    						System.out.println("Bithday OK");
-		    						// check fam firtsname and lastname with old fio 
-		    						if(	taskQueue.get(7).trim().equals(taskQueue.get(4).trim()) && taskQueue.get(5).trim().equals(taskQueue.get(8).trim()) && taskQueue.get(6).trim().equals(taskQueue.get(9).trim())	)
-		    						{
-	    								// send and check resalt п03
-	    								filename = new MessageZp1(fileTransfer, res, person).create();
-	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 ");
-	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )"+ filename);System.out.println("Exit from thread on OK VsNum");return;}
-	    								else
-		    							{
-		    								System.out.println("NO set VSNUm after A08P03 (condition if last fiod and last birthday equals first fiod first birthday )");
-		    							}
-		    						}else
-		    							{
-		    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr"+ filename);
-		    								if(ul.waitUprak2(filename, "Wait response A03P03pr "+filename))
-			    							{
-		    									// проверяем результат п03
-			    								filename = new MessageZp1(fileTransfer, res, person).create();
-			    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
-			    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listcol.remove(0); listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr "+ filename);}
-			    							}
-		    								
-		    								/* реализовать чтобы в п03 вставлялась место рождения предыдушего
-		    								 * для этого из ответа zp1 ,берем гл енп...находим в нашей базе енп из персонаадд при условии линк смо 0 и выдергиваем месторождения 
-		    								 */
-		    							}
-		    					}else{ if(!taskQueue.get(3).equals("")){System.out.println("разные даты рождения");}else{System.out.println("пустая др");}
-		    						
-		    					}
 		    				}
-		    				listcol.remove(0);
+		    				
+		    				if(listcol.size()>0){listcol.remove(0);}
+		    				
 		    				System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		    			    return;
     					} catch (SAXException | IOException | InterruptedException e) {e.printStackTrace();}	
     			}
 			}
@@ -510,5 +714,29 @@ public class ProcessErrorGZ extends HttpServlet {
 		FileOutputStream fileOut = new FileOutputStream(absolutePath);
 		wb.write(fileOut);
 		fileOut.close();
+	}
+	
+	private boolean equalsInitials(Person p,Data person)
+	{
+		if(p.getPerson_kindfirstname().equals(person.getPerson().getPerson_kindfirstname())){return true;}
+		if(p.getPerson_kindlastname().equals(person.getPerson().getPerson_kindlastname())){return true;}
+		if(p.getPerson_surname().equals(person.getPerson().getPerson_surname()))		  {return true;}
+		if(p.getPerson_birthday().equals(person.getPerson().getPerson_birthday()))		  {return true;}
+		
+		return false;
+	}
+	
+	private String getNppZero(ArrayList<Zp>  zp)
+	{
+		String str = null;
+		for(Zp m :zp)
+		{
+			if(m.getNpp()==0)
+			{
+				str = m.getPid8();
+			}
+		}
+		
+		return str;
 	}
 }

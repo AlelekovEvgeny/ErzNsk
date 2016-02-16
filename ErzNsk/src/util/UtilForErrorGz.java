@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,6 +66,29 @@ public class UtilForErrorGz {
 		if(i == 0){		System.out.println("Check is Vsnum NO "+enpinput);return false;}	else{return true;}
 	}
 	
+	/*
+	 * Check VS and bythday
+	 */
+	public boolean checkVsandBythday(ArrayList<Zp> zp, String vsNum,String enpinput,String bythday)
+	{
+		Calendar cal = Calendar.getInstance();
+		Date dateNow = cal.getTime();
+		int i = 0;
+		for(Zp m : zp)
+		{
+			String responseBythday = new SimpleDateFormat("yyyy-MM-dd").format(m.getPid7().getTime());
+			
+			if(m.getNpp()==0 &&  m.getIn1_35().equals("Â") && m.getIn1_15().equals("50000") && m.getIn1_36().equals(vsNum) && (	m.getIn1_13() == null ||m.getIn1_13().getTime().after(dateNow)	&& bythday.equals(responseBythday) ))
+			{
+				//System.out.println("Check is Vsnum OK "+ m.getMsa2()+" "+enpinput+ " "+ m.getPid3cx1_1()+" "+m.getIn1_36()+" "+m.getIn1_35());
+				i ++;
+				
+			}
+			
+		}
+		
+		if(i == 0){		System.out.println("Check is Vsnum NO "+enpinput);return false;}	else{return true;}
+	}
 	
 	public boolean waitUprak2(String fileAsk,String status) throws InterruptedException
 	{

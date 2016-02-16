@@ -1,7 +1,5 @@
 package message;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import help.RandomGUID;
 
@@ -215,4 +213,5 @@ public class MessageZp1 extends MessageCommon {
 		
 	}
 
+	
 }

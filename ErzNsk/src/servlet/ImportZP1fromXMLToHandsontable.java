@@ -93,9 +93,34 @@ public class ImportZP1fromXMLToHandsontable extends HttpServlet {
 				parsedatauprak2ZP1.get(j).add(0, parsedatauprmessZP1.get(i).get(1));	// name
 				parsedatauprak2ZP1.get(j).add(0, parsedatauprmessZP1.get(i).get(0));	// surname
 				parsedatauprak2ZP1.get(j).add(0, parsedatauprmessZP1.get(i).get(26)); // enp
-				// добовляем на второй лист с втолбец 
-				parsedatauprmessZP1.get(i).add("1");
 			}
+			
+			// msa && npp
+			if(	parsedatauprmessZP1.get(i).get(67).trim().equals(parsedatauprak2ZP1.get(j).get(5).trim()) && parsedatauprak2ZP1.get(j).get(19).trim().equals("100"))
+			{
+				// добавляем на второй лист столбец zp1ok 
+				parsedatauprmessZP1.get(i).add("1");
+			
+				// UDLfromZp1fiod
+				if(parsedatauprak2ZP1.get(j).get(15).trim().equals("H01") || parsedatauprak2ZP1.get(j).get(15).trim().equals("H02") || parsedatauprak2ZP1.get(j).get(16).trim().equals("H02") || parsedatauprak2ZP1.get(j).get(16).trim().equals("H01"))
+				{
+					parsedatauprmessZP1.get(i).add("okUdl");
+				}
+				else{parsedatauprmessZP1.get(i).add("noUdl");}
+				
+				//EnpOutOur=EnpOutFedF
+				if(parsedatauprak2ZP1.get(j).get(6).trim().equals(parsedatauprmessZP1.get(i).get(39).trim()) )
+				{
+					parsedatauprmessZP1.get(i).add("okEnp");
+				}
+				else if(parsedatauprak2ZP1.get(j).get(6).trim().equals(parsedatauprmessZP1.get(i).get(26).trim()) && parsedatauprmessZP1.get(i).get(39).trim().equals(""))
+				{
+					parsedatauprmessZP1.get(i).add("okEnp");
+				}
+				else{parsedatauprmessZP1.get(i).add("noEnp");}
+				
+			}
+			
 			
 		}
 	  }

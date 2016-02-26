@@ -124,7 +124,7 @@ public class MessageZp1 extends MessageCommon {
 			/*
 			 * для мсвязи между  коллекцией (из большого запроса) который пойдет в второй лист и ответом центрального фонда 
 			 * используем msa 
-			 * т.е. сдель цепляем к нашейстроке сгенереннй мса из упрмеса и далее его будем сранивать....
+			 * т.е. здеcь цепляем к нашей строке сгенерёный мса из упрмеса и далее его будем сранивать....
 			 */
 			dataList.get(i).add(guidMsh.toString().replaceAll("-", ""));
 			listGuid(guidMsh, i, "108");
@@ -207,10 +207,67 @@ public class MessageZp1 extends MessageCommon {
 	}
 
 	@Override
-	protected void createMiddle(int count, Namespace namespace,
-			Element rootElement, String curDate, boolean tt, String kluch) {
-		// TODO Auto-generated method stub
+	protected void createMiddle(int count, Namespace namespace,Element rootElement, String curDate, boolean tt, String kluch) {
+		for (int i = 1; i < count; i++)
+		{
 		
+			Element qbp_zp1 = new Element("QBP_ZP1", namespace);
+			rootElement.addContent(qbp_zp1);
+			/*
+			 * создаем блок <QBP_ZP1><MSH></MSH>
+			 */
+			RandomGUID guidMsh = createMsh(namespace, curDate, qbp_zp1, "QBP", "ZP1", "QBP_ZP1");	
+			
+			Element qpd = new Element("QPD", namespace);
+			qbp_zp1.addContent(qpd);
+			
+			Element qpd1 = new Element("QPD.1", namespace);
+			qpd.addContent(qpd1);
+			qpd1.addContent(new Element("CWE.1", namespace).addContent("СП"));
+			qpd1.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.1.9"));
+			
+			qpd.addContent(new Element("QPD.3", namespace).addContent("У"));					
+			
+			
+			Element qpd5_1 = new Element("QPD.5", namespace);
+			qpd.addContent(qpd5_1);
+			
+			// ЕСЛИ в строке столбец != пусто то ...
+			qpd5_1.addContent(new Element("CX.1", namespace)
+			.addContent(
+			!"".equals(dataList.get(i).get(PERSON_SERDOC)) 
+				? dataList.get(i).get(PERSON_SERDOC) + " № " + dataList.get(i).get(PERSON_NUMDOC) 
+				: dataList.get(i).get(PERSON_NUMDOC)));
+			qpd5_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(PERSON_DOCPERSONID)));
+			qpd5_1.addContent(new Element("CX.7", namespace).addContent(dataList.get(i).get(DATEPASSPORT)));
+			
+			
+			
+			Element qpd6 = new Element("QPD.6", namespace);
+			qpd.addContent(qpd6);
+			qpd6.addContent(new Element("XPN.1", namespace)
+			.addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(PERSON_SURNAME))));
+			qpd6.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(PERSON_KINDFIRSTNAME)));
+			
+			if(dataList.get(i).get(PERSON_KINDLASTNAME).equals("-") || dataList.get(i).get(PERSON_KINDLASTNAME).equals("НЕТ")){		qpd6.addContent(new Element("XPN.3", namespace).addContent(""));	}
+			else
+			{	qpd6.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(PERSON_KINDLASTNAME)));	}	
+			
+			
+			qpd.addContent(new Element("QPD.7", namespace).addContent(dataList.get(i).get(PERSON_BIRTHDAY)));
+			
+			qpd.addContent(new Element("QPD.8", namespace).addContent(dataList.get(i).get(PERSON_SEX)));
+
+			qpd.addContent(new Element("QPD.9", namespace).addContent(dataList.get(i).get(BORN)));
+			
+			/*
+			 * для мсвязи между  коллекцией (из большого запроса) который пойдет в второй лист и ответом центрального фонда 
+			 * используем msa 
+			 * т.е. здеcь цепляем к нашей строке сгенерёный мса из упрмеса и далее его будем сранивать....
+			 */
+			dataList.get(i).add(guidMsh.toString().replaceAll("-", ""));
+			listGuid(guidMsh, i, "108");
+		}		
 	}
 
 	

@@ -130,6 +130,15 @@ public class WsAnswer extends WebSocketServlet {
 							listKluchi.add(arg0.toString());
 							System.out.println("Зашла на сервер сокет первая часть запроса zp1ajax "+ listKluchi);
 						}
+						else if(arg0.toString().equals("Zp1taskA8P4")){
+							listKluchi.add(arg0.toString());
+							System.out.println("Зашла на сервер сокет первая часть запроса Zp1taskA8P4 "+ listKluchi);
+						}
+						else if(arg0.toString().length() >= 11 && arg0.toString().substring(2, 13).equals("Zp1taskA8P4"))
+						{
+							listKluchi.add(arg0.toString());
+							System.out.println("Зашла на сервер сокет второя часть запроса Zp1taskA8P4 ");
+						}
 						else
 						{
 							if(arg0.toString().length() >= 11 && arg0.toString().substring(2, 9).equals("Zp1Ajax"))
@@ -203,7 +212,18 @@ public class WsAnswer extends WebSocketServlet {
 								
 								System.out.println("ловим ajax ");
 								try {
-										methoZp1(request,myoutbound,listKluchi.get(1));
+										methoZp1(request,myoutbound,listKluchi.get(1),0);
+								} catch (JAXBException e) {
+										e.printStackTrace();
+								}
+								// очищаем коллекцию ключей 
+								listKluchi.clear();
+							}
+							else if(listKluchi.get(1).substring(2, 13).equals("Zp1taskA8P4"))
+							{
+								System.out.println("ловим ZP1 для A08P04");
+								try {
+										methoZp1(request,myoutbound,listKluchi.get(1),1);
 								} catch (JAXBException e) {
 										e.printStackTrace();
 								}
@@ -372,7 +392,7 @@ public class WsAnswer extends WebSocketServlet {
 
 		}
 		
-		private void methoZp1(HttpServletRequest request,WsOutbound myoutbound,String stList) throws IOException, JAXBException {
+		private void methoZp1(HttpServletRequest request,WsOutbound myoutbound,String stList, int kl) throws IOException, JAXBException {
 			 int pERSON_SURNAME = 0,pERSON_KINDFIRSTNAME = 1,pERSON_KINDLASTNAME = 2,pERSON_BIRTHDAY = 3, pERSON_ADDRESSID= 4,  PERSON_SERPOLICY = 5, PERSON_NUMPOLICY = 6,pERSON_SEX=7,pERSON_SERDOC = 8,pERSON_NUMDOC = 9,PERSON_REGNUMBER = 10,pERSON_LINKSMOESTABLISHMENTID = 11,PERSON_ESTABLISHMENTAMBUL = 12,PERSON_DATECHANGE = 13, PERSON_ESTABLISHMENTDENT = 14,PERSON_SOCIALID = 15,PERSON_STATUSID = 16,pERSON_DOCPERSONID = 17,PERSON_INSPECTION = 18,PERSON_OPERATION = 19,PERSON_STATUSREC = 20,PERSON_OUTID = 21,PERSON_INSPECTORID = 22,PERSON_ESTABLISHMENTID = 23,PERSON_DATEPOLICY = 24,pERSON_DATEINPUT = 25,eNP = 26,SMO_OLD = 27,PERSONADD_ADDRESSID = 28,PERSONADD_PRIM = 29,sNILS = 30,bORN = 31,dATEPASSPORT = 32,rUSSIAN = 33,TELEDOM = 34,TELEWORK = 35,EMAIL = 36,TELE2 = 37,DOK_VI = 38,eNP_PA= 39,ZA = 40,zAD= 41,ZAP = 42,PRED = 43,d_V= 44,d_SER= 45,d_NUM= 46,D_DATE = 47,METHOD = 48,PETITION = 49,FPOLIC = 50,pR_FAM = 51,pR_IM= 52,pR_OT= 53,PR_TEL = 54,PR_ADRES = 55,vS_NUM= 56,vS_DATE= 57,D1 = 58,d2=59,ENP_DATE = 60,lAST_FAM =61,lAST_IM= 62,lAST_OT= 63,lAST_DR= 64,KATEG = 65,DATE_PRIK = 66,MSA =67;    
 			 int d_13= 777, eNP_1= 777,eNP_2= 777, p14cx1= 777,p14cx5= 777,p14cx6= 777,p14cx7= 777,uSER_PERSON_SURNAME= 777,xPN1= 777,xPN2 = 777,xPN3= 777,uSERNAME= 777,zADMINUS1= 777,zADPLUS40= 777,nBLANC= 777,vS_DATEPLUS1= 777,uSER_ENP= 777,uSER_PERSON_KINDFIRSTNAME= 777,uSER_PERSON_KINDLASTNAME= 777,uSER_SMO= 777,uSER_D_12= 777, d_12_PLUS1= 777,uSER_DOC_DATE= 777,uSER_DOCID= 777,uSER_NUMDOC= 777,uSER_SERDOC= 777,pFR_NOTID= 777,pFR_ID= 777, pFR_SNILS= 777,uSER_POL= 777,uSER_D_13= 777,uSER_OKATO_3= 777,uSER_TYPE_POL= 777,oKATO_3 = 777, tYPE_POL = 777,d_12 = 777,pOL = 777;
 			 UtilParseDbXml utilparsedbXml = new UtilParseDbXml();
@@ -382,8 +402,10 @@ public class WsAnswer extends WebSocketServlet {
 			 messageZp1 = new MessageZp1(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, pERSON_LINKSMOESTABLISHMENTID, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1);
 			//	messageZp1 = new MessageZp1();
 				task = new TaskMock();
-			// если передаем аргумент 0 то отрабатывают методы быстрого запроса если ничего(и убрать запятую те только два аргумента) то большой запрос отрабатывает
-			if (messageZp1.create(userMachine,stList,0))
+			/* если передаем аргумент 0 то отрабатывают методы быстрого запроса если ничего(и убрать запятую те только два аргумента) то большой запрос отрабатывает
+			 * if kl ==0 zp1ajax else if kl ==1 zp1 for a08p04 on fiod
+			 */
+			if (messageZp1.create(userMachine,stList,kl))
 			{
 				String file = "50000-" + messageZp1.getGuidBhs()+ ".uprmes";
 				String fileUpr2 = "50000-" + messageZp1.getGuidBhs();

@@ -879,12 +879,17 @@ public abstract class MessageCommon implements Message {
 		guidBhs = new RandomGUID();
 		bhs.addContent(new Element("BHS.11", namespace).addContent(guidBhs.toString()));
 		
+		//для обычного zp1
+		if(r == 0)
+		{
+			createMiddle(count, namespace, rootElement, curDate);
+		}
+		//для zp1 for a08p04 т.е. в запрос по fiod		
+		if(r == 1)
+		{
+			createMiddle(count, namespace, rootElement, curDate,true,"Zp1forA08P04");
+		}
 		
-		/*
-		 * создаем сам запрос
-		 * Бежим по коллекции (снятые данные из сложного запроса) 
-		 */
-		createMiddle(count, namespace, rootElement, curDate);
 		
 		Element bts = new Element("BTS", namespace);
 		rootElement.addContent(bts);
@@ -930,7 +935,7 @@ public abstract class MessageCommon implements Message {
 	String []vr = stList.split(",");
 	for (int i = 0; i < vr.length; i++) 
 	{
-		String vrm = vr[i].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("Zp1Ajax:", "");
+		String vrm = vr[i].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("Zp1Ajax:", "").replaceAll("Zp1taskA8P4:", "");
 		parseStList.add(vrm);
 	}
 	
@@ -960,6 +965,8 @@ public abstract class MessageCommon implements Message {
 		// добовляем (почему- то при прогрузке на второй лист это помогло вывести  номер MSA)
 		dataListRow.add("MSA");
 		dataListRow.add("ZP1ok");
+		dataListRow.add("UDLfromZp1fiod");
+		dataListRow.add("EnpOutOur=EnpOutFedF");
 		dataList.add(dataListRow);
 		
 		
@@ -1133,7 +1140,7 @@ public abstract class MessageCommon implements Message {
 	String []vr = stList.split(",");
 	for (int i = 0; i < vr.length; i++) 
 	{
-		String vrm = vr[i].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("Zp1Ajax:", "");
+		String vrm = vr[i].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("Zp1Ajax:", "").replaceAll("Zp1taskA8P4:", "");
 		parseStList.add(vrm);
 	}
 	
@@ -1163,6 +1170,8 @@ public abstract class MessageCommon implements Message {
 		// добовляем (почему- то при прогрузке на второй лист это помогло вывести  номер MSA)
 		dataListRow.add("MSA");
 		dataListRow.add("ZP1ok");
+		dataListRow.add("UDLfromZp1fiod");
+		dataListRow.add("EnpOutOur=EnpOutFedF");
 		dataList.add(dataListRow);
 		
 		

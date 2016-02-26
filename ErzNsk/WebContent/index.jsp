@@ -148,14 +148,14 @@ $(document).ready(function()
 	           var widthGet = $('.panel#tableexcel').width();
 	           var heightGet = $('.panel#tableexcel').height();
 	
-	           $('div#list1onscstyle').width(widthGet-20);
+	           $('div#list1onscstyle').width(widthGet-44);
 	           $('div#list1onscstyle').height(heightGet+200);
 	
-	           $('div#list2onscstyle').width(widthGet-20);
+	           $('div#list2onscstyle').width(widthGet-44);
 	           $('div#list2onscstyle').height(heightGet+200);
 	
 	
-	           $('div#list3onscstyle').width(widthGet-20);
+	           $('div#list3onscstyle').width(widthGet-44);
 	           $('div#list3onscstyle').height(heightGet+200);
 	           // конец  			
 	           
@@ -733,7 +733,47 @@ $(document).ready(function()
 		        	            			 $('#warningwebtable2').modal('show');
 		        	            		 }
 		 						        	        
+	 	     		        	 	});
+		        	            	 
+		        	            	 /*
+									 "Задание P04"
+									 */
+		        	            	 $('#taskP04').click(function ()
+	 	     		        	    {
+		        	            	
+		        	            		 if ($('.panel#tableexcel').is(':visible'))
+		        	     				 {
+		        	            		 		var hotInstance = $('#list1onsc').handsontable('getInstance');
+		        	            		 		var myData ={list1:hotInstance.getData()  }
+				        	            	    
+				        	            	       $("#dim3").css("height", $(document).height());
+			        	        	     		   $("#dim3").fadeIn();
+			        	        	     		   spinner.spin($('#spinner_center2')[0]);
+			        	        	        	   ajax_cnt++;
+			        	        	        	   
+						        	        	   $.ajax({
+				        						        url: "TaskP04",
+				        						        type: 'POST',
+				        						        dataType: 'json',
+				        						        data: JSON.stringify(myData),
+				        						        contentType: 'application/json',
+				        						        success: function ( data) {hotInstance.loadData(data.data1);$('#btnexportfromhandsontableTOExcel').trigger('click');},
+				        						        complete: function(jqXHR, textStatus)
+				        						        {
+					        	            	    	       
+					        	            	    	}    
+				        						    });
+		        	            		 		      setTimeout(checkProgress, 0);
+				        	            	    	
+		        	     				 }
+		        	            		 else
+		        	            		 {
+		        	            			 $('#warningwebtable2').modal('show');
+		        	            		 }
+		 						        	        
 	 	     		        	 	});	
+		        	            	 
+		        	            	 
 								/*
 									функция исполняет работу прогресс бара
 								*/
@@ -799,7 +839,7 @@ $(document).ready(function()
 			        	            	 setTimeout(checkProgress, 2000);	 	 
 	        	 					});
 	        	 			 
-<!-- КНОПКА Z PAJAX-->
+// КНОПКА ZPAJAX
 /*
  * Общая логика кнопки zpajax :
  * При нажатии на  кнопку  zp в меню запросы ффомс переходим на серверную сторону где  в wsAnswer ловим ДВА ПОДРЯД КЛЮЧА (сообщения) 
@@ -808,7 +848,8 @@ $(document).ready(function()
  */
 $('#ZP1Ajax').click(function ()
 	     { 
-       	 		$('#modalfoms').modal('hide');
+				$("#modalZP1").modal('hide');
+				$('#modalfoms').modal('hide');
        	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
 				$('#tamessage').val("> Послан запрос "+this.value+"...");
 				// отправляем ключ что это такой-то запрос
@@ -835,6 +876,29 @@ $('#ZP1Ajax').click(function ()
 				// отправляем по сокету
 		        searchInDirectory(r);
    	     });
+   	     
+$('#ZP1taskA8P4').click(function ()
+	     { 
+	
+				$("#modalZP1beta").modal('hide');
+      	 		$('#modalfoms').modal('hide');
+      	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
+				$('#tamessage').val("> Послан запрос "+this.value+"...");
+				// отправляем ключ что это такой-то запрос
+				searchInDirectory('Zp1taskA8P4');
+				// объект 1-го листа
+				var hotInstan1 = $('#list1onsc').handsontable('getInstance');
+			
+				
+				// вычисляем количество на первом листе первого столбца
+				var e1 =hotInstan1.countRows()-hotInstan1.countEmptyRows(true);
+				// упаковываем данные
+				var myData = { Zp1taskA8P4:hotInstan1.getData(1,0,e1-1,0)}
+				// преобразуем в jason (не обязательно)
+				var r = JSON.stringify(myData);
+				// отправляем по сокету
+		        searchInDirectory(r);
+  	     });
 
 //Скрипт выпадающего меню. Кнопка запросы 
 	
@@ -1088,9 +1152,7 @@ $('button#drugiezaprosi').click(function ()
 						data-target=".bs-example-modal-lg" id="zapros"><i
 							class="fa fa-space-shuttle faa-passing animated-hover"></i>
 							Запросы ФОМС</a></li>
-					<div class="modal fade bs-example-modal-lg" tabindex="-1"
-						id="modalfoms" role="dialog" aria-labelledby="myLargeModalLabel"
-						aria-hidden="true">
+					<div class="modal fade bs-example-modal-lg" tabindex="-1" id="modalfoms" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -1138,51 +1200,36 @@ $('button#drugiezaprosi').click(function ()
 												value="A08P03pr">А08П03pr</button> <!-- 	</form>  -->
 										</li>
 										<li>
-											<!-- 		<form id = "A08p04Create" method = "post" action="message">
-											<input type = "hidden" name = "mestype" value = '4'>
-											<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-								 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Смена данных УДЛ без смены страховки" value="A08P04">А08П04</button>
 											<!-- 		</form>  -->
 										</li>
 										<li>
-											<!-- 		<form id = "A24p10comCreate" method = "post" action="message">
-											<input type = "hidden" name = "mestype" value = '112'>
-											<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-									 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Объединение дубликатов общее" value="A24P10com">А24П10com</button>
-											<!-- 		</form>  -->
+										
 										</li>
 										<li>
-											<!-- 	<form id = "p26Create" method = "post" action="message">
-										<input type = "hidden" name = "mestype" value = '126'>
-										<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-								 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Начало передачи в ЦС ЕРЗ сведений о занятости застрахованных лиц"
-												value="P26">П26</button> <!-- 	</form>  -->
+												value="P26">П26</button>
 										</li>
 										<li>
-											<!-- 	<form id = "p27Create" method = "post" action="message">
-										<input type = "hidden" name = "mestype" value = '127'>
-										<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-								 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Окончание передачи в ЦС ЕРЗ сведений о занятости застрахованных лиц"
-												value="P27">П27</button> <!-- 	</form>  -->
+												value="P27">П27</button>
 
 										</li>
 									</div>
 									<div class="col-lg-4">
 										<li>
-											<!-- 	<form id = "A08p01Create" method = "post" action="message">
-										<input type = "hidden" name = "mestype" value = '1'>
-										<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-								 -->
+											
 											<button class="btn btn-primary" id="menuindex"
-												title="Открытие страховки" value="A08P01">А08П01</button> <!-- 	</form>  -->
+												title="Открытие страховки" value="A08P01">А08П01</button>
 										</li>
 										<li>
 											<!-- 	<form id = "A08p06Create" method = "post" action="message">
@@ -1203,31 +1250,22 @@ $('button#drugiezaprosi').click(function ()
 											<!-- 	</form>  -->
 										</li>
 										<li>
-											<!--  	<form id = "zp1prCreate" method = "post" action="message" >
-											<input type = "hidden" name = "mestype" value = '1081'>
-											<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-									 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Запрос страховой принадлежности по предыдущим ФИО"
-												value="ZP1pr">ZP1pr</button> <!-- 	</form>  -->
+												value="ZP1pr">ZP1pr</button> 
 										</li>
 										<li>
-											<!--    <form id = "A24p102Create" method = "post" action="message">
-												<input type = "hidden" name = "mestype" value = '111'>
-												<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-											 -->
+											
 											<button class="btn btn-primary" id="menuindex"
 												title="Объединение дубликатов с другим главным ЕНП"
-												value="A24P102">А24П102</button> <!-- 	</form>  -->
+												value="A24P102">А24П102</button>
 										</li>
 										<li>
-											<!-- 	<form id = "zp1FiodCreate" method = "post" action="message" >
-											<input type = "hidden" name = "mestype" value = '1082'>
-											<input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'>
-									 -->
-											<button class="btn btn-primary" id="menuindex"
+											
+										<!-- 	<button class="btn btn-primary" id="menuindex"
 												title="Запрос страховой принадлежности по ФИОД и УДЛ"
-												value="ZP1Fiod">ZP1Fiod</button> <!-- 	</form>  -->
+												value="ZP1Fiod">ZP1Fiod</button>  -->
 										</li>
 										<li>
 											<!-- 	<form id = "A08v01Create" method = "post" action="message">
@@ -1308,8 +1346,32 @@ $('button#drugiezaprosi').click(function ()
 											</div>		
 										
 										<li>
-											<button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1test</button>
+											<!-- <button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1test</button> -->
 										</li>
+										<li>
+											<button class="btn btn-primary" id="buttonZP1"  data-toggle="modal" data-target="#modalZP1beta">ZP1beta</button>
+										</li>
+										
+										<div class="modal fade" id="modalZP1beta" role="dialog"
+											aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal"
+															aria-hidden="true">&times;</button>
+														<h3 class="modal-title">Конструктор запроса ZP1</h3>
+														<p>Выберите вид запроса</p>
+													</div>
+													<div class="modal-body">
+														<p></p>
+														<button  class="btn btn-primary" id="ZP1taskA8P4" title="Zp1 по паспорту,фио,др,полу,и месту рождения. Позволяет достоверно оценить наличие паспорта в ЦС "value="Zp1taskA8P4">ZP1 FioDPb</button>
+														<button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1</button>
+														
+													</div>
+												</div>
+											</div>
+										</div>	
+										
 										<li>
 											<!-- !!!!!!!!!!!!!!!!!!! -->
 											<button type="submit" class="btn btn-primary"
@@ -1363,6 +1425,7 @@ $('button#drugiezaprosi').click(function ()
 									<button class="btn btn-primary" id="drugiezaprosi"data-toggle="modal" data-target="#myModal3" disabled="disabled">Сгенерировать ЕНП</button>
 									<button class="btn btn-primary" id="taskP03">Задание П03</button>
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
+									<button class="btn btn-primary" id="taskP04">Задание П04</button>
 									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обрабтка ошибок ГОЗНАКА</button>	
 							</li>
 						</ul></li>
@@ -1777,19 +1840,22 @@ $('button#drugiezaprosi').click(function ()
 					<div class="panel-body">
 						<!-- Nav tabs -->
 						<ul class="nav nav-pills">
-							<li class="active"><a href="#home-pills" data-toggle="tab">Первая
+<!-- 							<li class="active"><a href="#home-pills" data-toggle="tab">Первая
 									страница</a></li>
 							<li><a href="#profile-pills" data-toggle="tab">Вторая
 									страница</a></li>
 							<li><a href="#messages-pills" data-toggle="tab">Третья
 									страница</a></li>
 							<li><a href="#settings-pills" data-toggle="tab">Четвертая
-									страница</a></li>
-							<li><a href="#help-pills" data-toggle="tab">Помощь</a></li>
-							<button type="button" class="btn btn-success" id="btnexportfromhandsontableTOExcel">Экспорт</button>
-							<button class="btn btn-primary" id="btnimportfromhandsontableTOExcel" data-toggle="modal" data-target="#importFromExcel">Импорт</button>
-							<button type="button" class="btn btn-success" id="zaprosWebExcel">Запрос не сформирован</button>
-							<button type="button" class="btn btn-success" id="zaprosWebExcelCancel">Расформировать запрос</button>
+									страница</a></li> 
+							<li><a href="#help-pills" data-toggle="tab">Помощь</a></li>-->
+							
+							<div class="well well-sm">
+								<button type="button" class="btn btn-success btn-sm" id="btnexportfromhandsontableTOExcel">Экспорт</button>
+								<button class="btn btn-primary btn-sm" id="btnimportfromhandsontableTOExcel" data-toggle="modal" data-target="#importFromExcel">Импорт</button>
+								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcel">Запрос не сформирован</button>
+								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcelCancel">Расформировать запрос</button>
+							</div>
 						</ul>
 
 						<!-- Tab panes -->
@@ -1797,10 +1863,10 @@ $('button#drugiezaprosi').click(function ()
 							<div class="tab-pane fade in active" id="home-pills">
 								<h4>Вставка данных</h4>
 								<p>
-								<div id="list1onscstyle" style="overflow: auto;">
+								<div id="list1onscstyle" style="overflow: auto; margin-bottom:20px;">
 									<div id="list1onsc"></div>
 								</div>
-								<div id="list2onscstyle" style="overflow: auto;">
+								<div id="list2onscstyle" style="overflow: auto;  margin-bottom:20px;">
 									<div id="list2onsc"></div>
 								</div>
 								<div id="list3onscstyle" style="overflow: auto;">

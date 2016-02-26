@@ -85,6 +85,10 @@ public class Data {
 		return new SimpleDateFormat("yyyy-MM-dd").format(person.getPerson_birthday().getTime());
 	}
 
+	public String getPerson_birthday2() {
+		return new SimpleDateFormat("dd.MM.yyyy").format(person.getPerson_birthday().getTime());
+	}
+
 	public String getDatepassport() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(person.getPersonAdd().getDatepassport().getTime());
 	}

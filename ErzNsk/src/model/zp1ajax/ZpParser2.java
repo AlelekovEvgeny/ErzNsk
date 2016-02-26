@@ -68,10 +68,14 @@ public class ZpParser2 extends DefaultHandler {
     		zpRecordOnList.add(zpRecord.getIN1_15());
     		zpRecordOnList.add(zpRecord.getIN1_35());
     		zpRecordOnList.add(zpRecord.getIN1_36());
-    		zpRecordOnList.add(zpRecord.getQri1());
-    		zpRecordOnList.add(zpRecord.getQri2());
-    		zpRecordOnList.add(zpRecord.getQri3());
-    		zpRecordOnList.add(zpRecord.getQri4());
+    		zpRecordOnList.add("");
+    		zpRecordOnList.add("");
+    		zpRecordOnList.add("");
+    		zpRecordOnList.add("");
+    		//zpRecordOnList.add(zpRecord.getQri1());
+    		//zpRecordOnList.add(zpRecord.getQri2());
+    		//zpRecordOnList.add(zpRecord.getQri3());
+    		//zpRecordOnList.add(zpRecord.getQri4());
     		zpRecordOnList.add(String.valueOf(zpRecord.getNpp()));
     		zpRecordOnList.add(zpRecord.getDinput());
     		zpRecordOnList.add(zpRecord.getPID7());
@@ -108,7 +112,12 @@ public class ZpParser2 extends DefaultHandler {
     		zpRecordOnList.add(zpRecord.getPID29());
     		
     		cl.setListRows(zpRecordOnList);
-
+    		qriCounter = 0;
+    		zpRecord.setQri1("");
+    		zpRecord.setQri2("");
+    		zpRecord.setQri3("");
+    		zpRecord.setQri4("");
+    		
         }
     	curElement = "";
     }
@@ -209,11 +218,13 @@ public class ZpParser2 extends DefaultHandler {
 			case "QRI.2": 
 				qriCounter++;
 				switch (qriCounter) {
-//					case 1: zpRecord.setQri1(new String(ch, start, length));break;
-					case 2: zpRecord.setQri2(new String(ch, start, length));break;
-					case 3: zpRecord.setQri3(new String(ch, start, length));break;
-					case 4: zpRecord.setQri4(new String(ch, start, length));break; 
+				case 1:	zpRecord.setQri1(new String(ch, start, length));break;
+				case 2:zpRecord.setQri2(new String(ch, start, length));break;
+				case 3:zpRecord.setQri3(new String(ch, start, length));break;
+				case 4:zpRecord.setQri4(new String(ch, start, length));break;
 				}
+				
+				
 				break;					
 		}
 	} 

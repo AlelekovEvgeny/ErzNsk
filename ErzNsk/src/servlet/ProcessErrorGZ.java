@@ -61,6 +61,7 @@ public class ProcessErrorGZ extends HttpServlet {
   
     private static final long serialVersionUID = 205242440643911308L;
     private ArrayList<ArrayList<String>> chancheOutEnp = new ArrayList<ArrayList<String>>();
+    private String uploadFilePath;
      
     /**
      * Directory where uploaded files will be saved, its relative to
@@ -76,7 +77,7 @@ public class ProcessErrorGZ extends HttpServlet {
         String applicationPath = request.getServletContext().getRealPath("");
         System.out.println(applicationPath);
         // constructs path of the directory to save uploaded file
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        this.uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
         System.out.println(uploadFilePath);
           
         // creates the save directory if it does not exists
@@ -130,7 +131,7 @@ public class ProcessErrorGZ extends HttpServlet {
 							try { threads(task,listEnpForDeleteFromExcel); } catch (InterruptedException e) {e.printStackTrace();}
 							System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
 							deleteFromTaskXLS(listEnpForDeleteFromExcel,absolutePath,chancheOutEnp);
-				            downloadExcel(response,absolutePath);
+							//				            downloadExcel(response,absolutePath);
 		            }
 		            else
 		            {
@@ -293,9 +294,37 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					}
 		    					else
 		    					{
-		    						listcol.remove(0);
-		    						System.out.println("Exit from thread becouse null response on ZP1");
-		    						return;
+		    						/*
+		    						 * Пришел пустой ответ...делам zp1 по ластам
+		    						 */
+		    						System.out.println("response NULL. Will do Zp1pr");
+		    					    filename = new MessageZp1pr(fileTransfer, res, person).create();
+		    					    zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1pr после после нулевого ответа");
+		    					    
+		    					    person.setZpList(zp);
+		    					    person.setZp(person.getZpList().get(0));
+		    					    filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after ZP1 == NULL response and Zp1pr "+ filename);
+    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
+	    							{
+    									// проверяем результат п03
+	    								filename = new MessageZp1(fileTransfer, res, person).create();
+	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
+	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+	    								{
+	    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if ZP1 null => Zp1pr => A08P03pr ) "+ filename);
+	    									listcol.remove(0);
+	    									return;
+    									}
+	    								else 
+	    								{
+	    									listcol.remove(0);
+	    		    						System.out.println("Exit from thread becouse VS BAD after (condition if ZP1 null => Zp1pr => A08P03pr )");
+	    		    						return;	
+	    								}
+	    							}	
+		    					    
+		    					    
+		    						
 		    						
 		    					}
 		    					
@@ -926,9 +955,27 @@ public class ProcessErrorGZ extends HttpServlet {
 		}
 		
 		
+		/*
+		 * Before save this Excel, we will delete all files in folder of the uploadFilePath
+		 */
+		System.out.println("uploadFilePathTEST "+ uploadFilePath);
+		System.out.println("absolutePathTEST "+ absolutePath);
+		 File file = new File(uploadFilePath);
+	        File[] files = file.listFiles(); 
+	        for (File f:files) 
+	        {
+	        	if (f.isFile() && !f.getAbsolutePath().equals(absolutePath)) 
+	            { 
+	        		f.delete();
+	        		System.out.println("successfully deleted "+ f.getAbsolutePath());
+	            }else
+	            {
+            		System.out.println("cant delete a file due to open or error "+ absolutePath);
+	            }
+        	}
 		
 		chancheOutEnp = new ArrayList<ArrayList<String>>();
-		System.out.println("Auto на первом этапе обработала = " +listEnpForDeleteFromExcel.size());
+		System.out.println("Успешно выполненых: " +listEnpForDeleteFromExcel.size());
 		FileOutputStream fileOut = new FileOutputStream(absolutePath);
 		wb.write(fileOut);
 		fileOut.close();

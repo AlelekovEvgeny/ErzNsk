@@ -23,22 +23,22 @@
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-<style>
-body{ margin:0px; background:#000; }
-#bg_container{ height:auto;width:auto; overflow:hidden; }
-#bg{ width:100%; }
-#content{ position:absolute; top:0px; padding:30px; color:#FFF; text-shadow:#000 2px 2px; width:100%; }
-</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	setTimeout ("$('body').animate({opacity: 0.0}, 0 );", 0);
+	setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
+
+});
+</script>
 </head>
 <body>
-<div id="bg_container">
-  <video id="bg" src="image/videoplayback2.mp4" autoplay="true" loop="true" muted="true"></video>
-</div>
-<div id="content">
-  <div class="container">
+
+
+
+    <div class="container">
 
       <form class="form-signin"  method="post" action="login">
-        <h3 class="form-signin-heading" >  <i class="fa fa-user text-link">  Вход в систему</i></h3>
+        <h3 class="form-signin-heading" >  <i class="fa fa-user text-primary">  Вход в систему</i></h3>
         <input type="text" class="form-control"  name="username" id="username"  placeholder="Логин">
         <input type="password" name="password" id="password"  class="form-control" placeholder="Пароль">
        <br> 
@@ -46,17 +46,15 @@ body{ margin:0px; background:#000; }
       </form>
 
     </div> <!-- /container -->
-</div>
+
+	<script type="text/javascript" src="script/checkNumber.js"></script>
+	<script type="text/javascript" src="script/checkNumberLogin.js"></script>
+	
+	 <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
    
     <script src="js/bootstrap.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function()
-    		{ 
-    				var vid = document.getElementById("bg");
-    				vid.playbackRate = 0.5;
-
-    		});
-
-	</script>
+    
 </body>
 </html>

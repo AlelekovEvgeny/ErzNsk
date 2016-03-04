@@ -69,7 +69,7 @@ $(document).ready(function()
 	//setTimeout ("$('textarea#textareamess').animate({opacity: 0}, 0 );", 0);
 	setTimeout ("$('body').animate({opacity: 0.0}, 0 );", 0);
 	setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
-	setTimeout ("$('#updateonsite').modal('show');", 3000);
+	//setTimeout ("$('#updateonsite').modal('show');", 3000);
 	$('#zaprosWebExcel').prop('value', '');
 
 	
@@ -93,6 +93,13 @@ $(document).ready(function()
 		                });	
 	                });
                });
+	   
+	   $('#downloadProcessReportErrorGZ').click(function(event)
+                   {  
+                       //document.location.href = '/survay/download'
+                       document.location.href = '/ErzNsk/reporterrorgz'
+                   });
+	   
            $('#su1').click(function(event)
                    {  
                        $('#texthelpqueryoutenp').empty();
@@ -848,7 +855,7 @@ $(document).ready(function()
  */
 $('#ZP1Ajax').click(function ()
 	     { 
-				$("#modalZP1").modal('hide');
+				$("#modalZP1beta").modal('hide');
 				$('#modalfoms').modal('hide');
        	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
 				$('#tamessage').val("> Послан запрос "+this.value+"...");
@@ -1511,7 +1518,7 @@ $('button#drugiezaprosi').click(function ()
 										Выберите файл для загрузки формата .xls :<input type="file"
 											name="fileName"> <br>
 										<button type="submit" class="btn btn-primary">Начать обработку</button>
-										<button type="button" class="btn btn-success" id="su1">Помощь</button>
+										<button type="button" class="btn btn-success" id="downloadProcessReportErrorGZ">Скачать</button>
 									</form>
 
 									<div id="texthelpqueryoutenp" style="margin-top: 15px"></div>

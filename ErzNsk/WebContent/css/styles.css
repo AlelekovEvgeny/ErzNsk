@@ -239,3 +239,24 @@ div.right_col
 
 .editfile { width: 400px; }
 
+#progressbox, #progressboxGZ {
+	position: relative;
+	width: 400px;
+	border: 1px solid #ddd;
+	padding: 1px;
+	border-radius: 3px;
+}
+
+#progressbar, #progressbarprocessGZ {
+	background-color: lightblue;
+	width: 0%;
+	height: 20px;
+	border-radius: 4px;
+}
+
+#percent, #percentprocessGZ {
+	position: absolute;
+	display: inline-block;
+	top: 3px;
+	left: 48%;
+}

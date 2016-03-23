@@ -52,6 +52,7 @@ String createTime =""+new Date(session.getCreationTime());
 <script src="js/handsontable.full.js"></script>
 <script src="js/numeral.js"></script>
 <script src="js/moment.js"></script>
+<script src="js/fileUploadScript.js" ></script>
 
 
 
@@ -94,12 +95,6 @@ $(document).ready(function()
 	                });
                });
 	   
-	   $('#downloadProcessReportErrorGZ').click(function(event)
-                   {  
-                       //document.location.href = '/survay/download'
-                       document.location.href = '/ErzNsk/reporterrorgz'
-                   });
-	   
            $('#su1').click(function(event)
                    {  
                        $('#texthelpqueryoutenp').empty();
@@ -112,6 +107,7 @@ $(document).ready(function()
     		                });	
     	                });
                    });
+           
            
            $('#su2').click(function(event)
                    {  
@@ -527,7 +523,8 @@ $(document).ready(function()
 		        	            			    for(var j=1; j<countR3;j++)
 			        	            	 		{
 		        	            					if(	parseInt(hotInstance.getDataAtCell(i,0)) == parseInt(hotInstance3.getDataAtCell(j,0)) && parseInt(hotInstance3.getDataAtCell(j,19))== parseInt("0") && parseInt(hotInstance3.getDataAtCell(j,12))== parseInt("50000") && hotInstance3.getDataAtCell(j,11)==="")
-				        	            	 		{
+
+		        	            					{
 														console.log('Отработала');
 		        	            						
 			        	            	 		    	hotInstance.setDataAtCell(i,7,hotInstance3.getDataAtCell(j,9)); // смо
@@ -1514,11 +1511,19 @@ $('button#drugiezaprosi').click(function ()
 
 								</div>
 								<div class="modal-body">
-									<form action="processerror" method="post" enctype="multipart/form-data">
-										Выберите файл для загрузки формата .xls :<input type="file"
-											name="fileName"> <br>
-										<button type="submit" class="btn btn-primary">Начать обработку</button>
-										<button type="button" class="btn btn-success" id="downloadProcessReportErrorGZ">Скачать</button>
+									<form  id="UploadForm" action="processerror" method="post" enctype="multipart/form-data"> Выберите файл для загрузки формата .xls :
+										<input type="file"  id="myfile" onclick="myfilefun()" name="fileName"> <br>
+											<div id="progressbox">
+												<div id="progressbar"></div>
+												<div id="percent">0%</div>
+											</div><br>
+											<div id="messageupload"></div><br>
+											<div id="progressboxGZ" style="display: none;">
+												<div id="progressbarprocessGZ"></div>
+												<div id="percentprocessGZ">0%</div>
+											</div><br>
+											<div id="messageend"></div><br>
+										<button type="submit" id="btnstarttask" class="btn btn-primary" >Загрузить задание</button>
 									</form>
 
 									<div id="texthelpqueryoutenp" style="margin-top: 15px"></div>

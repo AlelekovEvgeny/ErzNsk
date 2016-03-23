@@ -24,6 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -53,15 +57,16 @@ import util.UtilForErrorGz;
 
   
 @WebServlet("/processerror")
-@MultipartConfig(fileSizeThreshold=1024*1024*10,    // 10 MB 
+/*@MultipartConfig(fileSizeThreshold=1024*1024*10,    // 10 MB 
                  maxFileSize=1024*1024*50,          // 50 MB
                  maxRequestSize=1024*1024*100)      // 100 MB
-
+*/
 public class ProcessErrorGZ extends HttpServlet {
   
     private static final long serialVersionUID = 205242440643911308L;
     private ArrayList<ArrayList<String>> chancheOutEnp = new ArrayList<ArrayList<String>>();
     private String uploadFilePath;
+    private String abslutepath;
      
     /**
      * Directory where uploaded files will be saved, its relative to
@@ -73,6 +78,51 @@ public class ProcessErrorGZ extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException
     {
+    	boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+    	
+    	// gets absolute path of the web application
+        String applicationPath = request.getServletContext().getRealPath("");
+        System.out.println(applicationPath);
+        // constructs path of the directory to save uploaded file
+        this.uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        System.out.println(uploadFilePath);
+
+        // creates the save directory if it does not exists
+        File fileSaveDir = new File(uploadFilePath);
+        if (!fileSaveDir.exists()) { fileSaveDir.mkdirs(); }
+        else { for(File file : fileSaveDir.listFiles()) file.delete(); }
+        
+    	// process only if its multipart content
+    	if (isMultipart) {
+    		// Create a factory for disk-based file items
+    		FileItemFactory factory = new DiskFileItemFactory();
+
+    		// Create a new file upload handler
+    		ServletFileUpload upload = new ServletFileUpload(factory);
+    		try {
+    			// Parse the request
+    			List<FileItem> multiparts = upload.parseRequest(request);
+
+    			for (FileItem item : multiparts) {
+    				if (!item.isFormField()) {
+    					String name = new File(item.getName()).getName();
+    					abslutepath = uploadFilePath + File.separator + name;
+    					item.write(new File(abslutepath));
+    				}
+    			}
+    			
+    		} 
+    		catch (Exception e) 
+    		{
+    		  System.out.println("File upload failed");
+    		}
+    	}
+    	
+    	
+    	
+    	
+    	
+    	/*
         // gets absolute path of the web application
         String applicationPath = request.getServletContext().getRealPath("");
         System.out.println(applicationPath);
@@ -96,11 +146,7 @@ public class ProcessErrorGZ extends HttpServlet {
 		            
 		            if(!fileName.equals(""))
 		            {
-				            /*
-				             * 
-				             * Ловим если неправильнре имя фаила при записи
-				             * 
-				             */
+				            
 				            try
 				            {
 				            part.write(uploadFilePath + File.separator + fileName);
@@ -118,9 +164,7 @@ public class ProcessErrorGZ extends HttpServlet {
 				            // склеиваем весь путь!!
 				            absolutePath = uploadFilePath + File.separator + fileName;
 				            System.out.println("Абсолюте !!"+absolutePath);
-				            /*
-				             * парсим эксель -загоняем в коллекцию - создаем запрос - запращиваем
-				             */
+				            
 				        
 				            List<ArrayList<String>> bag = null;
 							try { bag =  paseInputStreamExcelForQuery(absolutePath); } catch (Exception e) {e.printStackTrace();}
@@ -131,13 +175,27 @@ public class ProcessErrorGZ extends HttpServlet {
 							try { threads(task,listEnpForDeleteFromExcel); } catch (InterruptedException e) {e.printStackTrace();}
 							System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
 							deleteFromTaskXLS(listEnpForDeleteFromExcel,absolutePath,chancheOutEnp);
-							//				            downloadExcel(response,absolutePath);
 		            }
 		            else
 		            {
 		            	
 		            }
-        }
+        }*/
+    }
+    
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException
+    {
+    	List<ArrayList<String>> bag = null;
+		try { bag =  paseInputStreamExcelForQuery(abslutepath); } catch (Exception e) {e.printStackTrace();}
+		// по каждому енп формируем последовательность действий
+		List<ArrayList<String>> task = createTasks(bag);
+		System.out.println(task);
+		// запускаем в поток
+		List<String> listEnpForDeleteFromExcel =  new ArrayList<String>();
+		try { threads(task,listEnpForDeleteFromExcel,request); } catch (InterruptedException e) {e.printStackTrace();}
+		System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
+		deleteFromTaskXLS(listEnpForDeleteFromExcel,abslutepath,chancheOutEnp);
     }
 
     
@@ -302,6 +360,12 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					    zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1pr после после нулевого ответа");
 		    					    
 		    					    person.setZpList(zp);
+		    					    // если на zp1pr пришел пусьтой ответ (потом можено доюавить отвпавку a08p01 с обычными данными)
+		    					    if(person.getZpList().size() == 0) {
+		    					    	listcol.remove(0);
+		    					    	System.out.println("Exit from thread becouse zp1pr NULL response "+ filename);
+    		    						return;	
+		    					    }
 		    					    person.setZp(person.getZpList().get(0));
 		    					    filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after ZP1 == NULL response and Zp1pr "+ filename);
     								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
@@ -420,7 +484,8 @@ public class ProcessErrorGZ extends HttpServlet {
 							    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
 						    										 }else
 						    										 {
-						    											 System.out.println("Есть подозрение что это др чел "+ filename);
+						    											 
+						    											 System.out.println("Есть подозрение что это др чел или енп начинается не на 54.. "+ filename);
 						    										 }
 						    										 
 						    										 
@@ -472,6 +537,22 @@ public class ProcessErrorGZ extends HttpServlet {
 								    							}	
 								    						}else
 								    							{
+								    							// вставил вначале p03 по обычным фио др тк бывает что ласты указывают оч старые, которых нет в цс
+								    							
+									    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 (before A08P03 after A08P03pr)"+ filename);
+									    							if(ul.waitUprak2(filename, "Wait response A03P03 Send A08P03 (before A08P03 after A08P03pr)"+filename))
+									    							{
+									    								// send and check resalt п03
+									    								filename = new MessageZp1(fileTransfer, res, person).create();
+									    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 Send A08P03 (before A08P03 after A08P03pr)");
+									    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after  (before A08P03 after A08P03pr)"+ filename);System.out.println("Exit from thread on OK VsNum"); listcol.remove(0); return;}
+									    								else
+										    							{
+										    								System.out.println(" NO set VSNUm after (before A08P03 after A08P03pr)");
+										    							}
+									    							}	
+								    							//=============================================
+								    							
 								    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr "+ filename);
 								    								if(ul.waitUprak2(filename, "Wait response A03P03pr "+filename))
 									    							{
@@ -518,7 +599,7 @@ public class ProcessErrorGZ extends HttpServlet {
 											    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
 										    										 }else
 										    										 {
-										    											 System.out.println("Есть подозрение что это др чел "+ filename);
+										    											 System.out.println("Есть подозрение что это др чел или енп начинается не на 54... "+ filename);
 										    											 System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"); listcol.remove(0); return;
 										    											 
 										    										 }
@@ -871,21 +952,31 @@ public class ProcessErrorGZ extends HttpServlet {
 		return taskQueue;
     }
     
-	private void threads(List<ArrayList<String>> ts,List<String> listEnpForDeleteFromExcel) throws InterruptedException
+	private void threads(List<ArrayList<String>> ts,List<String> listEnpForDeleteFromExcel,HttpServletRequest request) throws InterruptedException
     {
     	ExecutorService exec = Executors.newCachedThreadPool();
     	int numberOfTasks=0;
+    	int allsize = 0;
+    	double rez = 0;
+    	int pr= 0; 
     	for (int i = 0; i < ts.size(); i++) {
             UtilForErrorGz ut = new UtilForErrorGz();    		
     		exec.execute(new AutoThread(ts.get(i),ut,listEnpForDeleteFromExcel));
     		listcol.add(String.valueOf(++numberOfTasks));
     	}
     	exec.shutdown();
+    	allsize = listcol.size();
     	while(listcol.size() !=0)
     	{
     		System.out.println("ls "+listcol);
+    		rez = (double) (allsize - listcol.size())/allsize;
+    		pr =(int) (rez *100.0);
+    		request.getSession().setAttribute("size", pr);
+    		//System.out.println("pr "+ pr);
     		Thread.sleep(10000);
     	}
+    	pr = 100;
+    	request.getSession().setAttribute("size", pr);
     	
     }
     

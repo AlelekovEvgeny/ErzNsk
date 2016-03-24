@@ -54,6 +54,7 @@ private static final long serialVersionUID = 1L;
   	 {
   		Integer ty ;
     	if(request.getSession().getAttribute("size") != null){  ty = (int) request.getSession().getAttribute("size");}else{ty = 0;}
+    	
     		response.setContentType("application/json");
     	    response.setCharacterEncoding("UTF-8");
     	    response.getWriter().write(String.valueOf(ty));

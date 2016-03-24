@@ -186,16 +186,26 @@ public class ProcessErrorGZ extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException
     {
-    	List<ArrayList<String>> bag = null;
-		try { bag =  paseInputStreamExcelForQuery(abslutepath); } catch (Exception e) {e.printStackTrace();}
-		// по каждому енп формируем последовательность действий
-		List<ArrayList<String>> task = createTasks(bag);
-		System.out.println(task);
-		// запускаем в поток
-		List<String> listEnpForDeleteFromExcel =  new ArrayList<String>();
-		try { threads(task,listEnpForDeleteFromExcel,request); } catch (InterruptedException e) {e.printStackTrace();}
-		System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
-		deleteFromTaskXLS(listEnpForDeleteFromExcel,abslutepath,chancheOutEnp);
+    	if(listcol.size() > 0) 
+    	{
+    		response.setContentType("application/json");
+    	    response.setCharacterEncoding("UTF-8");
+    	    response.getWriter().write("stop");
+    	}
+    	else {
+    		
+    		List<ArrayList<String>> bag = null;
+    		try { bag =  paseInputStreamExcelForQuery(abslutepath); } catch (Exception e) {e.printStackTrace();}
+    		// по каждому енп формируем последовательность действий
+    		List<ArrayList<String>> task = createTasks(bag);
+    		System.out.println(task);
+    		// запускаем в поток
+    		List<String> listEnpForDeleteFromExcel =  new ArrayList<String>();
+    		try { threads(task,listEnpForDeleteFromExcel,request); } catch (InterruptedException e) {e.printStackTrace();}
+    		System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
+    		deleteFromTaskXLS(listEnpForDeleteFromExcel,abslutepath,chancheOutEnp);
+    	}
+    	
     }
 
     

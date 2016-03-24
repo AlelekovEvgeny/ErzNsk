@@ -16,6 +16,8 @@
 {
 	margin-bottom: 10px;
 }
+
+
 #tamessage
 {
   font-family: tahoma; 
@@ -28,6 +30,8 @@
   /* overflow: auto; */
   border-radius: 10px;
 }
+
+
 
 #tamessage:focus {
     outline: none;

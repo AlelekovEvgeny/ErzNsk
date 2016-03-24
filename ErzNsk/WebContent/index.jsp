@@ -1430,7 +1430,7 @@ $('button#drugiezaprosi').click(function ()
 									<button class="btn btn-primary" id="taskP03">Задание П03</button>
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
 									<button class="btn btn-primary" id="taskP04">Задание П04</button>
-									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обрабтка ошибок ГОЗНАКА</button>	
+									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обработка ошибок ГОЗНАКА</button>	
 							</li>
 						</ul></li>
 					<!-- КОНЕЦ ДРУГИЕ ЗАПРОСЫ -->
@@ -1446,7 +1446,7 @@ $('button#drugiezaprosi').click(function ()
 								</div>
 								<div class="modal-body">
 									<form id="upload-form" action="ImportFromExcelToHandsontable" method="post" enctype="multipart/form-data">Выберите файл для загрузки формата .xls :<input type="file"name="fileName"> <br>
-										<button type="submit" class="btn btn-primary" id="activateGetJson" >Отправить запрос</button>
+										<button type="submit" class="btnА btn-primary" id="activateGetJson" >Отправить запрос</button>
 										<button type="button" class="btn btn-success" id="">Помощь</button>	
 									</form>
 									
@@ -1505,7 +1505,7 @@ $('button#drugiezaprosi').click(function ()
 									<button type="button btn-primary" class="close"
 										data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h3 class="modal-title">Исправление ошибок ГОЗНАКА</h3>
-									<p>Исправление ошибок из мешка ошибок</p>
+									<p>Исправление  мешка ошибок</p>
 									Ошибки можно скачать с владки "Ошибки гознака" расположенного в панели меню. Потом закачать здесь, предварительно
 									оставить те ошибки которые хотите чтобы обработались.
 
@@ -1525,8 +1525,7 @@ $('button#drugiezaprosi').click(function ()
 											<div id="messageend"></div><br>
 										<button type="submit" id="btnstarttask" class="btn btn-primary" >Загрузить задание</button>
 									</form>
-
-									<div id="texthelpqueryoutenp" style="margin-top: 15px"></div>
+									
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-primary"

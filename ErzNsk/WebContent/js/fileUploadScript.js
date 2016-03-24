@@ -27,9 +27,10 @@ var options = {
 		$("#percent").html('100%');
 	},
 	complete : function(response) {
+		$('#btnprocessreporterrorgz').prop('disabled',false);
 		$('#btnstarttask').prop('disabled', true);
 		$('#messageupload').css('display','block');
-		$("#messageupload").html("<font color='blue'>Задание загружено успешно. Для начала обработки ошибок нажмите <button type='button'  onclick=ProcessReportErrorGZ() class='btn btn-primary btn-sm'>Обработка</button></font>");
+		$("#messageupload").html("<font color='blue'>Задание загружено успешно. Для начала обработки ошибок нажмите <button type='button' id='btnprocessreporterrorgz'  onclick=ProcessReportErrorGZ() class='btn btn-primary btn-sm'>Обработка</button></font>");
 		
 	},
 	error : function() {
@@ -38,28 +39,35 @@ var options = {
 };
 $("#UploadForm").ajaxForm(options);
 });
-/*
- * <div id="progressboxGZ">
-	
- * 
- */
+
 function ProcessReportErrorGZ() 
 {  
-	console.log('press');
 	$('#progressboxGZ').css('display','block');
+	$('#btnprocessreporterrorgz').prop('disabled', true);
+	$('#myfile').prop('disabled', true);
+	var shtrout = '';
 	$.ajax({
 	        url: "processerror",
 	        type: 'GET',
 	        dataType: 'json',
 	        //data: '',
 	        contentType: 'application/json',
-	        success: function (data) {},
+	        success: function (data) {
+	        	console.log('s '+data);
+	        },
+	        error: function (err) {
+	        	//console.log('err '+JSON.stringify(err));
+	        	shtrout = err.responseText;
+	        },
 	        complete: function(jqXHR, textStatus)
-	        {
-    	       
-    	    }    
+	        {}    
 		});
-	setTimeout(checkProgressErrorGZ, 2000);                   
+	
+	setTimeout(function(){/*console.log(shtrout != 'stop'); */ if(shtrout != 'stop'){ checkProgressErrorGZ();}else{
+		$('#messageupload').css('display','block');
+		$("#messageupload").html("<font color='red'><i class='fa fa-warning faa-flash animated-hover'></i> Ошибка. Задание ранее загружено и работает. Обратитесь к поддержке.</font>");
+		$('#myfile').prop('disabled', false);
+	}}, 5000);          
 };
 
 function checkProgressErrorGZ() {
@@ -82,6 +90,7 @@ function checkProgressErrorGZ() {
         	else
         	{
         		$('#messageend').css('display','block');
+        		$('#myfile').prop('disabled', false);
         		$("#messageend").html("<font color='blue'>Обработка ошибок завершена. Чтобы получить отчет нажмите <button type='button' class='btn btn-success btn-sm' onclick=downloadProcessReportErrorGZ()>скачать</button></font>");
         	}
          },
@@ -97,7 +106,6 @@ function downloadProcessReportErrorGZ()
 
 function myfilefun()
         {  
-				console.log('press');
 				$('#btnstarttask').prop('disabled', false);
 				$("#messageend").css('display','none');
 				$("#progressbarprocessGZ").width('0%');

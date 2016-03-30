@@ -140,7 +140,7 @@ public class MessageA08p16emptyalllast extends MessageImpl {
 		
 		in1_1.addContent(new Element("IN1.36", namespace).addContent(data.getZp().getIn1_36()));
 		
-		in1_1.addContent(new Element("IN1.43", namespace).addContent(data.getPerson_sex()));
+		in1_1.addContent(new Element("IN1.43", namespace).addContent(data.getZp().getPid8()));
 		
 		Element in1_1_49 = new Element("IN1.49", namespace);
 		in1_1.addContent(in1_1_49);

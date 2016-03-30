@@ -313,6 +313,12 @@ public class Data {
 		else { return new SimpleDateFormat("yyyy-MM-dd").format(zp.getPid7().getTime()); }
 	}
 	
+	public String getZpPid7f() {
+		if(zp.getPid7() == null) { return ""; }
+		else { return new SimpleDateFormat("dd.MM.yyyy").format(zp.getPid7().getTime()); }
+	}
+	
+	
 	public String getZpDateinput() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(zp.getDateinput().getTime());
 	}

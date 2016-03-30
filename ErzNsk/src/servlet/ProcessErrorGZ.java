@@ -34,6 +34,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.util.SystemOutLogger;
 import org.xml.sax.SAXException;
 
 
@@ -42,6 +43,7 @@ import pylypiv.errorGZ.domain.Person;
 import pylypiv.errorGZ.main.Data;
 import pylypiv.errorGZ.messages.MessageA08p03;
 import pylypiv.errorGZ.messages.MessageA08p03pr;
+import pylypiv.errorGZ.messages.MessageA08p03pr_anouthOkato;
 import pylypiv.errorGZ.messages.MessageA08p03pr_newDr;
 import pylypiv.errorGZ.messages.MessageA08p16;
 import pylypiv.errorGZ.messages.MessageA08p16chanchelastfioOnnew;
@@ -118,69 +120,6 @@ public class ProcessErrorGZ extends HttpServlet {
     		}
     	}
     	
-    	
-    	
-    	
-    	
-    	/*
-        // gets absolute path of the web application
-        String applicationPath = request.getServletContext().getRealPath("");
-        System.out.println(applicationPath);
-        // constructs path of the directory to save uploaded file
-        this.uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
-        System.out.println(uploadFilePath);
-          
-        // creates the save directory if it does not exists
-        File fileSaveDir = new File(uploadFilePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdirs();
-        }
-        System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
-         
-        String fileName ="";
-        String absolutePath = null;
-        //Get all the parts from request and write it to the file on server
-        for (Part part : request.getParts()) 
-        {
-		            fileName = getFileName(part);
-		            
-		            if(!fileName.equals(""))
-		            {
-				            
-				            try
-				            {
-				            part.write(uploadFilePath + File.separator + fileName);
-				            }
-				            catch(Throwable e)
-				            {
-				            	System.out.println("Возникла ошибка преобразования пути!!! Попали в блок по исправлению "+fileName);
-				           
-				            	fileName = fileName.substring(fileName.indexOf("=")+2, fileName.length());
-				            	
-				            	System.out.println("Исправлено на : "+fileName);
-				            	
-				            	part.write(uploadFilePath + File.separator + fileName);
-				            }
-				            // склеиваем весь путь!!
-				            absolutePath = uploadFilePath + File.separator + fileName;
-				            System.out.println("Абсолюте !!"+absolutePath);
-				            
-				        
-				            List<ArrayList<String>> bag = null;
-							try { bag =  paseInputStreamExcelForQuery(absolutePath); } catch (Exception e) {e.printStackTrace();}
-							// по каждому енп формируем последовательность действий
-							List<ArrayList<String>> task = createTasks(bag);
-							// запускаем в поток
-							List<String> listEnpForDeleteFromExcel =  new ArrayList<String>();
-							try { threads(task,listEnpForDeleteFromExcel); } catch (InterruptedException e) {e.printStackTrace();}
-							System.out.println("listEnpForDeleteFromExcel "+listEnpForDeleteFromExcel);
-							deleteFromTaskXLS(listEnpForDeleteFromExcel,absolutePath,chancheOutEnp);
-		            }
-		            else
-		            {
-		            	
-		            }
-        }*/
     }
     
     protected void doGet(HttpServletRequest request,
@@ -262,10 +201,7 @@ public class ProcessErrorGZ extends HttpServlet {
         for (String token : tokens) 
         {
         	/*
-        	 * 
         	 * Извлекаем из подстроки начиная с крайнего правого слеша
-        	 * 
-        	 * 
         	 */
         	int count = 0;
             if (token.trim().startsWith("filename")) 
@@ -331,6 +267,7 @@ public class ProcessErrorGZ extends HttpServlet {
 		private ArrayList<String> taskQueue;
 		private UtilForErrorGz ul;
 		private List<String> listEnpForDeleteFromExcel;
+		private ArrayList<String> st = new ArrayList<String>();
 		
 		AutoThread(ArrayList<String> taskQueue,UtilForErrorGz ul,List<String> listEnpForDeleteFromExcel) {
 			this.taskQueue = taskQueue;
@@ -370,36 +307,16 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					    zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1pr после после нулевого ответа");
 		    					    
 		    					    person.setZpList(zp);
-		    					    // если на zp1pr пришел пусьтой ответ (потом можено доюавить отвпавку a08p01 с обычными данными)
+		    					    // если на zp1pr пришел пустой ответ (потом можно добавить отвпавку a08p01 с обычными данными)    ДОРАБОТАТь
 		    					    if(person.getZpList().size() == 0) {
 		    					    	listcol.remove(0);
 		    					    	System.out.println("Exit from thread becouse zp1pr NULL response "+ filename);
     		    						return;	
+		    					    }else
+		    					    {
+		    					    	person.setZp(person.getZpList().get(0));
 		    					    }
-		    					    person.setZp(person.getZpList().get(0));
-		    					    filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after ZP1 == NULL response and Zp1pr "+ filename);
-    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
-	    							{
-    									// проверяем результат п03
-	    								filename = new MessageZp1(fileTransfer, res, person).create();
-	    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
-	    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
-	    								{
-	    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if ZP1 null => Zp1pr => A08P03pr ) "+ filename);
-	    									listcol.remove(0);
-	    									return;
-    									}
-	    								else 
-	    								{
-	    									listcol.remove(0);
-	    		    						System.out.println("Exit from thread becouse VS BAD after (condition if ZP1 null => Zp1pr => A08P03pr )");
-	    		    						return;	
-	    								}
-	    							}	
 		    					    
-		    					    
-		    						
-		    						
 		    					}
 		    					
 	    					}else
@@ -450,9 +367,12 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					System.out.println("Exit from thread on OK VsNum");
 	    					}else
 		    				{
-	    						// если фасет внутреннего енп (из нашей базы) совпадает
-	    					
+	    						System.out.println("@@@@@@@@@@@ "+person.getZp());
 	    						enpCalc = ul.enp_calc(person.getPerson_birthday2(), Integer.valueOf(person.getPerson().getPerson_sex())+1);
+    						 if(person.getZp().getIn1_15().equals("50000"))
+	    					 {
+	    						// если фасет внешнего енп (в нашей базы) совпадает
+	    					
 	    						
 	    						if(	person.getPerson().getPersonAdd().getEnp().substring(2, 10).equals(enpCalc) )
 	    						{
@@ -547,199 +467,173 @@ public class ProcessErrorGZ extends HttpServlet {
 								    							}	
 								    						}else
 								    							{
-								    							// вставил вначале p03 по обычным фио др тк бывает что ласты указывают оч старые, которых нет в цс
 								    							
-									    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 (before A08P03 after A08P03pr)"+ filename);
-									    							if(ul.waitUprak2(filename, "Wait response A03P03 Send A08P03 (before A08P03 after A08P03pr)"+filename))
-									    							{
-									    								// send and check resalt п03
-									    								filename = new MessageZp1(fileTransfer, res, person).create();
-									    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 Send A08P03 (before A08P03 after A08P03pr)");
-									    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after  (before A08P03 after A08P03pr)"+ filename);System.out.println("Exit from thread on OK VsNum"); listcol.remove(0); return;}
-									    								else
-										    							{
-										    								System.out.println(" NO set VSNUm after (before A08P03 after A08P03pr)");
-										    							}
-									    							}	
-								    							//=============================================
-								    							
-								    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr "+ filename);
-								    								if(ul.waitUprak2(filename, "Wait response A03P03pr "+filename))
-									    							{
-								    									// проверяем результат п03
-									    								filename = new MessageZp1(fileTransfer, res, person).create();
-									    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
-									    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
-									    								{
-									    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr "+ filename);
-								    									}
-									    								else
-									    								{ 
-									    									
-									    									
-									    									/* --------------------------------------------*/
-									    									
-									    									System.out.println("NO set VSNUm after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio )");
-										    								System.out.println("Trying to learn a data our person from db");
-										    								/*
-											    								1. Делаем запрос в нашу бд по енп пришедшему на zp1 
-											    								2. Через set устанавливаем объекту data  замолчанные им ласты 
-											    								3. выполняем п03pr
-											    							*/	 		
-										    								for(Zp m : zp)
-										    								{
-										    									if(m.getNpp() == 0)
-										    									{
-										    										 Person p =  Factory.getInstance().getPersonDAO().getPerson(m.getPid3cx1_1());
-										    										 // хотя бы по одному пункту должно быть равенство (т.е. либо ластфам=фам или ластотчест=отчест и тд...)
-										    										 /*
-										    										  * Что здесь делаем
-										    										  * Сравниваем нашего застрахованного из мешка(Иванов) по фио с человеком(Петров) из нашей базы у которого енп пришло в ответе zp1 Иванова
-										    										  * И если у Петрова хотя бы 1 фищд совпадает с Ивановым то берем в качестве ластов инициалы Петрова
-										    										  * Зачем
-										    										  * Бывает так что ласты Иванова указаны не правильно или вовсе не указаны и мы расчитываем на то что ранее этот человек был
-										    										  * застрахован как петров.
-										    										  * Надо доработать тк берет только по person а можно еще порикрутить personadd
-										    										  */
-										    										 if(equalsInitials(p,person))
-										    										 {
-										    											 person.getPerson().getPersonAdd().setLast_fam(p.getPerson_surname());
-											    										 person.getPerson().getPersonAdd().setLast_im(p.getPerson_kindfirstname());
-											    										 person.getPerson().getPersonAdd().setLast_ot(p.getPerson_kindlastname());
-											    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
-										    										 }else
-										    										 {
-										    											 System.out.println("Есть подозрение что это др чел или енп начинается не на 54... "+ filename);
-										    											 System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"); listcol.remove(0); return;
-										    											 
-										    										 }
-										    										 
-										    										 
-										    									}
-										    								}
-										    								
-										    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )"+ filename);
-										    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
+										    							//=====================================================================================================
+										    							
+										    							/* вставил вначале p03 по обычным фио др тк бывает что ласты указывают оч старые, которых нет в цс
+										    							 @@@@@@@@@@@@@@@@@@@ вставить проверкку на коллизию. проблема в том что yprak2 p03 не парсит ответ на коллизию
+										    							 если в составе нового зл дубль и ласты == новым то 90% проблема в снисл
+										    							*/
+											    							filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 (before A08P03 after A08P03pr)"+ filename);
+											    							if(ul.waitUprak2(filename, "Wait response A03P03 Send A08P03 (before A08P03 after A08P03pr)"+filename))
+											    							{
+											    								// send and check resalt п03
+											    								filename = new MessageZp1(fileTransfer, res, person).create();
+											    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 Send A08P03 (before A08P03 after A08P03pr)");
+											    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after  (before A08P03 after A08P03pr)"+ filename);System.out.println("Exit from thread on OK VsNum"); listcol.remove(0); return;}
+											    								else
+												    							{
+												    								System.out.println(" NO set VSNUm after (before A08P03 after A08P03pr)");
+												    							}
+											    							}	
+										    							//=============================================
+										    							
+										    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr "+ filename);
+										    								if(ul.waitUprak2(filename, "Wait response A03P03pr "+filename))
 											    							{
 										    									// проверяем результат п03
 											    								filename = new MessageZp1(fileTransfer, res, person).create();
-											    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )");
+											    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr ");
 											    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
 											    								{
-											    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio ) "+ filename);
-										    									}else
-										    									{
-										    										System.out.println("VSnum is NO after A08P03pr after set last fiod, condition if last birthday=bythday and diffrent last fio vs fio ");
-										    										/*
-										    										 * Проталкиваем через сценарий что колизия енп. т.е. мы пытаемся толкнуть человека 
-										    										 * который уже есть в цс и цс считает что он совсем другой (т.е. типа используем перс данные др человека)
-										    										 * Обычно в таких ситуациях делается zp1  и там выдно в ответе  что 2 человека выпадает и их потом объединяем
-										    										 * Но есть случаи когда вылазие просто ошибка коллизия енп или попытка использовать перс данные др человека (помоему так)
-										    										 * В этом случае
-										    										 * 1. Делаем zp1 по ластам
-										    										 * 2. меняем по p16 на новые фио или др
-										    										 * 3. zp1 на новых данных с проверкой на два npp0
-										    										 */
-										    										
-										    										System.out.println("A08P16 меняем на новые фио. Данные для p16 используем из zp1 по ластам");
-										    										/* обновляем. Иногда, получается что set ласты не отличаются отновых 
-										    										 * т.е. была 1. Иванова А.А
-										    										 * пришла в страховую менять с Ивановой А.Н. на Иванову А.А. 
-										    										 * и по алгоритму мы обращаеся к фио 1. 
-										    										 */
-										    										person = new Data(taskQueue.get(0));
-										    										filename = new MessageZp1pr(fileTransfer, res, person).create();
-												    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1pr for A08P16 chanche last fio on new fio dr"+ filename);
-												    								// устанавливаем любой npp zp1 тк гл енп одинаковый
-												    								if(zp.size() > 0)// если пустой ответ 
+											    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr "+ filename);
+										    									}
+											    								else
+											    								{ 
+											    									
+											    									
+											    									/* --------------------------------------------*/
+											    									
+											    									System.out.println("NO set VSNUm after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio )");
+												    								System.out.println("Trying to learn a data our person from db");
+												    								/*
+													    								1. Делаем запрос в нашу бд по енп пришедшему на zp1 
+													    								2. Через set устанавливаем объекту data  замолчанные им ласты 
+													    								3. выполняем п03pr
+													    							*/	 		
+												    								for(Zp m : zp)
 												    								{
-												    									person.setZp(zp.get(0));
+												    									if(m.getNpp() == 0)
+												    									{
+												    										 Person p =  Factory.getInstance().getPersonDAO().getPerson(m.getPid3cx1_1());
+												    										 // хотя бы по одному пункту должно быть равенство (т.е. либо ластфам=фам или ластотчест=отчест и тд...)
+												    										 /*
+												    										  * Что здесь делаем
+												    										  * Сравниваем нашего застрахованного из мешка(Иванов) по фио с человеком(Петров) из нашей базы у которого енп пришло в ответе zp1 Иванова
+												    										  * И если у Петрова хотя бы 1 фищд совпадает с Ивановым то берем в качестве ластов инициалы Петрова
+												    										  * Зачем
+												    										  * Бывает так что ласты Иванова указаны не правильно или вовсе не указаны и мы расчитываем на то что ранее этот человек был
+												    										  * застрахован как петров.
+												    										  * Надо доработать тк берет только по person а можно еще порикрутить personadd
+												    										  */
+												    										 if(equalsInitials(p,person))
+												    										 {
+												    											 person.getPerson().getPersonAdd().setLast_fam(p.getPerson_surname());
+													    										 person.getPerson().getPersonAdd().setLast_im(p.getPerson_kindfirstname());
+													    										 person.getPerson().getPersonAdd().setLast_ot(p.getPerson_kindlastname());
+													    										 person.getPerson().getPersonAdd().setLast_dr(p.getPerson_birthday());
+												    										 }else
+												    										 {
+												    											 System.out.println("Есть подозрение что это др чел или енп начинается не на 54... "+ filename);
+												    											 System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"); listcol.remove(0); return;
+												    											 
+												    										 }
+												    										 
+												    										 
+												    									}
 												    								}
-												    								else{ System.out.println("Пустой ответ на zp1pr ");System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"); listcol.remove(0); return; }
 												    								
-												    								filename = new MessageA08p16chanchelastfioOnnew(fileTransfer, res, person).create(); System.out.println("Send A08P16pr chanche last fio on new - "+ filename);
-											    									if(ul.waitUprak2(filename, "Wait response A08P16pr chanche last fio on new "+filename))
+												    								filename = new MessageA08p03pr(fileTransfer, res, person).create(); System.out.println("Send A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )"+ filename);
+												    								if(ul.waitUprak2(filename, "Wait response A03P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio ) "+filename))
 													    							{
-											    										 filename = new MessageZp1(fileTransfer, res, person).create();
-											    						    				zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после A08P16pr chanche last fio on new "); 
-											    							    				if(ul.checkRespons(zp,taskQueue.get(0),person))
-											    							    				{
-											    							    					// проверка на пустой ответ zp1 
-											    							    					if(person.getZpList() !=null)
-											    							    					{
-											    							    						person.setZp(person.getZpList().get(0)); System.out.println("Check is double response OK");
-											    							    						
-											    							    						filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
-											    						    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last empty "+filename))
-											    						    							{
-											    						    								// send and check resalt п03
-											    						    								filename = new MessageZp1(fileTransfer, res, person).create();
-											    						    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 after A08P16pr chanche last fio on new");
-											    						    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr chanche last fio on new and A08P03 "+ filename);System.out.println("Exit from thread on OK VsNum");}
-											    						    								else
-											    							    							{
-											    						    									System.out.println("VSnum is NO after ZP1pr A08P16pr A08P03"+ filename);
-											    							    							}
-										    						    								}
-											    							    					}
-											    							    					else
-											    							    					{
-											    							    						listcol.remove(0);
-											    							    						System.out.println("Exit from thread becouse null response on ZP1");
-											    							    						return;
-											    							    						
-											    							    					}
-											    							    					
-											    						    					}else
-											    						    					{
-
-											    							    					// объединение п10
-											    							    					// цепляем вторую часть ответа из zp1 (она будет участвовать в объединении в блоке pid2 в первом блоке участвуют данные из нашей базы)
-											    							    					person.setZp(person.getZpList().get(1));
-											    							    					filename = new MessageA24p10(fileTransfer, res, person).create();
-											    							    					
-											    							    							if(ul.waitUprak2(filename, "Ожидаем ответа на A24P10"))
-											    							    							{
-											    							    								// проверяем ответ zp1 после объединения
-											    							    								filename = new MessageZp1(fileTransfer, res, person).create();
-											    							    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после первой попытки объединения");
-											    							    								if(ul.checkRespons(zp,taskQueue.get(0),person))
-											    							    								{
-											    							    									person.setZp(person.getZpList().get(0));	System.out.println("Check is double response OK");
-											    							    									
-											    							    									filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
-														    						    							if(ul.waitUprak2(filename, "Wait response A03P03 after A24P10 and A08P16pr"+filename))
-														    						    							{
-														    						    								// send and check resalt п03
-														    						    								filename = new MessageZp1(fileTransfer, res, person).create();
-														    						    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 after A08P16pr chanche last fio on new");
-														    						    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr chanche last fio on new and A08P03 "+ filename);System.out.println("Exit from thread on OK VsNum");}
-														    						    								else
-														    							    							{
-														    						    									System.out.println("VSnum is NO after ZP1pr A08P16pr A08P03"+ filename);
-														    							    							}
-													    						    								}
-											    							    									
-											    							    								}
-											    							    								else
-											    							    								{
-											    							    									System.out.println("Check is double response BAD");
-											    							    									// цепляем вторую часть ответа из zp1 (она будет участвовать в объединении в блоке pid2 в первом блоке участвуют данные из нашей базы)
-											    							    			    					person.setZp(person.getZpList().get(0));
-											    							    			    					filename = new MessageA24p10(fileTransfer, res, person).create();
-											    							    			    					if(ul.waitUprak2(filename, "Ожидаем ответа на A24P10"))
-											    									    							{
-											    							    			    						// проверяем ответ zp1 после объединения
-											    									    								filename = new MessageZp1(fileTransfer, res, person).create();
-											    									    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после второй объединения");
-											    									    								if(ul.checkRespons(zp,taskQueue.get(0),person))
-											    									    								{
-											    										    								// присваиваем последнюю запись с npp
-											    									    									person.setZp(person.getZpList().get(0));	
-											    									    									System.out.println("Check is double response OK");
-											    									    									
-											    									    									filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
-																    						    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last empty "+filename))
+												    									// проверяем результат п03
+													    								filename = new MessageZp1(fileTransfer, res, person).create();
+													    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03pr after set last fiod (condition if last birthday=bythday and diffrent last fio vs fio )");
+													    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+													    								{
+													    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio ) "+ filename);
+												    									}else
+												    									{
+												    										System.out.println("VSnum is NO after A08P03pr after set last fiod, condition if last birthday=bythday and diffrent last fio vs fio ");
+												    										/*
+												    										 * Проталкиваем через сценарий что колизия енп. т.е. мы пытаемся толкнуть человека 
+												    										 * который уже есть в цс и цс считает что он совсем другой (т.е. типа используем перс данные др человека)
+												    										 * Обычно в таких ситуациях делается zp1  и там выдно в ответе  что 2 человека выпадает и их потом объединяем
+												    										 * Но есть случаи когда вылазие просто ошибка коллизия енп или попытка использовать перс данные др человека (помоему так)
+												    										 * В этом случае
+												    										 * 1. Делаем zp1 по ластам
+												    										 * 2. меняем по p16 на новые фио или др
+												    										 * 3. zp1 на новых данных с проверкой на два npp0
+												    										 */
+												    										
+												    										System.out.println("A08P16 меняем на новые фио. Данные для p16 используем из zp1 по ластам");
+												    										/* обновляем. Иногда, получается что set ласты не отличаются отновых 
+												    										 * т.е. была 1. Иванова А.А
+												    										 * пришла в страховую менять с Ивановой А.Н. на Иванову А.А. 
+												    										 * и по алгоритму мы обращаеся к фио 1. 
+												    										 */
+												    										person = new Data(taskQueue.get(0));
+												    										filename = new MessageZp1pr(fileTransfer, res, person).create();
+														    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1pr for A08P16 chanche last fio on new fio dr"+ filename);
+														    								// устанавливаем любой npp zp1 тк гл енп одинаковый
+														    								if(zp.size() > 0)// если пустой ответ 
+														    								{
+														    									person.setZp(zp.get(0));
+														    								}
+														    								else{ System.out.println("Пустой ответ на zp1pr ");System.out.println("NTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"); listcol.remove(0); return; }
+														    								
+														    								filename = new MessageA08p16chanchelastfioOnnew(fileTransfer, res, person).create(); System.out.println("Send A08P16pr chanche last fio on new - "+ filename);
+													    									if(ul.waitUprak2(filename, "Wait response A08P16pr chanche last fio on new "+filename))
+															    							{
+													    										 filename = new MessageZp1(fileTransfer, res, person).create();
+													    						    				zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после A08P16pr chanche last fio on new "); 
+													    							    				if(ul.checkRespons(zp,taskQueue.get(0),person))
+													    							    				{
+													    							    					// проверка на пустой ответ zp1 
+													    							    					if(person.getZpList() !=null)
+													    							    					{
+													    							    						person.setZp(person.getZpList().get(0)); System.out.println("Check is double response OK");
+													    							    						
+													    							    						filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
+													    						    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last empty "+filename))
+													    						    							{
+													    						    								// send and check resalt п03
+													    						    								filename = new MessageZp1(fileTransfer, res, person).create();
+													    						    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 after A08P16pr chanche last fio on new");
+													    						    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr chanche last fio on new and A08P03 "+ filename);System.out.println("Exit from thread on OK VsNum");}
+													    						    								else
+													    							    							{
+													    						    									System.out.println("VSnum is NO after ZP1pr A08P16pr A08P03"+ filename);
+													    							    							}
+												    						    								}
+													    							    					}
+													    							    					else
+													    							    					{
+													    							    						listcol.remove(0);
+													    							    						System.out.println("Exit from thread becouse null response on ZP1");
+													    							    						return;
+													    							    						
+													    							    					}
+													    							    					
+													    						    					}else
+													    						    					{
+		
+													    							    					// объединение п10
+													    							    					// цепляем вторую часть ответа из zp1 (она будет участвовать в объединении в блоке pid2 в первом блоке участвуют данные из нашей базы)
+													    							    					person.setZp(person.getZpList().get(1));
+													    							    					filename = new MessageA24p10(fileTransfer, res, person).create();
+													    							    					
+													    							    							if(ul.waitUprak2(filename, "Ожидаем ответа на A24P10"))
+													    							    							{
+													    							    								// проверяем ответ zp1 после объединения
+													    							    								filename = new MessageZp1(fileTransfer, res, person).create();
+													    							    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после первой попытки объединения");
+													    							    								if(ul.checkRespons(zp,taskQueue.get(0),person))
+													    							    								{
+													    							    									person.setZp(person.getZpList().get(0));	System.out.println("Check is double response OK");
+													    							    									
+													    							    									filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
+																    						    							if(ul.waitUprak2(filename, "Wait response A03P03 after A24P10 and A08P16pr"+filename))
 																    						    							{
 																    						    								// send and check resalt п03
 																    						    								filename = new MessageZp1(fileTransfer, res, person).create();
@@ -750,29 +644,60 @@ public class ProcessErrorGZ extends HttpServlet {
 																    						    									System.out.println("VSnum is NO after ZP1pr A08P16pr A08P03"+ filename);
 																    							    							}
 															    						    								}
-																    						    							
-											    								    									}else
-											    								    									{
-											    								    										System.out.println("Check is double response BAD");
-											    							    										}
-											    									    							}
-											    						    									}
-											    							    							}
-											    							    				
-											    						    					}
+													    							    									
+													    							    								}
+													    							    								else
+													    							    								{
+													    							    									System.out.println("Check is double response BAD");
+													    							    									// цепляем вторую часть ответа из zp1 (она будет участвовать в объединении в блоке pid2 в первом блоке участвуют данные из нашей базы)
+													    							    			    					person.setZp(person.getZpList().get(0));
+													    							    			    					filename = new MessageA24p10(fileTransfer, res, person).create();
+													    							    			    					if(ul.waitUprak2(filename, "Ожидаем ответа на A24P10"))
+													    									    							{
+													    							    			    						// проверяем ответ zp1 после объединения
+													    									    								filename = new MessageZp1(fileTransfer, res, person).create();
+													    									    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Ожидание ответа ZP1 после второй объединения");
+													    									    								if(ul.checkRespons(zp,taskQueue.get(0),person))
+													    									    								{
+													    										    								// присваиваем последнюю запись с npp
+													    									    									person.setZp(person.getZpList().get(0));	
+													    									    									System.out.println("Check is double response OK");
+													    									    									
+													    									    									filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 when all last empty "+ filename);
+																		    						    							if(ul.waitUprak2(filename, "Wait response A03P03 when all last empty "+filename))
+																		    						    							{
+																		    						    								// send and check resalt п03
+																		    						    								filename = new MessageZp1(fileTransfer, res, person).create();
+																		    						    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 after A08P16pr chanche last fio on new");
+																		    						    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0))){listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16pr chanche last fio on new and A08P03 "+ filename);System.out.println("Exit from thread on OK VsNum");}
+																		    						    								else
+																		    							    							{
+																		    						    									System.out.println("VSnum is NO after ZP1pr A08P16pr A08P03"+ filename);
+																		    							    							}
+																	    						    								}
+																		    						    							
+													    								    									}else
+													    								    									{
+													    								    										System.out.println("Check is double response BAD");
+													    							    										}
+													    									    							}
+													    						    									}
+													    							    							}
+													    							    				
+													    						    					}
+															    							}
+														    								
+												    										
+												    									}
 													    							}
 												    								
-										    										
-										    									}
+												    								
+											    									
+											    								}
 											    							}
-										    								
-										    								
-									    									
-									    								}
-									    							}
-								    								
-								    								
-								    							}
+								    					    
+								    					    
+								    					}
 								    					}else
 								    					{
 								    						System.out.println("Bythday different");
@@ -903,12 +828,113 @@ public class ProcessErrorGZ extends HttpServlet {
 	    						}
 	    						else{
 		    							System.out.println("Внешний или внутренний енп( В НАШЕЙ БАЗЕ) не правильно расчитан - "+filename);
-		    							ArrayList<String> st = new ArrayList<String>();
 		    							st.add(person.getPerson().getEnp());
 		    							st.add(person.getPerson().getPersonAdd().getEnp());
 		    							st.add(enpCalc);
+		    							
+		    							
+										 
+		    							/* 
+		    							 * 1. Вычисляем что именно неверно (тк по P16 можно сразу поменять и пол  и др) то достаточно чтобы дрzp1 != дрсейчас или полzo1 != пол сейчас (в принципе этот пункт
+		    							 *    можно пропустить тк менять меожно сразу все...НО тк система сырая - пусть будет в качестве элемента логики) 
+		    							 * 2. Если ласты фио == фио то A08P16 (с поправкой в старых данных(in) взять пол и др из zp1)
+		    							 * 3. Генерим новое енп внешнее енп в нашей базе
+		    							 * 4. А08P03 (старый енп в in новый в pid)
+		    							 */
+		    							// last fiod == fiod || last fiod ""
+		    							if((taskQueue.get(4).trim().equals("") && taskQueue.get(5).trim().equals("") && taskQueue.get(6).trim().equals("") && taskQueue.get(3).trim().equals("")) ||
+		    									taskQueue.get(4).trim().equals(taskQueue.get(7).trim()) && taskQueue.get(5).trim().equals(taskQueue.get(8).trim()) && taskQueue.get(6).trim().equals(taskQueue.get(9).trim()) && taskQueue.get(3).trim().equals(taskQueue.get(2).trim()) 
+		    									) 
+		    							{
+			    							filename = new MessageA08p16emptyalllast(fileTransfer, res, person).create(); System.out.println("Send A08P16 last fiod == fiod (features in1 pid7 pid8 from zp1)- "+ filename);
+											if(ul.waitUprak2(filename, "Wait response A08P16 last fiod == fiod (features in1 pid7 pid8 from zp1) "+filename))
+			    							{
+												String oldenp = person.getPerson().getPersonAdd().getEnp();
+												 person.newEnp();
+												 Data oers = new Data(person.getPerson().getEnp());
+												 String newenp = oers.getPerson().getPersonAdd().getEnp();
+												person.getPerson().getPersonAdd().setEnp(newenp);
+												st.add(newenp);
+												filename = new MessageA08p03(fileTransfer, res, person).create(); System.out.println("Send A08P03 last fiod == fiod - "+ filename);
+		    									if(ul.waitUprak2(filename, "Wait response A03P03 last fiod == fiod -  "+filename))
+				    							{
+		    										filename = new MessageZp1(fileTransfer, res, person).create();
+				    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P03 last fiod == fiod- " + filename);
+				    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+				    								{
+				    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P16 + A08P03  last fiod == fiod  - "+ filename);
+				    								}
+				    								else
+				    								{
+				    									System.out.println("VSnum is NO after A08P16 + A08P03   last fiod == fiod  - "+ filename);
+				    								}
+				    							}
+			    							}
+		    							}
+		    						
+		    							
 		    							chancheOutEnp.add(st);
 	    							}
+	    						//===========================================================================================
+	    					 	}else
+	    					    	// БЛОК КОГДА ZP1 ИЛИ ZP1pr ПРИХОДИТ НЕ НА 50000 ОКАТО
+			    					    {
+		    					    		if(	person.getPerson().getPersonAdd().getEnp().substring(2, 10).equals(enpCalc) ) 
+		    					    		{
+		    					    			System.out.println("Okato !=50000 EnpCalc OK");
+		    					    			if(getNppZero(zp).equals(String.valueOf(Integer.valueOf(person.getPerson_sex()))) )
+					    						{
+		    					    				System.out.println("Okato !=50000 Sex OK ");
+		    					    				//проверка даты рождения или др из zp1pid7
+							    					if(taskQueue.get(2).equals(taskQueue.get(3)) && taskQueue.get(2).equals(person.getZpPid7f()))
+							    					{
+							    						System.out.println("Okato !=50000 DR OK ");
+						    					    	filename = new MessageA08p03pr_anouthOkato(fileTransfer, res, person).create(); System.out.println("Send A08P03pr_anouthOkato after ZP1 == NULL response and Zp1pr "+ filename);
+						    					    	if(ul.waitUprak2(filename, "Wait response A08P03pr_anouthOkato"+filename))
+						    							{
+						    					    		filename = new MessageZp1pr(fileTransfer, res, person).create();
+								    					    zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1pr after A08P03pr_anouthOkato");
+								    					    person.setZp(person.getZpList().get(0));
+								    					    System.out.println("@@@@@@@@@@@@@@@@@@@@@Проверить@@@@@@@@@@@@@@@@@@@@ "+ person.getZp());
+								    					    // почему-то не идет на п16
+								    					    // при npp = 0
+								    					    if(person.getZp().getIn1_15().trim().equals("50000"))
+								    					    {
+								    					    	filename = new MessageA08p16chanchelastfioOnnew(fileTransfer, res, person).create(); System.out.println("Send A08P16pr after A08P03pr_anouthOkato - "+ filename);
+						    									if(ul.waitUprak2(filename, "Wait response A08P16pr after A08P03pr_anouthOkato "+filename))
+								    							{
+						    										filename = new MessageZp1(fileTransfer, res, person).create();
+								    								zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1 after A08P16pr after A08P03pr_anouthOkato " + filename);
+								    								if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
+								    								{
+								    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK fter A08P16pr after A08P03pr_anouthOkato "+ filename);
+								    									//listcol.remove(0);
+								    									//return;
+								    								}
+								    							}
+								    					    }
+								    					    else
+								    					    {
+								    					    	System.out.println("Exit becouse A08P03pr_anouthOkato is not OK");
+								    					    	//listcol.remove(0);
+						    									//return;
+								    					    }
+						    							}
+							    					}
+							    					else
+							    					{
+							    						System.out.println("Okato !=50000 DR bad ");
+						    					    	/*
+						    					    	 * т.е. бывает что енп расчитан правильно (фасет совпадает) а в ответе на zp1 приходит др не соответствующая енп
+						    					    	 * + осложняет то что этот человек на др территории
+						    					    	 * Алгоритм
+						    					    	 * p16 под другим окато и от другого региона!!!!  меняем дату рождения
+						    					    	 * p03 с ластами или же бех них, перетаскиваем на нашу территорию
+						    					    	 */
+							    					}
+					    						}	
+		    					    		}    	
+			    					    }
 		    				}
 		    				
 		    				if(listcol.size()>0){listcol.remove(0);}
@@ -1031,11 +1057,30 @@ public class ProcessErrorGZ extends HttpServlet {
 		
 		if(chanche.size()>0)
 		{
+			//wb.getSheet("На изменение внешнего енп");
 			sheet = wb.createSheet("На изменение внешнего енп");
 			
-			for(int i= 0; i< chanche.size();i++)
+			excelRow = sheet.createRow(0);
+			excelRow = sheet.getRow(0);			
+			excelCell = excelRow.createCell(0);
+			excelCell = excelRow.getCell(0);
+			excelCell.setCellValue("Внутренний енп");
+			
+			excelCell = excelRow.createCell(1);
+			excelCell = excelRow.getCell(1);
+			excelCell.setCellValue("Внеш в нашей бд");
+			
+			excelCell = excelRow.createCell(2);
+			excelCell = excelRow.getCell(2);
+			excelCell.setCellValue("Фасет");
+			
+			excelCell = excelRow.createCell(3);
+			excelCell = excelRow.getCell(3);
+			excelCell.setCellValue("Новый енп");
+			
+			for(int i= 1; i< chanche.size();i++)
 			{
-				ArrayList<String> row = chanche.get(i);
+				ArrayList<String> row = chanche.get(i-1);
 				
 				excelRow = sheet.createRow(i);
 				excelRow = sheet.getRow(i);			
@@ -1050,6 +1095,10 @@ public class ProcessErrorGZ extends HttpServlet {
 				excelCell = excelRow.createCell(2);
 				excelCell = excelRow.getCell(2);
 				excelCell.setCellValue(row.get(2));
+				
+				excelCell = excelRow.createCell(3);
+				excelCell = excelRow.getCell(3);
+				excelCell.setCellValue(row.get(3));
 			}
 			
 			

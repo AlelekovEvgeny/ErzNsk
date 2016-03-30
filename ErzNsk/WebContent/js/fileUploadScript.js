@@ -62,7 +62,9 @@ function ProcessReportErrorGZ()
 	        complete: function(jqXHR, textStatus)
 	        {}    
 		});
-	
+	/*
+	  При нажатии обработка ошибок гознака делать запрос на наличие количества заданий ,если другим способом то затирается эксель
+	*/
 	setTimeout(function(){/*console.log(shtrout != 'stop'); */ if(shtrout != 'stop'){ checkProgressErrorGZ();}else{
 		$('#messageupload').css('display','block');
 		$("#messageupload").html("<font color='red'><i class='fa fa-warning faa-flash animated-hover'></i> Ошибка. Задание ранее загружено и работает. Обратитесь к поддержке.</font>");

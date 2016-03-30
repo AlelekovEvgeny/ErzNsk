@@ -138,7 +138,7 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 	
 	@Override
-	public void newEnp(String enp) {
+	public void  newEnp(String enp) {
 		Session session = null;
 		Query query = null;
         try {
@@ -146,6 +146,7 @@ public class PersonDAOImpl implements PersonDAO {
             query = session.createSQLQuery("update personadd pa set pa.enp = (select  enp.calc_kr('54'|| enp.calc_mmggggdd(persoN_birthday,person_sex + 1) || (enp.calc_nnnnn(person_birthday,person_sex + 1))) from person pp where pp.person_addressid = pa.personadd_addressid) where pa.personadd_addressid in (select p.person_addressid from person p where p.enp = :enp)");
             query.setParameter("enp", enp);
             query.executeUpdate();
+            
         } catch (Exception e) {
             System.out.println("Hibernate Ошибка newEnp " + e.getMessage());
         } finally {
@@ -153,6 +154,7 @@ public class PersonDAOImpl implements PersonDAO {
                 session.close();
             }
         }
+        
 	}	
 	
 }

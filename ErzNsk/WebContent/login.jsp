@@ -32,7 +32,7 @@ body{ margin:0px; background:#000; }
 </head>
 <body>
 <div id="bg_container">
-  <video id="bg" src="image/videoplayback2.mp4" autoplay="true" loop="true" muted="true"></video>
+  <video id="bg" src="image/videoplayback1.mp4" autoplay="true" loop="true" muted="true"></video>
 </div>
 <div id="content">
   <div class="container">
@@ -53,7 +53,7 @@ body{ margin:0px; background:#000; }
     $(document).ready(function()
     		{ 
     				var vid = document.getElementById("bg");
-    				vid.playbackRate = 0.5;
+    				vid.playbackRate = 1;
 
     		});
 

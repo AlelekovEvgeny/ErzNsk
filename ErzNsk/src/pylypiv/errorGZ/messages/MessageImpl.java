@@ -275,6 +275,7 @@ public abstract class MessageImpl implements Message {
 		pid5.addContent(new Element("XPN.3", namespace).addContent(data.getPerson().getPersonAdd().getLast_ot()));
 
 		pid.addContent(new Element("PID.7", namespace).addContent(data.getLast_dr()));
+		//pid.addContent(new Element("PID.7", namespace).addContent(data.getPerson_birthday()));
 		
 		pid.addContent(new Element("PID.8", namespace).addContent(data.getPerson_sex()));
 		

@@ -1,0 +1,64 @@
+апр 05, 2016 11:34:27 AM org.apache.tomcat.util.digester.SetPropertiesRule begin
+WARNING: [SetPropertiesRule]{Server/Service/Engine/Host/Context} Setting property 'source' to 'org.eclipse.jst.jee.server:ErzNsk' did not find a matching property.
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server version:        Apache Tomcat/7.0.63
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server built:          Jun 30 2015 08:08:33 UTC
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server number:         7.0.63.0
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Name:               Windows 8.1
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Version:            6.3
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Architecture:          x86
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Java Home:             D:\Java\jdk1.7.0_75\jre
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Version:           1.7.0_75-b13
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Vendor:            Oracle Corporation
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_BASE:         D:\Pylypiv\Eclipse\Workspace\ErzNsk\.metadata\.plugins\org.eclipse.wst.server.core\tmp0
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_HOME:         D:\Java
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.base=D:\Pylypiv\Eclipse\Workspace\ErzNsk\.metadata\.plugins\org.eclipse.wst.server.core\tmp0
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.home=D:\Java
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dwtp.deploy=D:\Pylypiv\Eclipse\Workspace\ErzNsk\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.endorsed.dirs=D:\Java\endorsed
+апр 05, 2016 11:34:27 AM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dfile.encoding=Cp1251
+апр 05, 2016 11:34:27 AM org.apache.catalina.core.AprLifecycleListener lifecycleEvent
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: D:\Java\jdk1.7.0_75\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Java/jdk1.7.0_75/bin/../jre/bin/client;D:/Java/jdk1.7.0_75/bin/../jre/bin;D:/Java/jdk1.7.0_75/bin/../jre/lib/i386;C:\PROGRA~1\Borland\Delphi5\Projects\Bpl;C:\PROGRA~1\Borland\vbroker\jre\Bin;C:\PROGRA~1\Borland\vbroker\Bin;C:\PROGRA~1\Borland\Delphi5\Bin;C:\oracle\product\10.2.0\client_1\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Java\jdk1.7.0_75\bin;D:\Java\apache-ant-1.9.3\bin;C:\Program Files\TortoiseHg\;D:\Java\gradle-2.0\bin;C:\Program Files\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;D:\Scala\bin;D:\Scala\bin;D:\Scala\sbt\\bin;C:\Program Files\Skype\Phone\;C:\Program Files\GnuWin32\bin;D:\java;\bin;C:\Program Files\nodejs\;C:\Program Files\Brackets\command;C:\Program Files\Git\cmd;C:\Users\paa\AppData\Roaming\npm;D:\Pylypiv\Eclipse\eclipse-jee-mars-1-win32\eclipse;;.
+апр 05, 2016 11:34:28 AM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8082"]
+апр 05, 2016 11:34:28 AM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["ajp-bio-8012"]
+апр 05, 2016 11:34:28 AM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 447 ms
+апр 05, 2016 11:34:28 AM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Catalina
+апр 05, 2016 11:34:28 AM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.63
+апр 05, 2016 11:34:28 AM org.apache.catalina.startup.TldConfig execute
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+апр 05, 2016 11:34:28 AM org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(D:\Pylypiv\Eclipse\Workspace\ErzNsk\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ErzNsk\WEB-INF\lib\javax.servlet.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/servlet/Servlet.class
+апр 05, 2016 11:34:30 AM org.apache.catalina.startup.TldConfig execute
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+апр 05, 2016 11:34:30 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8082"]
+апр 05, 2016 11:34:30 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["ajp-bio-8012"]
+апр 05, 2016 11:34:30 AM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 2238 ms
+Подключение по JDBC Pool Oracle
+Хост имя asu-paa
+вошло на index ponomarev asu-paa
+Open Client websocket
+ConstantiNastrojki.otladkaXML= 0
+Итог пойманных ключей в серверной вэбсокета

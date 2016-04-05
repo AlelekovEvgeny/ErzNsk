@@ -283,6 +283,7 @@ public class ProcessErrorGZ extends HttpServlet {
 			ResObject res = new ResObject();
 			ArrayList<Zp> zp = null;
 			String enpCalc = "";
+			boolean flag = false;
 			for (int j = 1; j < taskQueue.size(); j++)
 			{
     			if(taskQueue.get(j).equals("ѕровека на дубликат"))
@@ -315,6 +316,7 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					    }else
 		    					    {
 		    					    	person.setZp(person.getZpList().get(0));
+		    					    	flag = true;
 		    					    }
 		    					    
 		    					}
@@ -363,11 +365,17 @@ public class ProcessErrorGZ extends HttpServlet {
 		    				// check vs
 		    				if(ul.checkVs(zp,taskQueue.get(1),taskQueue.get(0)))
 		    				{
+		    					System.out.println("@@@@@@@@@@@ "+person.getZp());
 		    					listEnpForDeleteFromExcel.add(taskQueue.get(0));
+		    					// если в ответе zp1pr стоит нужна€ vs просто в цс человек по ластам....надо помен€ть по p16 
+		    					if(flag) {
+		    						filename = new MessageA08p16chanchelastfioOnnew(fileTransfer, res, person).create(); System.out.println("Send A08P16pr after Zp1pr- "+ filename);
+		    					}
 		    					System.out.println("Exit from thread on OK VsNum");
+		    					
 	    					}else
 		    				{
-	    						System.out.println("@@@@@@@@@@@ "+person.getZp());
+	    						
 	    						enpCalc = ul.enp_calc(person.getPerson_birthday2(), Integer.valueOf(person.getPerson().getPerson_sex())+1);
     						 if(person.getZp().getIn1_15().equals("50000"))
 	    					 {
@@ -554,6 +562,7 @@ public class ProcessErrorGZ extends HttpServlet {
 													    									listEnpForDeleteFromExcel.add(taskQueue.get(0));	System.out.println("VSnum is OK after A08P03pr (condition if last birthday=bythday and diffrent last fio vs fio ) "+ filename);
 												    									}else
 												    									{
+												    										
 												    										System.out.println("VSnum is NO after A08P03pr after set last fiod, condition if last birthday=bythday and diffrent last fio vs fio ");
 												    										/*
 												    										 * ѕроталкиваем через сценарий что колизи€ енп. т.е. мы пытаемс€ толкнуть человека 
@@ -885,8 +894,9 @@ public class ProcessErrorGZ extends HttpServlet {
 		    					    			if(getNppZero(zp).equals(String.valueOf(Integer.valueOf(person.getPerson_sex()))) )
 					    						{
 		    					    				System.out.println("Okato !=50000 Sex OK ");
-		    					    				//проверка даты рождени€ или др из zp1pid7
-							    					if(taskQueue.get(2).equals(taskQueue.get(3)) && taskQueue.get(2).equals(person.getZpPid7f()))
+		    					    				//проверка: lastdr = dr && dr = drzp1
+		    					    				System.out.println("TEST "+ person.getZpPid7()+" "+taskQueue.get(2).subSequence(0, 10));
+							    					if(taskQueue.get(2).equals(taskQueue.get(3)) && taskQueue.get(2).subSequence(0, 10).equals(person.getZpPid7()))
 							    					{
 							    						System.out.println("Okato !=50000 DR OK ");
 						    					    	filename = new MessageA08p03pr_anouthOkato(fileTransfer, res, person).create(); System.out.println("Send A08P03pr_anouthOkato after ZP1 == NULL response and Zp1pr "+ filename);
@@ -894,6 +904,7 @@ public class ProcessErrorGZ extends HttpServlet {
 						    							{
 						    					    		filename = new MessageZp1pr(fileTransfer, res, person).create();
 								    					    zp = new ZpLoader().load(filename, taskQueue.get(0),"Wait response ZP1pr after A08P03pr_anouthOkato");
+								    					    person.setZpList(zp);
 								    					    person.setZp(person.getZpList().get(0));
 								    					    System.out.println("@@@@@@@@@@@@@@@@@@@@@ѕроверить@@@@@@@@@@@@@@@@@@@@ "+ person.getZp());
 								    					    // почему-то не идет на п16

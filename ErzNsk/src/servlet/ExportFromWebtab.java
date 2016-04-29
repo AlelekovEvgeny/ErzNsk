@@ -159,7 +159,7 @@ private static final long serialVersionUID = 1L;
 					 			if(j2>0){		/*System.out.println("LLLLLLLLLLLL "+	parseDate(f3.get(11))	);  */date = parseDate(f3.get(11),"dd.MM.yyyy");		}
 					 			
 					 			// енп вн, д13 или (d_d2 пусто и d13 > сегодня), окато,npp,  (нет -проверка соответствия № бланка (POL) из на БД)  
-					 			if(f.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) &&  f3.get(19).trim().equalsIgnoreCase("0") && ( f3.get(11).trim().equalsIgnoreCase("") || (	!d_d2.trim().equalsIgnoreCase("")/* && date.after(new Date())*/ )  )  && f3.get(12).trim().equalsIgnoreCase("50000"))
+					 			if(f.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) &&  f3.get(19).trim().equalsIgnoreCase("0") && ( f3.get(11).trim().equalsIgnoreCase("") || (	!d_d2.trim().equalsIgnoreCase("") && date.after(new Date()) )  )  && f3.get(12).trim().equalsIgnoreCase("50000"))
 					 			{
 					 				
 					 				// делаем проверку через запрос в базу 

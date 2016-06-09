@@ -2,6 +2,7 @@ package model.zp1ajax;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -15,6 +16,7 @@ public class ZpParser2 extends DefaultHandler {
 	private int qriCounter = 0;
 	public ZpRecord2 zpRecord = new ZpRecord2();
 	public CollectList cl = new CollectList();
+	public List<String> ls = new ArrayList<String>();
    	int counter = 1;
    	String d = null;
 	
@@ -124,6 +126,19 @@ public class ZpParser2 extends DefaultHandler {
     
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		
+		  /*
+		   * т.к при парсинге xml'я тег <PID29 /> не распознается то 
+		   * алгоритм: В коллекцию складываем три подряд идущих тега pid8 p29 pid30
+		   * если прилетает тэг <PID29 /> то коллекция заполнится pid8 pid30 ну и далее по коду ...if(ls.size() == 3) {}
+		   * И после каждого QRI (взял за отметку нового ЗЛ) коллекция зачищается для слудеющего ЗЛ
+		   */
+		
+		ls =  processemptyPID29(curElement,ls);
+		if(curElement.equals("PID.30")) 
+		{
+			if(ls.size() == 3) {}
+			else {zpRecord.setPID29("");}
+		}
 		
 		switch (curElement) {
 		case "PID.8": 
@@ -133,8 +148,12 @@ public class ZpParser2 extends DefaultHandler {
 			 * ГЋГ’ГЊГ…Г’ГЉГЂ ГЋ Г±Г¬ГҐГ°ГІГЁ
 			 */
 		case "PID.29":
-			zpRecord.setPID29(new String(ch, start, length));
+			String s29 = new String(ch, start, length);
+			zpRecord.setPID29(s29);
+			
 			break;
+		
+		
 			
 		case "PID.7": 
 				String s = new String(ch, start, length);
@@ -227,6 +246,18 @@ public class ZpParser2 extends DefaultHandler {
 				
 				break;					
 		}
-	} 
+	}
+	
+	private List<String> processemptyPID29(String var,List<String> list){
+		
+		if(var.equals("PID.8")) { list.add(var);}
+		if(var.equals("PID.29")) { list.add(var);}
+		if(var.equals("PID.30")) { list.add(var);}
+		
+		if(var.equals("QRI")) { list.clear();}
+		
+		
+		return list;
+	}
 
 }

@@ -17,7 +17,7 @@ public class ZpLoadMock2 extends CollectList{
 	public ArrayList<ArrayList<String>> load(String fileName)
 	{
 		File m = new File(Const.OUTPUTDONE + fileName + ".uprak2");
-		System.out.println("Длинна "+fileName+"   "+m.length());
+		System.out.println("Length "+fileName+"   "+m.length());
 		
 		XMLReader XMLReader;
 		try {

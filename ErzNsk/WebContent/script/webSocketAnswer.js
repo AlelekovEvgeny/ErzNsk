@@ -116,6 +116,7 @@ ws.onmessage =function(event)
     	if(event.data.indexOf('zp1') + 1) { kluch = 'zp1';	}
     	if(event.data.indexOf('list1enpzp9') + 1) { kluch = 'list1enpzp9';	}
     	if(event.data.indexOf('list1passportzp9') + 1) { kluch = 'list1passportzp9';	}
+    	if(event.data.indexOf('list1snilszp9') + 1) { kluch = 'list1snilszp9';	}
     	
 
     	// говорим что сообщение отработало

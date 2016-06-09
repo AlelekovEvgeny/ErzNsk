@@ -103,7 +103,6 @@ public class WsAnswer extends WebSocketServlet {
 		 * отправляется 0 или 1 Эти 2 ключа кладутся в коллекцию и запускается
 		 * по ифу то что пришло с клиента.
 		 */
-		@Override
 		protected void onTextMessage(CharBuffer arg0) throws IOException 
 		{
 
@@ -169,7 +168,7 @@ public class WsAnswer extends WebSocketServlet {
 										}
 										else
 										{
-											if(arg0.toString().length() >= 10 && (	arg0.toString().contains("list1enpzp9") ||	arg0.toString().contains("list1passportzp9")	)	)
+											if(arg0.toString().length() >= 10 && (	arg0.toString().contains("list1enpzp9") ||	arg0.toString().contains("list1passportzp9") ||	arg0.toString().contains("list1snilszp9")	)	)
 											{
 													listKluchi.add(arg0.toString());
 													System.out.println("Зашла на сервер сокет второя часть запроса ZP9test "+ listKluchi);
@@ -418,7 +417,7 @@ public class WsAnswer extends WebSocketServlet {
 				
 				while ("".equals(sentMessages)) {
 					try {
-						Thread.sleep(60000);
+						Thread.sleep(15000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -453,7 +452,7 @@ public class WsAnswer extends WebSocketServlet {
 		private void lovim_ostalnieZaprosi(WsOutbound myoutbound,String vidZaprosa, String jsonString) throws Exception
         {
 			 int sMO = 4,d_12 = 5,pERSON_DATEINPUT = 6,oKATO_3 =7,pERSON_SURNAME = 1,pERSON_KINDFIRSTNAME = 2,pERSON_KINDLASTNAME = 3,pERSON_BIRTHDAY = 21,tYPE_POL = 8,
-       			 pOL = 9,bORN = 18,eNP = 0,pERSON_SERDOC = 13,pERSON_NUMDOC = 14, pERSON_DOCPERSONID = 20,dATEPASSPORT = 15,d2=17,pERSON_SEX=16, rUSSIAN = 19;
+       			 pOL = 9,bORN = 18,eNP = 0,pERSON_SERDOC = 13,pERSON_NUMDOC = 14, pERSON_DOCPERSONID = 20,dATEPASSPORT = 15,d2=17,pERSON_SEX=16, rUSSIAN = 19,pid29 = 777;
 			int pERSON_LINKSMOESTABLISHMENTID= 0;
 			int pERSON_ADDRESSID= 0;
 			int sNILS = 0;
@@ -569,10 +568,10 @@ public class WsAnswer extends WebSocketServlet {
 				System.out.println("Поймали A08P02");
 				Message messageA08P02 = new MessageA08p02();
 				
-				if (task.add(userMachine))
-				{
+				//if (task.add(userMachine))
+				//{
 					messageforallquery(messageA08P02,myoutbound);
-				}
+				//}
 			}
         	
         	if(vidZaprosa.toString().equals("buttonZP9"))
@@ -610,15 +609,31 @@ public class WsAnswer extends WebSocketServlet {
             			Message messageZP9passport = new MessageZp9(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, pERSON_LINKSMOESTABLISHMENTID, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1);
             			messageforallquery2(messageZP9passport,myoutbound,list,"list1passportzp9");
         			}
+        			
+        			if(jsonString.contains("list1snilszp9"))
+        			{
+        				pERSON_SURNAME = 0;pERSON_KINDFIRSTNAME = 1;pERSON_KINDLASTNAME = 2;pERSON_BIRTHDAY = 3; pERSON_ADDRESSID= 4; int PERSON_SERPOLICY = 5; int PERSON_NUMPOLICY = 6;pERSON_SEX=7;pERSON_SERDOC = 8;pERSON_NUMDOC = 9;int PERSON_REGNUMBER = 10;pERSON_LINKSMOESTABLISHMENTID = 11;int PERSON_ESTABLISHMENTAMBUL = 12;int PERSON_DATECHANGE = 13,PERSON_ESTABLISHMENTDENT = 14,PERSON_SOCIALID = 15,PERSON_STATUSID = 16;pERSON_DOCPERSONID = 17; int PERSON_INSPECTION = 18,PERSON_OPERATION = 19,PERSON_STATUSREC = 20,PERSON_OUTID = 21,PERSON_INSPECTORID = 22,PERSON_ESTABLISHMENTID = 23,PERSON_DATEPOLICY = 24;pERSON_DATEINPUT = 25;eNP = 26;int SMO_OLD = 27,PERSONADD_ADDRESSID = 28,PERSONADD_PRIM = 29;sNILS = 30;bORN = 31;dATEPASSPORT = 32;rUSSIAN = 33;int TELEDOM = 34,TELEWORK = 35,EMAIL = 36,TELE2 = 37,DOK_VI = 38;eNP_PA= 39;int ZA = 40;zAD= 41; int ZAP = 42;int PRED = 43;d_V= 44;d_SER= 45;d_NUM= 46;int D_DATE = 47,METHOD = 48,PETITION = 49,FPOLIC = 50;pR_FAM = 51;pR_IM= 52;pR_OT= 53;int PR_TEL = 54;int PR_ADRES = 55;vS_NUM= 56;vS_DATE= 57;int D1 = 58;d2=59;int ENP_DATE = 60;lAST_FAM =61;lAST_IM= 62;lAST_OT= 63;lAST_DR= 64;int KATEG = 65,DATE_PRIK = 66,MSA =67;    
+       				    d_13= 777; eNP_1= 777;eNP_2= 777; p14cx1= 777;p14cx5= 777;p14cx6= 777;p14cx7= 777;uSER_PERSON_SURNAME= 777;xPN1= 777;xPN2 = 777;xPN3= 777;uSERNAME= 777;zADMINUS1= 777;zADPLUS40= 777;nBLANC= 777;vS_DATEPLUS1= 777;uSER_ENP= 777;uSER_PERSON_KINDFIRSTNAME= 777;uSER_PERSON_KINDLASTNAME= 777;uSER_SMO= 777;uSER_D_12= 777; d_12_PLUS1= 777;uSER_DOC_DATE= 777;uSER_DOCID= 777;uSER_NUMDOC= 777;uSER_SERDOC= 777;pFR_NOTID= 777;pFR_ID= 777; pFR_SNILS= 777;uSER_POL= 777;uSER_D_13= 777;uSER_OKATO_3= 777;uSER_TYPE_POL= 777;oKATO_3 = 777; tYPE_POL = 777;d_12 = 777;pOL = 777;
+        				
+        				jsonString = jsonString.replaceAll("list1snilszp9", "list1");
+        				System.out.println("Поймали buttonZP9");
+            			System.out.println("DataPassport "+ jsonString);
+            			
+            			list = parseStringFromList1(jsonString);
+            			System.out.println("parse into ArrayList<ArrayList<String>> "+list);
+            			
+            			Message messageZP9snils = new MessageZp9(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, pERSON_LINKSMOESTABLISHMENTID, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1);
+            			messageforallquery2(messageZP9snils,myoutbound,list,"list1snilszp9");
+        			}
 	        	}
 			}
         	
         	if(vidZaprosa.toString().equals("A08P02test"))
 			{
-        		 eNP_PA=0;	 pERSON_SURNAME=1;	  pERSON_KINDFIRSTNAME=2;	  pERSON_KINDLASTNAME=3;	 sMO=4;	 d_12=5;	 d_13=6;	 oKATO_3=7;	 tYPE_POL=8;	 pOL=9;	 pERSON_SERDOC=10;	 pERSON_NUMDOC=11;	 dATEPASSPORT=12;	 bORN=13;	 rUSSIAN=14;	 pERSON_DOCPERSONID=15;	 pERSON_SEX=16;	 pERSON_BIRTHDAY=17;d2=19;
+        		 eNP_PA=0;	 pERSON_SURNAME=1;	  pERSON_KINDFIRSTNAME=2;	  pERSON_KINDLASTNAME=3;	 sMO=4;	 d_12=5;	 d_13=6;	 oKATO_3=7;	 tYPE_POL=8;	 pOL=9;	 pERSON_SERDOC=10;	 pERSON_NUMDOC=11;	 dATEPASSPORT=12;	 bORN=13;	 rUSSIAN=14;	 pERSON_DOCPERSONID=15;	 pERSON_SEX=16;	 pERSON_BIRTHDAY=17;d2=19;pid29=20;
 
 				System.out.println("Поймали A08P02test"); 
-				Message messageA08P02 = new MessageA08p02(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, sMO, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1);
+				Message messageA08P02 = new MessageA08p02(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, sMO, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1,pid29);
 				if(!jsonString.equals("ostalnizaprosi"))
 	        	{
 	        		list = parseStringFromList1(jsonString);

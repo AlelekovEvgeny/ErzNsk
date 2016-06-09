@@ -84,9 +84,11 @@ html, body {
 } 
 body {
 
- background: url('../image/logo2.2.png'), url('../image/logo2.1.png') no-repeat center center fixed;
+ /*background: url('../image/logo2.2.png'), url('../image/logo2.1.png') no-repeat center center fixed;
  -webkit-background-size: auto,cover;
- background-size: auto,cover;
+ background-size: auto,cover;*/
+ 
+ 
   
  -webkit-background-blend-mode: multiply, normal;
  background-blend-mode: multiply, normal;

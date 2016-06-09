@@ -143,6 +143,34 @@ public class MessageZp9 extends MessageCommon {
 				}
 			}
 			
+			if(kluch.equals("list1snilszp9"))
+			{
+				for (int i = 1; i < count; i++)
+				{
+				
+					Element qbp_zp1 = new Element("QBP_ZP9", namespace);
+					rootElement.addContent(qbp_zp1);
+					
+					RandomGUID guidMsh = createMsh(namespace, curDate, qbp_zp1, "QBP", "ZP9", "QBP_ZP9");	
+					
+					Element qpd = new Element("QPD", namespace);
+					qbp_zp1.addContent(qpd);
+					
+					Element qpd1 = new Element("QPD.1", namespace);
+					qpd.addContent(qpd1);
+					qpd1.addContent(new Element("CWE.1", namespace).addContent("ÑÏ"));
+					qpd1.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.1.9"));
+					
+					Element qpd5_1 = new Element("QPD.5", namespace);
+					qpd.addContent(qpd5_1);
+					qpd5_1.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(SNILS)));
+					qpd5_1.addContent(new Element("CX.5", namespace).addContent("PEN"));
+					
+					dataList.get(i).add(guidMsh.toString().replaceAll("-", ""));
+					listGuid(guidMsh, i, "108");
+				}
+			}
+			
 			if(kluch.equals("list1enpzp9"))
 			{
 				for (int i = 1; i < count; i++)

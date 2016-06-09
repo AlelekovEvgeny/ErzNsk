@@ -29,7 +29,8 @@ public class MessageA08p02 extends MessageCommon {
 			int rUSSIAN, int d_V, int d_SER, int d_NUM, int pR_FAM, int pR_IM,
 			int pR_OT, int lAST_FAM, int lAST_IM, int lAST_OT, int lAST_DR,
 			int pFR_SNILS, int pFR_ID, int pFR_NOTID, int uSER_SERDOC,
-			int uSER_NUMDOC, int uSER_DOCID, int uSER_DOC_DATE, int d_12_PLUS1) {
+			int uSER_NUMDOC, int uSER_DOCID, int uSER_DOC_DATE, int d_12_PLUS1, int pid29) {
+		
 		super(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME,
 				pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX,
 				pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT,
@@ -41,7 +42,7 @@ public class MessageA08p02 extends MessageCommon {
 				uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM,
 				pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID,
 				pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE,
-				d_12_PLUS1);
+				d_12_PLUS1,pid29);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -105,8 +106,7 @@ public class MessageA08p02 extends MessageCommon {
 		
 	}
 
-	protected void createMiddle(int count, Namespace namespace,
-			Element rootElement, String curDate,boolean tt) {
+	protected void createMiddle(int count, Namespace namespace, Element rootElement, String curDate,boolean tt) {
 		for (int i = 0; i < count; i++) {
 			
 			Element adt_a01 = new Element("ADT_A01", namespace);

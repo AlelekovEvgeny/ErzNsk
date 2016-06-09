@@ -92,7 +92,6 @@ private static final long serialVersionUID = 1L;
        * переменная отвечает за информирование по сколько енп не полностью подтянулись все обязательные данные. Если if(f.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) &&  f3.get(19).trim().equalsIgnoreCase("0")) ложно то она =1
        */
       ArrayList<ArrayList<String>> inf = sonar(ls); 
-      
       Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();
       ind.put("list1", ls);
       ind.put("info", inf);
@@ -127,13 +126,14 @@ private static final long serialVersionUID = 1L;
 	 ArrayList<String> f3,f2,f2m;
 	 
 	 try{ 
-		 // вычисляем внутреннее енп, где приодном номере гуид в ответе zp1 пришло два или более главных енп (т.е. внешних enp_1)
+		 // вычисляем внутреннее енп, где при одном номере гуид в ответе zp1 пришло два или более главных енп (т.е. внешних enp_1)
 		 ArrayList<String> badInsideEnp = uniqueGUID(listWeb3);
 		 
 		 
 		 for (int i2 = 0; i2 < listWeb1.size(); i2++)
 		 {
 			 ArrayList<String> f= (ArrayList<String>)listWeb1.get(i2);
+			 //System.out.println("TESTTT@ "+f);
 			 if(i2 > 0)	chancheNUL(f);
 			 
 			 if(!badInsideEnp.contains(f.get(0).trim()))
@@ -152,7 +152,7 @@ private static final long serialVersionUID = 1L;
 						 
 						 
 						 for (int j2 = 0; j2 < listWeb3.size(); j2++)
-					 	{
+					 	 {
 					 			f3= (ArrayList<String>)listWeb3.get(j2);
 					 			
 					 			Date date= null;
@@ -184,6 +184,17 @@ private static final long serialVersionUID = 1L;
 													
 												}
 						 					}	
+						 					if(kluch.contains("A08P02howINsmoPID29"))
+						 					{
+						 						for (int k = 0; k < listWeb2.size(); k++)
+						 						{
+						 							f2m = (ArrayList<String>) listWeb2.get(k);
+						 								//PERSON_DATECHANGE
+						 								if(f2m.get(26).trim().equals(f.get(0).trim())){	 f.set(9, f2m.get(13));	}
+													
+												}
+						 					}	
+						 					
 						 				// смо
 						 				f.set(7, f3.get(9).trim());
 						 				// тип полиса
@@ -198,6 +209,16 @@ private static final long serialVersionUID = 1L;
 						 				f2m = (ArrayList<String>) listWeb1.get(0);
 						 				f2m.set(19, "SEX");
 						 				f.set(19, f3.get(22).trim());
+						 				
+						 				if(kluch.contains("A08P02howINsmoPID29"))
+					 					{
+						 					System.out.println("## "+ f3.get(23).trim());
+						 					if(!f3.get(23).trim().equals("")) {
+						 						f2m = (ArrayList<String>) listWeb1.get(0);
+								 				f2m.set(23, "PID29");
+						 						f.set(23, "У данного ЗЛ уже проставлена ДС");
+						 					}
+					 					}
 						 				
 						 				/**************************************************/
 						 				for (int j3 = 0; j3 < listWeb2.size(); j3++)
@@ -241,6 +262,14 @@ private static final long serialVersionUID = 1L;
 			 					 				f2m = (ArrayList<String>) listWeb1.get(0);
 			 					 				f2m.set(22, "D2");
 			 					 				f.set(22, f2.get(59));
+			 					 				if(kluch.contains("A08P02howINsmoPID29"))
+							 					{
+			 					 					if(!f.get(23).trim().equals("У данного ЗЛ уже проставлена ДС")){
+				 					 					f2m = (ArrayList<String>) listWeb1.get(0);
+					 					 				f2m.set(23, "PID29");
+					 					 				f.set(23, fun2(f2.get(0).trim(),f2.get(1).trim(),f2.get(2).trim(),f2.get(3).trim(),stmt,rs,conn));
+			 					 					}
+							 					}
 						 					}
 						 				}
 					 				}
@@ -546,8 +575,9 @@ private static final long serialVersionUID = 1L;
 	 int sht = 0;
      for (int i = 0; i < ls.size(); i++)
      {
-    	 //System.out.println(ls.get(i).get(7)+"  "+ls.get(i).get(3)+"  "+ls.get(i).get(4)+"  "+ls.get(i).get(5)+"  "+ls.get(i).get(6)+"  "+ls.get(i).get(13)+"  "+ls.get(i).get(14)+"  "+ls.get(i).get(15)+" "+ls.get(i).get(16)+"  "+ls.get(i).get(17)+"  "+ls.get(i).get(18));
-			 if(	(ls.get(i).get(7).equals("")||ls.get(i).get(3).equals("")||ls.get(i).get(4).equals("")||ls.get(i).get(5).equals("")||ls.get(i).get(6).equals("")||ls.get(i).get(13).equals("")||ls.get(i).get(14).equals("")||ls.get(i).get(15).equals("")||ls.get(i).get(16).equals("")||ls.get(i).get(17).equals("")||ls.get(i).get(18).equals("")		)	 && !ls.get(i).get(0).contains("A08") )
+    	 //System.out.println("ntcn "+ls.get(i).get(23));
+			 if(	(ls.get(i).get(7).equals("")||ls.get(i).get(3).equals("")||ls.get(i).get(4).equals("")||ls.get(i).get(5).equals("")||ls.get(i).get(6).equals("")||ls.get(i).get(13).equals("")||ls.get(i).get(14).equals("")||ls.get(i).get(15).equals("")||ls.get(i).get(16).equals("")||ls.get(i).get(17).equals("")||ls.get(i).get(18).equals("") ||ls.get(i).get(23).equals("У данного ЗЛ уже проставлена ДС") || ls.get(i).get(23).equals("нет в regi")	
+	)	 && !ls.get(i).get(0).contains("A08") )
 			 {
 				sht = sht +1;
 			 }
@@ -569,14 +599,14 @@ private static final long serialVersionUID = 1L;
 		if(f.size()<=13)
 		{	
 				 f= (ArrayList<String>)listWeb1.get(0);
-				 f.add("PassDOC");f.add("NumDOC");f.add("DateDOC");f.add("BORN");f.add("GOVER");f.add("CODEDOC");f.add("SEX");f.add("BIRTHDAY");f.add("");f.add("D2");
+				 f.add("PassDOC");f.add("NumDOC");f.add("DateDOC");f.add("BORN");f.add("GOVER");f.add("CODEDOC");f.add("SEX");f.add("BIRTHDAY");f.add("");f.add("D2");f.add("PID29");
 				 
 				 
 				 // добовляем "шапку" в первую строку
 				 for (int i = 1; i < listWeb1.size(); i++)
 				 {
 					 f= (ArrayList<String>)listWeb1.get(i);
-					 f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");
+					 f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");f.add("");
 				 }
 		}		 
 				 
@@ -610,6 +640,31 @@ private static final long serialVersionUID = 1L;
 	 return Integer.valueOf(status);
  }
  
+ /*
+  * Метод подтягивает дату смерти по ФИОД
+  */
+ private String fun2(String surname, String name,String lastname, String bythday,PreparedStatement stmt,ResultSet rs,Connection conn) throws SQLException, ParseException
+ {
+	 String status = null;
+	 
+	// String queryInDB="select count(*) from person p left join personadd pa on (person_addressid= personadd_addressid)"
+	// + " where p.person_linksmoestablishmentid > 0 and (p.enp = '"+p1+"' or p.enp = '"+p2+"' or pa.enp = '"+p1+"' or pa.enp = '"+p2+"')";
+	 String bd = parseStringDateYYY_MM_DD(bythday);
+	 
+	 String queryInDB="select t.datas from registry t where t.family='"+surname+"' and t.name='"+name+"' and t.father='"+lastname+"' and t.datar='"+bd+"'";
+	 
+	 stmt = conn.prepareStatement(queryInDB);
+     rs = stmt.executeQuery();
+    
+     while (rs.next())
+     {
+    	 status = rs.getString(1);
+     }
+     stmt.close();
+     if (status == null) status = "нет в registry";
+	 return status.substring(0, 10);
+ }
+ 
  
  private Date parseDate(String cunvertCurrentDate,String format) throws ParseException
  {
@@ -630,6 +685,14 @@ private static final long serialVersionUID = 1L;
  private String parseStringDate(String cunvertCurrentDate) throws ParseException
  {
 	 cunvertCurrentDate = cunvertCurrentDate.substring(6,10)+"-"+cunvertCurrentDate.substring(3,5)+"-"+cunvertCurrentDate.substring(0,2);
+	    return cunvertCurrentDate;
+ }
+ 
+ private String parseStringDateYYY_MM_DD(String cunvertCurrentDate) throws ParseException
+ {
+	 //1989-02-26
+
+	 cunvertCurrentDate = cunvertCurrentDate.substring(8,10)+"."+cunvertCurrentDate.substring(5,7)+"."+cunvertCurrentDate.substring(0,4);
 	    return cunvertCurrentDate;
  }
  

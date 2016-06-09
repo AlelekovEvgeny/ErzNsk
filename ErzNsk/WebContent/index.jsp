@@ -377,7 +377,7 @@ $(document).ready(function()
 	        	             */  
 	        	             var id;
 	        	             var datatargetm;
-	        	             $('#A08P02today,#A08P02howINsmo,#buttonA08P02').click(function (idtoplevel)
+	        	             $('#A08P02today,#A08P02howINsmo,#A08P02howINsmoPID29,#buttonA08P02').click(function (idtoplevel)
 			        	     {	
 	        	            	 // ловим id нажатой кнопки
     	            	 		 var ids = $(this).attr("id");
@@ -385,7 +385,7 @@ $(document).ready(function()
     	            	 		 if('buttonA08P02' === ids) {	id = ids; datatargetm = $(this).attr("data-target");  console.log('jkj '+id+'  '+ datatargetm);	}
     	            	 		 
     	            	 		//если кнопка второго уровня то 		 
- 	        	            	if( 'A08P02today' === ids || 'A08P02howINsmo' === ids)
+ 	        	            	if( 'A08P02today' === ids || 'A08P02howINsmo' === ids || 'A08P02howINsmoPID29' === ids)
  		        	            {
  	        	            		var flag = 0;
 		        	            	 $(""+datatargetm).modal('hide');
@@ -409,6 +409,7 @@ $(document).ready(function()
         	            	 			
         	            	 			 if('A08P02today' === ids){ var gouser = "zapros=A08P02today";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1),gouser	}	}
  		        				         if('A08P02howINsmo' === ids){ var gouser = "zapros=A08P02howINsmo";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
+ 		        				         if('A08P02howINsmoPID29' === ids){ var gouser = "zapros=A08P02howINsmoPID29";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
  		        				          
  		        				         
  		        				        $("#dim2").css("height", $(document).height());
@@ -452,12 +453,20 @@ $(document).ready(function()
 		        	 				    	// обновляем данные из таблицы
 			        	 				  var inst1Lista = $('#list1onsc').handsontable('getInstance');	
 		        					      // передаем в вебсокет кнопку нажатую в запросе фомс (кнопка вида дапроса)
-		        				         
 		        				          searchInDirectory(vl);
 		        				       	  // вычисляем количество строк
 			        	 			      var e1 =inst1Lista.countRows()-inst1Lista.countEmptyRows(true);
 			        	 				  var wd1 = inst1Lista.countCols()-inst1Lista.countEmptyCols(true);
-		        				          var myData = { list1:inst1Lista.getData(1,3,e1-1,wd1-1)}
+			        	 				  // если ячейка содержит "button=" то эту строку вычеркиваем из списка пайщиков конссесионеров
+			        	 				  var kj = inst1Lista.getData(e1-1,0,e1-1,0)+'';
+										  if(kj.indexOf('button=')>=0)
+										  {
+											  var myData = { list1:inst1Lista.getData(1,3,e1-2,wd1-1)}
+										  }
+										  else
+										  {
+	        				          		var myData = { list1:inst1Lista.getData(1,3,e1-1,wd1-1)}
+										  }
 		        				          var r = JSON.stringify(myData);
 		        				          // передаем в вебсокет даные с первого листа
 		        				          searchInDirectory(r);
@@ -599,7 +608,7 @@ $(document).ready(function()
 	        	             */  
 	        	             	var idZP9;
 	        	             	var datatargetmZP9;
-		        	             $('#ZP9enp,#ZP9passport,#buttonZP9').click(function ()
+		        	             $('#ZP9enp,#ZP9passport,#buttonZP9,#ZP9snils').click(function ()
 				        	     {
 		        	            	 
 		        	            		// ловим id нажатой кнопки
@@ -609,7 +618,7 @@ $(document).ready(function()
 	        	            	 		//если кнопка второго уровня то
 	        	            	 		if ($('.panel#tableexcel').is(':visible')) 
 		        	            	    { 		 
-			     	        	            	if( 'ZP9enp' === ids || 'ZP9passport' === ids)
+			     	        	            	if( 'ZP9enp' === ids || 'ZP9passport' === ids || 'ZP9snils' === ids)
 			     		        	            {		
 		     			        	 					// берем значение с нажатой кнопки  с меню запросы ффомс (кнопка верхнего уровня)
 				        	            	 			var val = $('#'+id).attr("value");
@@ -620,6 +629,7 @@ $(document).ready(function()
 			      			        	 				  var wd1 = inst1Lista.countCols()-inst1Lista.countEmptyCols(true);
 			      		        				          if('ZP9enp' === ids){	var myData = { list1enpzp9:inst1Lista.getData(1,0,e1-1,0)}	}
 			      		        				          if('ZP9passport' === ids){	var myData = { list1passportzp9:inst1Lista.getData(1,0,e1-1,0)}	}
+			      		        				          if('ZP9snils' === ids){	var myData = { list1snilszp9:inst1Lista.getData(1,0,e1-1,0)}	}
 			      		        				          var r = JSON.stringify(myData);
 			      		        				     	  // передаем в вебсокет кнопку нажатую в запросе фомс (кнопка вида дапроса или же кнопка первого уровня или же ZP)
 					        	            	 		  searchInDirectory(idZP9);
@@ -1083,6 +1093,12 @@ $('button#drugiezaprosi').click(function ()
 	//postToServerOtladkaXMLNO();
 });
 
+$(document).ready(function()
+		{ 
+				var vid = document.getElementById("bgindex");
+				vid.playbackRate = 0.5;
+
+		});
 
 
 
@@ -1090,6 +1106,7 @@ $('button#drugiezaprosi').click(function ()
 
 </head>
 <body>
+<video id="bgindex" src="image/videoplayback2.mp4" autoplay="true" loop="true" muted="true" style="width:100%; position: absolute;"></video>
 
 	<div class="conteinerHeader">
 		<!-- Заставка -->
@@ -1313,12 +1330,15 @@ $('button#drugiezaprosi').click(function ()
 													</div>
 													<div class="modal-body">
 														<p></p>
-														<button type="button" id="A08P02today"
+														<button type="button" id="A08P02today" style="margin-bottom:7px;"
 															class="btn btn-primary" value="0">Закрыть
 															сегодняшней датой</button>
-														<button type="button" id="A08P02howINsmo"
+														<button type="button" id="A08P02howINsmo" style="margin-bottom:7px;"
 															class="btn btn-primary" value="0">Закрыть датой
 															как в СМО</button>
+														<button type="button" id="A08P02howINsmoPID29" style="margin-bottom:7px;"
+														class="btn btn-primary" value="0">Закрыть датой
+														как в СМО с PID29</button>
 													</div>
 												</div>
 											</div>
@@ -1342,8 +1362,8 @@ $('button#drugiezaprosi').click(function ()
 															<p></p>
 															<button type="button" id="ZP9enp"
 																class="btn btn-primary" value="0">ЕНП</button>
-															<button type="button" id="ZP9passport"
-																class="btn btn-primary" value="0">Паспорт</button>
+															<button type="button" id="ZP9passport" class="btn btn-primary" value="0">Паспорт</button>
+															<button type="button" id="ZP9snils" class="btn btn-primary" value="0">Снилс</button>
 														</div>
 													</div>
 												</div>
@@ -1864,6 +1884,7 @@ $('button#drugiezaprosi').click(function ()
 							<div class="well well-sm">
 								<button type="button" class="btn btn-success btn-sm" id="btnexportfromhandsontableTOExcel">Экспорт</button>
 								<button class="btn btn-primary btn-sm" id="btnimportfromhandsontableTOExcel" data-toggle="modal" data-target="#importFromExcel">Импорт</button>
+								<button class="btn btn-primary btn-sm" id="" data-toggle="modal" data-target="">Импорт uprak2</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcel">Запрос не сформирован</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcelCancel">Расформировать запрос</button>
 							</div>

@@ -58,7 +58,7 @@ private static final long serialVersionUID = 1L;
       	  // 2. initiate jackson mapper
   	      ObjectMapper mapper = new ObjectMapper();
   	      // 3. Convert received JSON to Article
-  	      System.out.println("fg2 "+ fg2);
+  	     // System.out.println("fg2 "+ fg2);
   	      ListWebForXMLQuery2 article = mapper.readValue(fg2, ListWebForXMLQuery2.class);
   	      ArrayList<ArrayList<String>> tab = disband(article,request);
 	      Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();
@@ -103,7 +103,7 @@ private static final long serialVersionUID = 1L;
   		 for (int i = 0; i < listWeb.getList1().size(); i++)
   		 {
   			 String mas[] = listWeb.getList1().get(i).toString().split(",");
-  			 if ( !mas[8].trim().equalsIgnoreCase("") ) 
+  			 if ( !mas[8].trim().equalsIgnoreCase("") && (!mas[23].trim().equals("У данного ЗЛ уже проставлена ДС]") && !mas[23].trim().equals("У данного ЗЛ уже проставлена ДС") && !mas[23].trim().equals("нет в regi") && !mas[23].trim().equals("нет в regi]"))) 
   			 {
   				 ArrayList<String> rows = new ArrayList<String>();
   				 for (int j = 0; j < mas.length; j++)

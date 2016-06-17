@@ -576,10 +576,21 @@ private static final long serialVersionUID = 1L;
      for (int i = 0; i < ls.size(); i++)
      {
     	 //System.out.println("ntcn "+ls.get(i).get(23));
-			 if(	(ls.get(i).get(7).equals("")||ls.get(i).get(3).equals("")||ls.get(i).get(4).equals("")||ls.get(i).get(5).equals("")||ls.get(i).get(6).equals("")||ls.get(i).get(13).equals("")||ls.get(i).get(14).equals("")||ls.get(i).get(15).equals("")||ls.get(i).get(16).equals("")||ls.get(i).get(17).equals("")||ls.get(i).get(18).equals("") ||ls.get(i).get(23).equals("У данного ЗЛ уже проставлена ДС") || ls.get(i).get(23).equals("нет в regi")	
+			 if(	(ls.get(i).get(7).equals("")||ls.get(i).get(3).equals("")||ls.get(i).get(4).equals("")||ls.get(i).get(5).equals("")||ls.get(i).get(6).equals("")||ls.get(i).get(13).equals("")||ls.get(i).get(14).equals("")||ls.get(i).get(15).equals("")||ls.get(i).get(16).equals("")||ls.get(i).get(17).equals("")||ls.get(i).get(18).equals("")	
 	)	 && !ls.get(i).get(0).contains("A08") )
 			 {
-				sht = sht +1;
+				 // если с первого листа столбцов приходит 24 (т.е. участвует столбец pid29)
+				 if(ls.get(0).size()>=24){
+					 
+					 if(ls.get(i).get(23).equals("У данного ЗЛ уже проставлена ДС") || ls.get(i).get(23).equals("нет в regi")) {
+						 sht = sht +1;
+					 }else {sht = sht +1;}
+					 
+				 }else {
+					 sht = sht +1;
+				 }
+				 
+				
 			 }
      }
      

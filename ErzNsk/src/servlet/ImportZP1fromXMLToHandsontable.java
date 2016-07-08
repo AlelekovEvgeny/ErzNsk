@@ -102,8 +102,9 @@ public class ImportZP1fromXMLToHandsontable extends HttpServlet {
 				parsedatauprmessZP1.get(i).add("1");
 			
 				// UDLfromZp1fiod
-				if(parsedatauprak2ZP1.get(j).get(15).trim().equals("H01") || parsedatauprak2ZP1.get(j).get(15).trim().equals("H02") || parsedatauprak2ZP1.get(j).get(16).trim().equals("H02") || parsedatauprak2ZP1.get(j).get(16).trim().equals("H01"))
+				if(parsedatauprak2ZP1.get(j).get(15).trim().equals("H01") || parsedatauprak2ZP1.get(j).get(15).trim().equals("H02") || (parsedatauprak2ZP1.get(j).get(16) != null && parsedatauprak2ZP1.get(j).get(16).trim().equals("H02")) || (parsedatauprak2ZP1.get(j).get(16) != null && parsedatauprak2ZP1.get(j).get(16).trim().equals("H01")))
 				{
+//					
 					parsedatauprmessZP1.get(i).add("okUdl");
 				}
 				else{parsedatauprmessZP1.get(i).add("noUdl");}

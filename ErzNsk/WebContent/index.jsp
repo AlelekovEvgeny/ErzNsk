@@ -891,6 +891,59 @@ $('#ZP1Ajax').click(function ()
 		        searchInDirectory(r);
    	     });
    	     
+$('#A08P14').click(function ()
+	     { 
+	 		if ($('.panel#tableexcel').is(':visible')) 
+	 		{
+			    var hotInstance	 = $('#list1onsc').handsontable('getInstance');
+				var hotInstance2 = $('#list2onsc').handsontable('getInstance');
+				var hotInstance3 = $('#list3onsc').handsontable('getInstance'); 
+				
+				// определяем количество строк
+				var e1 =hotInstance.countRows()-hotInstance.countEmptyRows(true);
+				var wd1 = hotInstance.countCols()-hotInstance.countEmptyCols(true);
+				
+				var e2 =hotInstance2.countRows()-hotInstance2.countEmptyRows(true);
+				var wd2 = hotInstance2.countCols()-hotInstance2.countEmptyCols(true);
+				
+				var e3 =hotInstance3.countRows()-hotInstance3.countEmptyRows(true);
+				var wd3 = hotInstance3.countCols()-hotInstance3.countEmptyCols(true);
+		
+				$('#modalfoms').modal('hide');
+      	 		
+				
+				var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1)	}	
+				console.log('ffff '+JSON.stringify(myDatap02));
+		 		$("#dim2").css("height", $(document).height());
+	     		$("#dim2").fadeIn();
+	     		spinner.spin($('#spinner_center')[0]);
+	        	 ajax_cnt++;
+    	    
+		        $.post('A08P14url',JSON.stringify(myDatap02),function(res)
+  	                {
+		        			hotInstance.loadData(res.list1);
+      	            },'json')
+		         .done(function(ev)
+		   	 	{
+		        		$('#btnexportfromhandsontableTOExcel').trigger('click');
+		        	 	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
+		        		//if(ev.info > 0){console.log('info '+ev.info); setTimeout ("$('#warning1').modal('show');", 2000);}
+	    	 			// включаем кнопку сформированного запроса
+	    	 			$('#zaprosWebExcel').prop('disabled', false);
+	    	 			// включаем кнопку расформировать запрос
+	    	 			$('#zaprosWebExcelCancel').prop('disabled', false);
+	    	 			// обновляем кнопку: имя запроса 
+	    	 			$('#zaprosWebExcel').text('Отправить '+'A08P14');
+	    	 			// устанавливаем value кнопке запрос несформирован или сформирован
+	    	 			$('#zaprosWebExcel').prop('value', 'A08P14');
+    	 			
+    	 			
+		        	 
+	 	   	     })
+	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
+	 		}		
+  	     });   	     
+   	     
 $('#ZP1taskA8P4').click(function ()
 	     { 
 	
@@ -1368,7 +1421,9 @@ $(document).ready(function()
 													</div>
 												</div>
 											</div>		
-										
+										<li>
+										<button type="button" id="A08P14" class="btn btn-primary" value="A08P14">А08П14</button>
+										</li>
 										<li>
 											<!-- <button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1test</button> -->
 										</li>

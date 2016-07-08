@@ -28,6 +28,7 @@ import message.MessageA08p03kol;
 import message.MessageA08p03pr;
 import message.MessageA08p04;
 import message.MessageA08p06;
+import message.MessageA08p14;
 import message.MessageA08p16;
 import message.MessageA08v01;
 import message.MessageA13p09;
@@ -175,10 +176,26 @@ public class WsAnswer extends WebSocketServlet {
 											}
 											else
 											{
-												// доработать для остальных
-												listKluchi.add(arg0.toString());
-												listKluchi.add("ostalnizaprosi");
-												System.out.println("Зашла на сервер остальные запросы "+ listKluchi);
+												if(arg0.toString().equals("A08P14"))
+												{
+													listKluchi.add(arg0.toString());
+													System.out.println("Зашла на сервер сокет первая часть A08P14 "+ listKluchi);
+												}
+												else
+												{
+													if(arg0.toString().length() >= 10 && arg0.toString().contains("A08P14"))
+													{
+															listKluchi.add(arg0.toString());
+															System.out.println("Зашла на сервер сокет второя часть запроса A08P14 "+ listKluchi);
+													}
+													else
+													{
+														// доработать для остальных
+														listKluchi.add(arg0.toString());
+														listKluchi.add("ostalnizaprosi");
+														System.out.println("Зашла на сервер остальные запросы "+ listKluchi);
+													}
+												}
 											}
 										}
 									}
@@ -507,6 +524,22 @@ public class WsAnswer extends WebSocketServlet {
         	task = new TaskMock();
         	// парсим входящий json объект
         	ArrayList<ArrayList<String>> list=null;
+        	
+        	if(vidZaprosa.toString().contains("A08P14"))
+			{
+        		System.out.println("Поймали A08P14");
+        		System.out.println(jsonString);
+        		
+        		 eNP_PA=0;	 pERSON_SURNAME=1;	  pERSON_KINDFIRSTNAME=2;	  pERSON_KINDLASTNAME=3;	 sMO=4;	 d_12=5;	 d_13=6;	 oKATO_3=7;	 tYPE_POL=8;	 pOL=9;	 pERSON_SERDOC=10;	 pERSON_NUMDOC=11;	 dATEPASSPORT=12;	 bORN=13;	 rUSSIAN=14;	 pERSON_DOCPERSONID=15;	 pERSON_SEX=16;	 pERSON_BIRTHDAY=17;d2=19;pid29=20;
+
+ 				Message messageA08P14 = new MessageA08p14(pERSON_SERDOC, pERSON_NUMDOC, pERSON_DOCPERSONID, pERSON_SURNAME, pERSON_KINDFIRSTNAME, pERSON_KINDLASTNAME, pERSON_BIRTHDAY, pERSON_SEX, pERSON_LINKSMOESTABLISHMENTID, eNP, pERSON_ADDRESSID, pERSON_DATEINPUT, sNILS, bORN, dATEPASSPORT, eNP_PA, vS_NUM, vS_DATE, zAD, d2, sMO, d_12, d_13, oKATO_3, tYPE_POL, pOL, eNP_1, eNP_2, p14cx1, p14cx5, p14cx6, p14cx7, xPN1, xPN2, xPN3, uSERNAME, zADMINUS1, zADPLUS40, nBLANC, vS_DATEPLUS1, uSER_ENP, uSER_PERSON_SURNAME, uSER_PERSON_KINDFIRSTNAME, uSER_PERSON_KINDLASTNAME, uSER_SMO, uSER_D_12, uSER_D_13, uSER_OKATO_3, uSER_TYPE_POL, uSER_POL, rUSSIAN, d_V, d_SER, d_NUM, pR_FAM, pR_IM, pR_OT, lAST_FAM, lAST_IM, lAST_OT, lAST_DR, pFR_SNILS, pFR_ID, pFR_NOTID, uSER_SERDOC, uSER_NUMDOC, uSER_DOCID, uSER_DOC_DATE, d_12_PLUS1,pid29);
+ 				if(!jsonString.equals("ostalnizaprosi"))
+ 	        	{
+ 	        		list = parseStringFromList1(jsonString);
+ 	        	}
+ 				
+ 				messageforallquery(messageA08P14,myoutbound,list,"");
+			}
         	
         	if(vidZaprosa.toString().equals("A08P03For"))
 			{

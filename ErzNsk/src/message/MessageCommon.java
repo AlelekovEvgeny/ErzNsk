@@ -383,10 +383,11 @@ public abstract class MessageCommon implements Message {
 		 * ≈сли формируетс€ сообщение п02 то pid29 равен 20
 		 */
 		if(Pid29 == 20) {
-			
-			if(!dataList.get(i).get(Pid29).equals("")) {
-				pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(Pid29)));
-				pid.addContent(new Element("PID.30", namespace).addContent("Y"));
+			if(dataList.get(0).size() > 20) {
+				if(!dataList.get(i).get(Pid29).equals("")) {
+					pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(Pid29)));
+					pid.addContent(new Element("PID.30", namespace).addContent("Y"));
+				}
 			}
 		}
 		

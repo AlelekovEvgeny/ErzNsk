@@ -131,21 +131,18 @@ public class MessageA08p14 extends MessageCommon {
 
 			in1_2.addContent(new Element("IN1.12", namespace).addContent(dataList.get(i).get(ZAD)));
 			
-			if ("".equals(dataList.get(i).get(VS_NUM)) || "NULL".equals(dataList.get(i).get(VS_NUM))) {
-				in1_2.addContent(new Element("IN1.13", namespace).addContent(""));			
-			} else {
-				in1_2.addContent(new Element("IN1.13", namespace).addContent(dataList.get(i).get(ZADPLUS40)));
-			}
+			in1_2.addContent(new Element("IN1.13", namespace).addContent(dataList.get(i).get(ZADPLUS40)));
+			
 
 			in1_2.addContent(new Element("IN1.15", namespace).addContent("50000"));
 
-			if ("".equals(dataList.get(i).get(VS_NUM)) || "NULL".equals(dataList.get(i).get(VS_NUM))) {
+			/*if ("".equals(dataList.get(i).get(VS_NUM)) || "NULL".equals(dataList.get(i).get(VS_NUM))) {
 				in1_2.addContent(new Element("IN1.35", namespace).addContent("Ï"));
 				in1_2.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));				
-			} else {
+			} else {*/
 				in1_2.addContent(new Element("IN1.35", namespace).addContent("Â"));
 				in1_2.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(VS_NUM)));	
-			}	
+			//}	
 
 			listGuid(guidMsh, i, "3");
 		}

@@ -159,6 +159,7 @@ private static final long serialVersionUID = 1L;
 					 			// енп вн, д13 или (d_d2 пусто и d13 > сегодня), окато,npp,  (нет -проверка соответствия № бланка (POL) из на БД)  
 					 			if(f.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) &&  f3.get(19).trim().equalsIgnoreCase("0") && ( f3.get(11).trim().equalsIgnoreCase("") || (	!d_d2.trim().equalsIgnoreCase("") && date.after(new Date()) )  )  && f3.get(12).trim().equalsIgnoreCase("50000"))
 					 			{
+					 				// СРАВНИВАЕМ ВТОРОЙ С ТРЕТИМ ЛИСТОМ
 					 				for (int list2 = 0; list2 < listWeb2.size(); list2++)
 		 		 				    {
 					 					if(list2 > 0 )
@@ -213,7 +214,7 @@ private static final long serialVersionUID = 1L;
 				 					 				f2m = (ArrayList<String>) listWeb1.get(0);
 				 					 				f2m.set(18, "CODEDOC");
 				 					 				f.set(18, f2.get(17));
-				 					 				//Д13
+				 					 				//Д13 
 				 					 				f.set(9, f3.get(11));
 				 					 				// тип полиса
 									 				f.set(11, "В");
@@ -221,6 +222,8 @@ private static final long serialVersionUID = 1L;
 									 				f.set(12, f2.get(56).trim());
 									 				// д12
 									 				f.set(8, f2.get(57));
+									 				//смо
+									 				f.set(7, f2.get(11).trim());
 							 					}
 							 				}	
 					 					}
@@ -241,8 +244,7 @@ private static final long serialVersionUID = 1L;
 						 				f2m = (ArrayList<String>) listWeb1.get(0);
 						 				f2m.set(19, "SEX");
 						 				f.set(19, f3.get(22).trim());
-						 				// смо
-						 				f.set(7, f3.get(9).trim());
+						 				
 						 				
 						 				// предыдущий смо
 						 				f2m = (ArrayList<String>) listWeb1.get(0);

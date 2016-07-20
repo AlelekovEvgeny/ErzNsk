@@ -1159,7 +1159,7 @@ $(document).ready(function()
 
 </head>
 <body>
-<video id="bgindex" src="image/videoplayback2.mp4" autoplay="true" loop="true" muted="true" style="width:100%; position: absolute;"></video>
+<video id="bgindex" src="image/parish.mp4" autoplay="true" loop="true" muted="true" style="width:100%; position: absolute;"></video>
 
 	<div class="conteinerHeader">
 		<!-- Заставка -->
@@ -1361,7 +1361,7 @@ $(document).ready(function()
 											<button class="btn btn-primary" id="menuindex" title="Смена СМО со сменой страховки при коллизии" value="A08P03kol">А08П03kol</button> 
 										</li>
 										<li>
-											<button class="btn btn-primary" id="menuindex" title="Сообщение о смерти" value="A03P07">А03П07</button>
+											<!-- <button class="btn btn-primary" id="menuindex" title="Сообщение о смерти" value="A03P07">А03П07</button> -->
 										</li>	
 										<li>
 											<button class="btn btn-primary" id="menuindex" title="Проставить дату окончания иностранцу" value="A08P03For">А08П03For</button> 
@@ -1422,8 +1422,12 @@ $(document).ready(function()
 												</div>
 											</div>		
 										<li>
-										<button type="button" id="A08P14" class="btn btn-primary" value="A08P14">А08П14</button>
+										<!-- <button type="button" id="A08P14" class="btn btn-primary" value="A08P14">А08П14</button> -->
 										</li>
+										<li>
+										<button type="button" id="A03P07" class="btn btn-primary" value="A03P07">А03П07</button>
+										</li>
+										
 										<li>
 											<!-- <button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1test</button> -->
 										</li>

@@ -64,31 +64,53 @@ public class MessageA03p07 extends MessageCommon {
 			
 			Element pid3_1 = new Element("PID.3", namespace);
 			pid.addContent(pid3_1);
-			String seria = dataList.get(i).get(USER_SERDOC);
-			pid3_1.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " № ") + dataList.get(i).get(USER_NUMDOC)));
-			pid3_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(USER_DOCID)));
-			pid3_1.addContent(new Element("CX.7", namespace).addContent(dataList.get(i).get(USER_DOC_DATE)));
-
+			String seria = dataList.get(i).get(PERSON_SERDOC);
+			pid3_1.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " № ") + dataList.get(i).get(PERSON_NUMDOC)));
+			pid3_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(PERSON_DOCPERSONID)));
+			//pid3_1.addContent(new Element("CX.5", namespace).addContent("9"));
+			
+			Element pid3_4 = new Element("PID.3", namespace);
+			pid.addContent(pid3_4);
+			if ("".equals(dataList.get(i).get(ENP_PA))) {
+				pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP)));
+			} else {
+				pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP_PA)));
+			}
+			Element pid3_4cx4 = new Element("CX.4", namespace);
+			pid3_4.addContent(pid3_4cx4);
+			pid3_4cx4.addContent(new Element("HD.1", namespace).addContent("50000"));
+			pid3_4cx4.addContent(new Element("HD.2", namespace).addContent("1.2.643.2.40.3.3.1"));
+			pid3_4cx4.addContent(new Element("HD.3", namespace).addContent("ISO"));
+			pid3_4.addContent(new Element("CX.5", namespace).addContent("NI"));
+			
 			Element pid5 = new Element("PID.5", namespace);
 			pid.addContent(pid5);
-			pid5.addContent(new Element("XPN.1", namespace)
-			.addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(USER_PERSON_SURNAME))));
-			pid5.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(USER_PERSON_KINDFIRSTNAME)));
-			pid5.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(USER_PERSON_KINDLASTNAME)));
+			pid5.addContent(new Element("XPN.1", namespace).addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(PERSON_SURNAME))));
+			pid5.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(PERSON_KINDFIRSTNAME)));
+			
+			if(dataList.get(i).get(PERSON_KINDLASTNAME).equals("-") || dataList.get(i).get(PERSON_KINDLASTNAME).equals("НЕТ")){		pid5.addContent(new Element("XPN.3", namespace).addContent(""));	}
+			else
+			{	pid5.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(PERSON_KINDLASTNAME)));	}	
 
-			pid.addContent(new Element("PID.7", namespace).addContent(dataList.get(i).get(USER_SMO)));
+			pid.addContent(new Element("PID.7", namespace).addContent(dataList.get(i).get(PERSON_BIRTHDAY)));
 			
-			pid.addContent(new Element("PID.8", namespace).addContent(dataList.get(i).get(USER_POL)));
+			pid.addContent(new Element("PID.8", namespace).addContent(dataList.get(i).get(PERSON_SEX)));
 			
-			pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(USER_TYPE_POL)));
-
-			Element pid26 = new Element("PID.26", namespace);
-			pid.addContent(pid26);
-			pid26.addContent(new Element("CWE.1", namespace).addContent("RUS"));
-			pid26.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.5.0.25.3"));
+			pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(BORN)));
 			
-			pid.addContent( new Element("PID.29", namespace).addContent(dataList.get(i).get(USER_D_12)));
-			pid.addContent( new Element("PID.30", namespace).addContent("Y"));
+			
+			/*
+			 * По умолчанию pid29 присвоил 777
+			 * Если формируется сообщение п02 то pid29 равен 20
+			 */
+			if(Pid29 == 20) {
+				if(dataList.get(0).size() > 20) {
+					if(!dataList.get(i).get(Pid29).equals("")) {
+						pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(Pid29)));
+						pid.addContent(new Element("PID.30", namespace).addContent("Y"));
+					}
+				}
+			}
 
 			adt_a01.addContent(new Element("PV1", namespace).addContent(new Element("PV1.2", namespace).addContent("1")));
 			
@@ -115,41 +137,126 @@ public class MessageA03p07 extends MessageCommon {
 			
 			Element pid3_1 = new Element("PID.3", namespace);
 			pid.addContent(pid3_1);
-			String seria = dataList.get(i).get(USER_SERDOC);
-			pid3_1.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " № ") + dataList.get(i).get(USER_NUMDOC)));
-			pid3_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(USER_DOCID)));
-			pid3_1.addContent(new Element("CX.7", namespace).addContent(dataList.get(i).get(USER_DOC_DATE)));
-
+			String seria = dataList.get(i).get(PERSON_SERDOC);
+			pid3_1.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " № ") + dataList.get(i).get(PERSON_NUMDOC)));
+			pid3_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(PERSON_DOCPERSONID)));
+			//pid3_1.addContent(new Element("CX.5", namespace).addContent("9"));
+			
+			Element pid3_4 = new Element("PID.3", namespace);
+			pid.addContent(pid3_4);
+			if ("".equals(dataList.get(i).get(ENP_PA))) {
+				pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP)));
+			} else {
+				pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP_PA)));
+			}
+			Element pid3_4cx4 = new Element("CX.4", namespace);
+			pid3_4.addContent(pid3_4cx4);
+			pid3_4cx4.addContent(new Element("HD.1", namespace).addContent("50000"));
+			pid3_4cx4.addContent(new Element("HD.2", namespace).addContent("1.2.643.2.40.3.3.1"));
+			pid3_4cx4.addContent(new Element("HD.3", namespace).addContent("ISO"));
+			pid3_4.addContent(new Element("CX.5", namespace).addContent("NI"));
+			
 			Element pid5 = new Element("PID.5", namespace);
 			pid.addContent(pid5);
-			pid5.addContent(new Element("XPN.1", namespace)
-			.addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(USER_PERSON_SURNAME))));
-			pid5.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(USER_PERSON_KINDFIRSTNAME)));
-			pid5.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(USER_PERSON_KINDLASTNAME)));
+			pid5.addContent(new Element("XPN.1", namespace).addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(PERSON_SURNAME))));
+			pid5.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(PERSON_KINDFIRSTNAME)));
+			
+			if(dataList.get(i).get(PERSON_KINDLASTNAME).equals("-") || dataList.get(i).get(PERSON_KINDLASTNAME).equals("НЕТ")){		pid5.addContent(new Element("XPN.3", namespace).addContent(""));	}
+			else
+			{	pid5.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(PERSON_KINDLASTNAME)));	}	
 
-			pid.addContent(new Element("PID.7", namespace).addContent(dataList.get(i).get(USER_SMO)));
+			pid.addContent(new Element("PID.7", namespace).addContent(dataList.get(i).get(PERSON_BIRTHDAY)));
 			
-			pid.addContent(new Element("PID.8", namespace).addContent(dataList.get(i).get(USER_POL)));
+			pid.addContent(new Element("PID.8", namespace).addContent(dataList.get(i).get(PERSON_SEX)));
 			
-			pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(USER_TYPE_POL)));
-
-			Element pid26 = new Element("PID.26", namespace);
-			pid.addContent(pid26);
-			pid26.addContent(new Element("CWE.1", namespace).addContent("RUS"));
-			pid26.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.5.0.25.3"));
+			pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(BORN)));
 			
-			pid.addContent( new Element("PID.29", namespace).addContent(dataList.get(i).get(USER_D_12)));
-			pid.addContent( new Element("PID.30", namespace).addContent("Y"));
+			
+			/*
+			 * По умолчанию pid29 присвоил 777
+			 * Если формируется сообщение п02 то pid29 равен 20
+			 */
+			if(Pid29 == 20) {
+				if(dataList.get(0).size() > 20) {
+					if(!dataList.get(i).get(Pid29).equals("")) {
+						pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(Pid29)));
+						pid.addContent(new Element("PID.30", namespace).addContent("Y"));
+					}
+				}
+			}
 
 			adt_a01.addContent(new Element("PV1", namespace).addContent(new Element("PV1.2", namespace).addContent("1")));
 			
 			listGuid(guidMsh, i, "107");
 		}
 		}
+		
+		
 		@Override
 		protected void createMiddle(int count, Namespace namespace,
 				Element rootElement, String curDate, boolean tt, String kluch) {
-			// TODO Auto-generated method stub
+			
+			for (int i = 1; i < count; i++) {
+				
+				Element adt_a01 = new Element("ADT_A03", namespace);
+				rootElement.addContent(adt_a01);
+
+				RandomGUID guidMsh = createMsh(namespace, curDate, adt_a01, "ADT", "A03", "ADT_A03");	
+					
+				Element evn = new Element("EVN", namespace);
+				adt_a01.addContent(evn);
+				evn.addContent(new Element("EVN.2", namespace).addContent(curDate));
+				evn.addContent(new Element("EVN.4", namespace).addContent("П07"));
+
+				Element pid = new Element("PID", namespace);
+				adt_a01.addContent(pid);
+				
+				Element pid3_1 = new Element("PID.3", namespace);
+				pid.addContent(pid3_1);
+				String seria = dataList.get(i).get(PERSON_SERDOC);
+				pid3_1.addContent(new Element("CX.1", namespace).addContent((("".equals(seria) || seria == null) ? "" : seria + " № ") + dataList.get(i).get(PERSON_NUMDOC)));
+				pid3_1.addContent(new Element("CX.5", namespace).addContent(dataList.get(i).get(PERSON_DOCPERSONID)));
+				//pid3_1.addContent(new Element("CX.5", namespace).addContent("9"));
+				
+				Element pid3_4 = new Element("PID.3", namespace);
+				pid.addContent(pid3_4);
+				if ("".equals(dataList.get(i).get(ENP_PA))) {
+					pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP)));
+				} else {
+					pid3_4.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(ENP_PA)));
+				}
+				Element pid3_4cx4 = new Element("CX.4", namespace);
+				pid3_4.addContent(pid3_4cx4);
+				pid3_4cx4.addContent(new Element("HD.1", namespace).addContent("50000"));
+				pid3_4cx4.addContent(new Element("HD.2", namespace).addContent("1.2.643.2.40.3.3.1"));
+				pid3_4cx4.addContent(new Element("HD.3", namespace).addContent("ISO"));
+				pid3_4.addContent(new Element("CX.5", namespace).addContent("NI"));
+				
+				Element pid5 = new Element("PID.5", namespace);
+				pid.addContent(pid5);
+				pid5.addContent(new Element("XPN.1", namespace).addContent(new Element("FN.1", namespace).addContent(dataList.get(i).get(PERSON_SURNAME))));
+				pid5.addContent(new Element("XPN.2", namespace).addContent(dataList.get(i).get(PERSON_KINDFIRSTNAME)));
+				
+				if(dataList.get(i).get(PERSON_KINDLASTNAME).equals("-") || dataList.get(i).get(PERSON_KINDLASTNAME).equals("НЕТ")){		pid5.addContent(new Element("XPN.3", namespace).addContent(""));	}
+				else
+				{	pid5.addContent(new Element("XPN.3", namespace).addContent(dataList.get(i).get(PERSON_KINDLASTNAME)));	}	
+
+				pid.addContent(new Element("PID.7", namespace).addContent(dataList.get(i).get(PERSON_BIRTHDAY)));
+				
+				pid.addContent(new Element("PID.8", namespace).addContent(dataList.get(i).get(PERSON_SEX)));
+				
+				pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(BORN)));
+				
+				pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(67)));
+				pid.addContent(new Element("PID.30", namespace).addContent("Y"));
+				
+				
+
+				adt_a01.addContent(new Element("PV1", namespace).addContent(new Element("PV1.2", namespace).addContent("1")));
+				
+				listGuid(guidMsh, i, "107");
+			}
+			
 			
 		}
 

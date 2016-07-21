@@ -42,9 +42,13 @@ String createTime =""+new Date(session.getCreationTime());
 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/font-awesome-animation.css">
 <link href="css/handsontable.full.css" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="js/jquery.form.js"></script>	
 <script src="js/spin.js"></script>
 <script src="script/webSocketAnswer.js"></script>
@@ -53,7 +57,6 @@ String createTime =""+new Date(session.getCreationTime());
 <script src="js/numeral.js"></script>
 <script src="js/moment.js"></script>
 <script src="js/fileUploadScript.js" ></script>
-
 
 
 
@@ -942,7 +945,29 @@ $('#A08P14').click(function ()
 	 	   	     })
 	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
 	 		}		
-  	     });   	     
+  	     });   	 
+
+$('#A03P07').click(function ()
+	     { 
+	 		if ($('.panel#tableexcel').is(':visible')) 
+	 		{
+	 			
+				$('#modalfoms').modal('hide');
+       	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
+				$('#tamessage').val("> Послан запрос "+this.value+"...");
+				// отправляем ключ что это такой-то запрос
+				searchInDirectory('A03P07');
+				// объект 1-го листа
+				var hotInstan1 = $('#list1onsc').handsontable('getInstance');
+				var e1 =hotInstan1.countRows()-hotInstan1.countEmptyRows(true);
+				// упаковываем данные
+				var myData = { list1:hotInstan1.getData(1,0,e1-1,0)}
+				// преобразуем в jason (не обязательно)
+				var r = JSON.stringify(myData);
+				// отправляем по сокету
+		        searchInDirectory(r);	 			
+	 		}		
+ 	     });   	 
    	     
 $('#ZP1taskA8P4').click(function ()
 	     { 
@@ -2044,9 +2069,43 @@ $(document).ready(function()
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 
-	<script>
- 		
-      	
-       </script>
+
+
+ <script>
+  /*$( function() {
+    // run the currently selected effect
+    function runEffect() {
+      // get effect type from
+      var selectedEffect = 'scale';
+ 
+      // Most effect types need no options passed by default
+      var options = {};
+      // some effects have required parameters
+      if ( selectedEffect === "scale" ) {
+        options = { percent: 50 };
+      } 
+ 
+      // Run the effect
+      $( "#tableexcel" ).effect( selectedEffect, options, 500, callback );
+    };
+ 
+    // Callback function to bring a hidden box back
+    function callback() {
+      setTimeout(function() {
+        $( "#tableexcel" ).removeAttr( "style" ).hide().fadeIn();
+      }, 5000 );
+    };
+ 
+    // Set effect from select menu value
+    $( "#A03P07" ).on( "click", function() {
+      runEffect();
+      return false;
+    });
+  } );*/
+  </script>
+
+       
+       
+       
 </body>
 </html>

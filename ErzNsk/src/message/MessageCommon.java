@@ -7,10 +7,12 @@ import help.RandomGUID;
 
 import java.io.FileWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -417,7 +419,15 @@ public abstract class MessageCommon implements Message {
 					prepareDataQukly(userMachine,listList1.toString());
 				}else
 				{
+					if(kluch.equals("A03P07"))
+					{
+						prepareDataQukly(userMachine,listList1.toString());
+						try { fun2(dataList);} catch (Exception e) {e.printStackTrace();}
+						
+					}
+					else {
 					prepareData(userMachine,listList1);
+					}
 				}
 			}
 
@@ -426,7 +436,6 @@ public abstract class MessageCommon implements Message {
 		int count = dataList.size();
 		if(count < 10) { personEnpGuid.clear(); personEnpOutput.clear(); }
 	
-		System.out.println("Тесттттттттт  "+ENP);
 		
 		Namespace namespaceXsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		Namespace namespaceRtc = Namespace.getNamespace("rtc", "http://www.rintech.ru");
@@ -487,9 +496,18 @@ public abstract class MessageCommon implements Message {
 				{
 					createMiddle(count, namespace, rootElement, curDate,true,"list1snilszp9");
 					count = count - 1;
+					
 				}
 				else {
+					
+					if(kluch.equals("A03P07"))
+					{
+						createMiddle(count, namespace, rootElement, curDate,true,"A03P07");
+						count = count - 1;
+					}
+					else {
 					createMiddle(count, namespace, rootElement, curDate,true);
+					}
 				}
 			}
 		}
@@ -1348,7 +1366,64 @@ public abstract class MessageCommon implements Message {
  }
  
  
+ /*
+  * Метод подтягивает дату смерти по ФИОД
+  */
+ private void fun2(ArrayList<ArrayList<String>> list) throws Exception
+ {
+	 String status = null;
+	 
+	 Connection conn = ConnectionPoolOracle.setUp().getConnection();
+	 PreparedStatement stmt = null;
+	 ResultSet rs = null;
+	 
+	 String surname = null;
+	 String name = null;
+	 String lastname = null;
+	 String bythday = null;
+	 String bd = null;
+		
+	 for(int i=1; i<list.size();i++) {
+		// String queryInDB="select count(*) from person p left join personadd pa on (person_addressid= personadd_addressid)"
+		// + " where p.person_linksmoestablishmentid > 0 and (p.enp = '"+p1+"' or p.enp = '"+p2+"' or pa.enp = '"+p1+"' or pa.enp = '"+p2+"')";
+		 surname = list.get(i).get(0);
+		 name = list.get(i).get(1);
+		 lastname = list.get(i).get(2);
+		 bythday = list.get(i).get(3);
+		 bd = parseStringDateYYY_MM_DD(bythday);
+		 
+		 String queryInDB="select t.datas from registry t where t.family='"+surname+"' and t.name='"+name+"' and t.father='"+lastname+"' and t.datar='"+bd+"'";
+		 
+		 stmt = conn.prepareStatement(queryInDB);
+		 rs = stmt.executeQuery(queryInDB);
+	    
+	     while (rs.next())
+	     {
+	    	 status = rs.getString(1);
+	     }
+	     stmt.close();
+	     if (status == null) status = "нет в registry";
+	     
+	     list.get(i).add(status.substring(0, 10));
+	     
+		 stmt.close();
+	 }
+	 rs.close();
+	 conn.close();
+	 
+	 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! "+list.get(1).size());
+	 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! "+list);
+	 
+	 
+ }
  
+ private String parseStringDateYYY_MM_DD(String cunvertCurrentDate) throws ParseException
+ {
+	 //1989-02-26
+
+	 cunvertCurrentDate = cunvertCurrentDate.substring(8,10)+"."+cunvertCurrentDate.substring(5,7)+"."+cunvertCurrentDate.substring(0,4);
+	    return cunvertCurrentDate;
+ }
  
 }
 

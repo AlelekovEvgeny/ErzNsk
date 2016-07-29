@@ -38,7 +38,7 @@
 	 <input id="msg" type="hidden" value='<c:out value="${sessionScope.fileCreate}" />' /> 
 -->
  <input type = "hidden" name = "username" value = '<c:out value="${sessionScope.username}" />'> 
-	Пожалуйста <a href = "/ErzNskVV!/index.jsp" >перейдите на главную</a>
+	Пожалуйста <a href = "/ErzNsk/index.jsp" >перейдите на главную</a>
 	
 </body>
 </html>

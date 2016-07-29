@@ -1,10 +1,14 @@
 package loadparse;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.sql.DataSource;
+
 import oracle.AppakOracle;
 import oracle.ConnectOracle;
+import oracle.ConnectionPoolOracle;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -15,7 +19,8 @@ public class AppakParser extends DefaultHandler {
 	private AppakRecord appakRecord = new AppakRecord();
 	private String error = "";
     AppakOracle appakTable = new AppakOracle();
-   	Statement statement;
+   	private Statement statement;
+   	private Connection conn;
    	int counter = 1;
 	private boolean errExist = false;
 	
@@ -26,8 +31,14 @@ public class AppakParser extends DefaultHandler {
     @Override 
     public void startDocument() throws SAXException { 
     	try {
-			statement = ConnectOracle.connection.createStatement();
+    	 DataSource dataSource = ConnectionPoolOracle.setUp();
+    	 conn = dataSource.getConnection();
+         ConnectionPoolOracle.printStatus();
+         statement = conn.createStatement();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	System.out.println("Start parse XML...");
@@ -35,11 +46,8 @@ public class AppakParser extends DefaultHandler {
      
     @Override 
     public void endDocument() { 
-    	try {
-    		statement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	if (statement != null) {  try {statement.close();} catch (SQLException e) {e.printStackTrace();}  }
+		if (conn != null) { try {conn.close();} catch (SQLException e) {e.printStackTrace();} System.out.println("Скинули в пул!");}
     	System.out.println("Stop parse XML...");
     } 
     

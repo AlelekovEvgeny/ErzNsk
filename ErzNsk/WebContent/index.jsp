@@ -98,6 +98,25 @@ $(document).ready(function()
 	                });
                });
 	   
+               $('#refresh_tab_errorgz').click(function(event)
+            		   {  
+
+		            	    if( !ajax_cnt) // if 0
+			       	 		{
+			       	 			$("#dim2").css("height", $(document).height());
+			       	     		 $("#dim2").fadeIn();
+			       	     		 spinner.spin($('#spinner_center')[0]);
+			       	        	 ajax_cnt++;
+			       	 		}
+            	   
+        	                $.get('refresh_tab_errorgz',function(responseJson)
+        	                { 
+        	                	if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; }        		              
+        	                })
+        	                .error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
+                       });
+               
+               
            $('#su1').click(function(event)
                    {  
                        $('#texthelpqueryoutenp').empty();
@@ -255,7 +274,6 @@ $(document).ready(function()
 			        	        	     		 spinner.spin($('#spinner_center')[0]);
 			        	        	        	 ajax_cnt++;
 			    	            	 		}
-			    	            	 		console.log('test'+ajax_cnt);
 		        	        	        	 
 		        	        	        		if ($('#zaprosWebExcel').attr("value") != '')
 		        	        	        		{
@@ -1535,6 +1553,7 @@ $(document).ready(function()
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
 									<button class="btn btn-primary" id="taskP04">Задание П04</button>
 									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обработка ошибок ГОЗНАКА</button>	
+									<button class="btn btn-primary" id="refresh_tab_errorgz">Обновить ошибки ГОЗНАКА</button>
 							</li>
 						</ul></li>
 					<!-- КОНЕЦ ДРУГИЕ ЗАПРОСЫ -->

@@ -89,9 +89,14 @@ public class AppakOracle extends ConnectOracle {
 			}
 		}
 		
-		public void refresh_materialize_view(Statement statement) {
+		public void refresh_materialize_view(PreparedStatement stmt,ResultSet rs,Connection conn) {
+			
+			String queryInDB ="begin DBMS_MVIEW.refresh('error_goznak',''); end;";
 			try {
-				statement.executeQuery("begin DBMS_MVIEW.refresh('error_goznak',''); end;");
+				stmt = conn.prepareStatement(queryInDB);
+			    rs = stmt.executeQuery();
+			    stmt.close();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

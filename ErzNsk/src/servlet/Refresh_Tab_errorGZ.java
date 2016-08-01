@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 
 import com.google.gson.Gson;
 
+import erznskutil.Report;
 import oracle.AppakOracle;
 import oracle.ConnectionPoolOracle;
 
@@ -54,16 +55,24 @@ public class Refresh_Tab_errorGZ extends HttpServlet {
 		conn = dataSource.getConnection();
 		ConnectionPoolOracle.printStatus();
 		
-		//appakTable.goznak_update(stmt,rs,conn);
+		appakTable.goznak_update(stmt,rs,conn);
 		appakTable.personAdd_script(stmt,rs,conn);
-	//	appakTable.refresh_materialize_view(statement);
+		appakTable.refresh_materialize_view(stmt,rs,conn);
 		
 	
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	}
+	}finally
+	{
+	     if (conn != null)
+	     {
+	         try {conn.close();} catch (SQLException e) {e.printStackTrace(); }
+	     }
+		}
+		ConnectionPoolOracle.printStatus();
 	
+		new Report().runAll();
    
    
    String json = new Gson().toJson(result);

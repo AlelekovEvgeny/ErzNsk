@@ -455,6 +455,7 @@ public class FileUploadServlet extends HttpServlet {
     	for(int i=0;i<listRow.size();i++)
 		{
 			ArrayList<String> list = listRow.get(i);
+			
 			sqlStr.append("t.PERSON_SURNAME='").append(list.get(0)).append("' and t.PERSON_KINDFIRSTNAME='").append(list.get(1)).append("' and t.PERSON_KINDLASTNAME='").append(list.get(2)).append("' and t.PERSON_BIRTHDAY='")
 			.append(list.get(3)).append("' or ");
 			

@@ -96,6 +96,7 @@ private static final long serialVersionUID = 1L;
       ind.put("list1", ls);
       ind.put("info", inf);
       
+      
       json= new Gson().toJson(ind);   
       response.setContentType("application/json");
 	  response.setCharacterEncoding("UTF-8");
@@ -133,7 +134,7 @@ private static final long serialVersionUID = 1L;
 		 for (int i2 = 0; i2 < listWeb1.size(); i2++)
 		 {
 			 ArrayList<String> f= (ArrayList<String>)listWeb1.get(i2);
-			 //System.out.println("TESTTT@ "+f);
+			 System.out.println("TESTTT@ "+f);
 			 if(i2 > 0)	chancheNUL(f);
 			 
 			 if(!badInsideEnp.contains(f.get(0).trim()))
@@ -628,6 +629,8 @@ private static final long serialVersionUID = 1L;
  private int fun(String p1, String p2,PreparedStatement stmt,ResultSet rs,Connection conn) throws SQLException
  {
 	 String status = null;
+	
+	 
 	 
 	// String queryInDB="select count(*) from person p left join personadd pa on (person_addressid= personadd_addressid)"
 	// + " where p.person_linksmoestablishmentid > 0 and (p.enp = '"+p1+"' or p.enp = '"+p2+"' or pa.enp = '"+p1+"' or pa.enp = '"+p2+"')";
@@ -642,12 +645,13 @@ private static final long serialVersionUID = 1L;
 	 
 	 stmt = conn.prepareStatement(queryInDB);
      rs = stmt.executeQuery();
-    
+	     
      while (rs.next())
      {
     	 status = rs.getString(1);
      }
      stmt.close();
+
 	 return Integer.valueOf(status);
  }
  

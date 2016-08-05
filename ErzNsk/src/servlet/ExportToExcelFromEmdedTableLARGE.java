@@ -49,7 +49,7 @@ private static final long serialVersionUID = 1L;
 
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  
+	
 	  // 1. get received JSON data from request
       BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
       String json = "";
@@ -73,7 +73,7 @@ private static final long serialVersionUID = 1L;
       response.setContentType("application/json");
 	  response.setCharacterEncoding("UTF-8");
 	  response.getWriter().write(json.toString());  
-      
+	  
 	  
   }
 

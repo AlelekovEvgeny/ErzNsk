@@ -290,7 +290,7 @@ $(document).ready(function()
 			    	      	                	if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; }
 			    	      	                	console.log('test'+ajax_cnt);
 			        	      	            },'json')
-			        	      	          	.error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
+			        	      	          	.error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } });
 			      	            
 		     	        }
 	              });
@@ -461,7 +461,7 @@ $(document).ready(function()
 		        	            	 			
  		        				        	 
        				    	 	   	     })
-       				    	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.');});
+       				    	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.'+ JSON.stringify(msg));});
 	        	            	 	}
  		        	            }
 			        	     });	

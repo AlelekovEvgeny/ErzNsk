@@ -289,8 +289,8 @@ $(document).ready(function()
 			    	      	                {
 			    	      	                	if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; }
 			    	      	                	console.log('test'+ajax_cnt);
-			        	      	            },'json')
-			        	      	          	.error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } });
+			        	      	            },'json');
+			        	      	          	//.error(function(msg) {if(ajax_cnt) {	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; } });
 			      	            
 		     	        }
 	              });
@@ -438,30 +438,37 @@ $(document).ready(function()
 	        	        	     		spinner.spin($('#spinner_center')[0]);
 	        	        	        	 ajax_cnt++;
         	        	        	    
- 		        				        $.post('ExportFromWebtab',JSON.stringify(myDatap02),function(res)
-	    		    	      	                {
- 		        				        			hotInstance.loadData(res.list1);
-	    		        	      	            },'json')
- 		        				         .done(function(ev)
-        				    		   	 {
- 		        				        		$('#btnexportfromhandsontableTOExcel').trigger('click');
- 		        				        	 	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
- 		        				        		if(ev.info > 0){console.log('info '+ev.info); setTimeout ("$('#warning1').modal('show');", 2000);}
- 		        				        		// берем значение с нажатой кнопки  с меню запросы ффомс (кнопка верхнего уровня)
-		        	            	 			var val = $('#'+id).attr("value");
-		        	            	 			// включаем кнопку сформированного запроса
-		        	            	 			$('#zaprosWebExcel').prop('disabled', false);
-		        	            	 			// включаем кнопку расформировать запрос
-		        	            	 			$('#zaprosWebExcelCancel').prop('disabled', false);
-		        	            	 			// обновляем кнопку: имя запроса 
-		        	            	 			$('#zaprosWebExcel').text('Отправить '+val);
-		        	            	 			// устанавливаем value кнопке запрос несформирован или сформирован
-		        	            	 			$('#zaprosWebExcel').prop('value', val);
-		        	            	 			
-		        	            	 			
- 		        				        	 
-       				    	 	   	     })
-       				    	 	   		 .error(function(msg) {$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; alert(' Произошла ошибка загрузки. Обновитесь и повторите.'+ JSON.stringify(msg));});
+	        	        	        	 $.ajax({
+		        						        url: "ExportFromWebtab",
+		        						        type: 'POST',
+		        						        dataType: 'json',
+		        						        data: JSON.stringify(myDatap02),
+		        						        contentType: 'application/json',
+		        						        success: function (res)
+		        						        {
+	        	        	        		 		hotInstance.loadData(res.list1);
+	        	        	        		 		
+	        	        	        		 		$('#btnexportfromhandsontableTOExcel').trigger('click');
+	 		        				        	 	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
+	 		        				        		if(res.info > 0){console.log('info '+res.info); setTimeout ("$('#warning1').modal('show');", 2000);}
+	 		        				        		// берем значение с нажатой кнопки  с меню запросы ффомс (кнопка верхнего уровня)
+			        	            	 			var val = $('#'+id).attr("value");
+			        	            	 			// включаем кнопку сформированного запроса
+			        	            	 			$('#zaprosWebExcel').prop('disabled', false);
+			        	            	 			// включаем кнопку расформировать запрос
+			        	            	 			$('#zaprosWebExcelCancel').prop('disabled', false);
+			        	            	 			// обновляем кнопку: имя запроса 
+			        	            	 			$('#zaprosWebExcel').text('Отправить '+val);
+			        	            	 			// устанавливаем value кнопке запрос несформирован или сформирован
+			        	            	 			$('#zaprosWebExcel').prop('value', val);
+			        						    },
+			        						    error: function (jqXHR, textStatus, errorThrown){
+			        						    	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; console.log(' Произошла ошибка загрузки. Обновитесь и повторите.'+JSON.stringify(jqXHR));
+			        						    	console.log(' textStatus '+JSON.stringify(textStatus));
+			        						    	console.log(' errorThrown '+JSON.stringify(errorThrown));
+			        						    }
+		        						        
+		        						 });
 	        	            	 	}
  		        	            }
 			        	     });	

@@ -134,7 +134,6 @@ private static final long serialVersionUID = 1L;
 		 for (int i2 = 0; i2 < listWeb1.size(); i2++)
 		 {
 			 ArrayList<String> f= (ArrayList<String>)listWeb1.get(i2);
-			 System.out.println("TESTTT@ "+f);
 			 if(i2 > 0)	chancheNUL(f);
 			 
 			 if(!badInsideEnp.contains(f.get(0).trim()))

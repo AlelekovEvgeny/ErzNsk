@@ -98,6 +98,19 @@ $(document).ready(function()
 	                });
                });
 	   
+	   $('#help_import_uprak2').click(function(event)
+               {  
+                   $('#text_help_import_uprak2').empty();
+	                $.get('Help_Import_Uprak2',function(responseJson)
+	                { 
+		              var $ul = $('<b>').appendTo($('#text_help_import_uprak2'));
+		                $.each(responseJson, function(index,item)
+				        { 
+		                	$('<li>').text(item).appendTo($ul);               
+		                });	
+	                });
+               });
+	   
                $('#refresh_tab_errorgz').click(function(event)
             		   {  
 
@@ -246,6 +259,8 @@ $(document).ready(function()
    	               manualRowResize: true,
    	             //  colWidths: [150, 100, 100, 100, 150, 230, 150,150,30,130,80,150,50,50,150,30,30,30,30,50,100,100,150]
    	             });
+   	              
+   	           
    	             /*
    	               Кнопка Экспорт в окне таблица
    	             */
@@ -294,6 +309,70 @@ $(document).ready(function()
 			      	            
 		     	        }
 	              });
+   	             
+   					   
+	   				   var uprak2='';	
+		               var datauprmessZP='';
+		               var kluch='';
+		               
+			   	      
+   	       			$('#activateGetJson2').click(function()
+	    	          {
+   	       				$('#importuprak2_mod').modal('hide');
+   	       			 	
+	   	       			$("#dim2").css("height", $(document).height());
+	    	     		$("#dim2").fadeIn();
+	    	     		spinner.spin($('#spinner_center')[0]);
+	    	        	 ajax_cnt++;
+   	       				
+   	       				$('#upload-form_uprak2').ajaxForm({
+		               	success: function(data) 
+		               	{
+			              	uprak2 =  data.data1;	
+			              	datauprmessZP = data.data2;
+			              	kluch = data.data3;
+			              	
+			              	
+			              	  	
+		               	},
+               		 	complete:function(data)
+               		 	{
+               		 		uprak2_after();
+               		 		$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
+		               	},
+	               			error: function(msg) {alert("Произошла ошибка загрузки. Обновите и повторите заново либо обратитесь к администратору");}
+	           			});
+   	       			  
+	    	        });
+   	       			
+   	       			/*
+   	       				на вход подем имена упрака2 при импорте в ручную 
+   	       			*/
+   	       				function uprak2_after(){
+   	       				uprak2=''+ uprak2;
+   	       				kluch=''+kluch;
+   	       				datauprmessZP=''+datauprmessZP;
+								 var hotInstan2 = $('#list2onsc').handsontable('getInstance');
+				            	 var hotInstan3 = $('#list3onsc').handsontable('getInstance');
+				            	 
+				             var myData2 = {uprak2, datauprmessZP, kluch}
+				       	   	 var jqxhr = $.getJSON( "ImportZP1fromXMLToHandsontable",myData2, function(er)
+				       	   	 {
+				       	   		 
+				       	   		hotInstan3.loadData(er.data1zp1ajax);
+				       	   	 })
+				       	   	 
+				       	   	 .done(function(ev)
+				       	   	 {
+				       	   		//$('.nav-pills li:eq(1) a').tab('show');
+				       	   		 // вставляем данные на второй лист с большого запроса (upmessa)
+				       	   		 hotInstan2.loadData(ev.data2upr);
+				       	   	 })
+				          	      
+				       	  .fail( function(error) {
+				               console.log("error.responseJSON "+error.responseJSON);
+				               });
+   	       			}	
    	             
    	       				$('#activateGetJson').click(function()
      	          		{
@@ -1560,7 +1639,8 @@ $(document).ready(function()
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
 									<button class="btn btn-primary" id="taskP04">Задание П04</button>
 									<button class="btn btn-primary" id="processErrorGZ" data-toggle="modal" data-target="#myModalprocessErrorGZ">Обработка ошибок ГОЗНАКА</button>	
-									<button class="btn btn-primary" id="refresh_tab_errorgz">Обновить ошибки ГОЗНАКА</button>
+									<button class="btn btn-primary" id="refresh_tab_errorgz">Обновить ошибки ГОЗНАКА</button>	
+									
 							</li>
 						</ul></li>
 					<!-- КОНЕЦ ДРУГИЕ ЗАПРОСЫ -->
@@ -1590,6 +1670,32 @@ $(document).ready(function()
 						</div>
 					</div>
 					<!-- конец Блок Импорт экселя на handsontable -->
+					<!--  Блок Импорт упрак2 -->
+					<div class="modal fade" id="importuprak2_mod" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button btn-primary" class="close"
+										data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h3 class="modal-title">Импорт сообщения Uprak2 для web-таблицы</h3>
+									<p>Импорт Uprak2</p>
+								</div>
+								<div class="modal-body">
+									<form id="upload-form_uprak2" action="ImportUprak2" method="post" enctype="multipart/form-data">Выберите файл для загрузки формата .uprak2 :<input type="file"name="fileName"> <br>
+										<button type="submit" class="btn btn-primary" id="activateGetJson2" >Отправить</button>
+										<button type="button" class="btn btn-success" id="help_import_uprak2">Помощь</button>
+									</form>
+									
+									
+									<div id="text_help_import_uprak2" style="margin-top: 15px"></div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть окно</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- конец Блок Импорт упрак2 -->
 					<!-- Блок Запрос по ФИОД -->
 					<div class="modal fade" id="myModal" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1994,7 +2100,7 @@ $(document).ready(function()
 							<div class="well well-sm">
 								<button type="button" class="btn btn-success btn-sm" id="btnexportfromhandsontableTOExcel">Экспорт</button>
 								<button class="btn btn-primary btn-sm" id="btnimportfromhandsontableTOExcel" data-toggle="modal" data-target="#importFromExcel">Импорт</button>
-								<button class="btn btn-primary btn-sm" id="" data-toggle="modal" data-target="">Импорт uprak2</button>
+								<button class="btn btn-primary btn-sm" id="btn_import_uprak2" data-toggle="modal" data-target="#importuprak2_mod">Импорт uprak2</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcel">Запрос не сформирован</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcelCancel">Расформировать запрос</button>
 							</div>

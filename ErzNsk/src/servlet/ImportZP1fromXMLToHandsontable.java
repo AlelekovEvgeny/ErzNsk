@@ -37,6 +37,7 @@ public class ImportZP1fromXMLToHandsontable extends HttpServlet {
 	  //ловим данные с webSocketAnswer.js
 	  String uprak2 = request.getParameter("uprak2");
 	  String upr = request.getParameter("datauprmessZP");
+	  System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@ "+uprak2 +" "+upr);
 	  //String kluch = request.getParameter("kluch");
 	  // парсим данные с нашей базы
 	  //ArrayList<ArrayList<String>> parsedatauprmessZP1 = parsedatauprmessZP(upr);

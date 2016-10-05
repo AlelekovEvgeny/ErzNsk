@@ -8,6 +8,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import help.Const;
+
 public class Zu2LoadMock implements Load {
 	
 	public boolean load(String fileName) {
@@ -18,7 +20,7 @@ public class Zu2LoadMock implements Load {
 			XMLReader.setContentHandler(parser);
 			XMLReader.setErrorHandler(parser);
 			if (fileName.length() == 42) { 
-				FileReader r = new FileReader("D://output/done/" + fileName + ".uecmes");
+				FileReader r = new FileReader(Const.OUTPUTDONE + fileName + ".uecmes");
 				XMLReader.parse(new InputSource(r));
 				return true;
 			} else {

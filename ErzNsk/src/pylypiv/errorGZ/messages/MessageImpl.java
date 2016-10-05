@@ -12,6 +12,7 @@ import org.jdom2.Namespace;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import help.Const;
 import pylypiv.errorGZ.main.Data;
 import util.FileTransfer;
 import util.RandomGuid;
@@ -88,7 +89,7 @@ public abstract class MessageImpl implements Message {
 		    FileWriter fw = new FileWriter(filename);
 		    outputter.output(doc, fw);
 		    fw.close();
-		    fileTransfer.copy(filename, /*res.getAutoProcPath()*/"D:\\output\\" + filename);
+		    fileTransfer.copy(filename,Const.AUTO_PATH + filename);
 		    fileTransfer.delete(filename);
 		} catch (Exception ex) {
 		    System.out.println(ex.getMessage());

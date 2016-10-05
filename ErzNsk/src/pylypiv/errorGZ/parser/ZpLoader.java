@@ -10,6 +10,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import help.Const;
+
 
 
 public class ZpLoader {
@@ -30,13 +32,13 @@ public class ZpLoader {
 		XMLReader.setErrorHandler(parser);
 		
 		String fileAnswer = fileAsk.replaceAll( /*res.getFileAskExt()*/".uprmes",  /*res.getFileAnswerExt2()*/".uprak2");
-		File file = new File(/*res.getAutoProcPathAnswer()*/"D:\\output\\done\\" + fileAnswer);
+		File file = new File(Const.OUTPUTDONE + fileAnswer);
 		
 		while(!file.exists()) {
 			System.out.println("enp " + enp + " - "+ status);
 			Thread.sleep(10000);
 		}
-		FileReader r = new FileReader(/*res.getAutoProcPathAnswer()*/"D:\\output\\done\\" + fileAnswer);
+		FileReader r = new FileReader(Const.OUTPUTDONE + fileAnswer);
 		XMLReader.parse(new InputSource(r));
 		System.out.println("enp " + enp + " - Файл ZP загружен");
 		return zp;

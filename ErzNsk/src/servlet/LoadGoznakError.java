@@ -21,7 +21,7 @@ public class LoadGoznakError extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
-		String path = "C:\\java\\Erz2\\ErzNsk\\files\\ОшибкиГознака.xls";
+		String path = "C:\\Pylypiv\\ErzNsk_all_the_rest\\ОшибкиГознака.xls";
 		ServletOutputStream stream = null;
 		BufferedInputStream buf = null;
 		try {

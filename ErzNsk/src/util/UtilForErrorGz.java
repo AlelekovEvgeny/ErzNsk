@@ -23,7 +23,7 @@ import pylypiv.errorGZ.parser.Zp;
 
 public class UtilForErrorGz {
 
-	private String done ="D:\\output\\done\\"; 
+	private String done ="c:\\output\\done\\"; 
 	/*
 	 * check double respons on zp1
 	 * and add in model from db a zp answer or else double response add double

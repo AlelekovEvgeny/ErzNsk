@@ -1496,7 +1496,7 @@ $(document).ready(function()
 											<button class="btn btn-primary" id="menuindex" title="Проставить дату окончания иностранцу" value="A08P03For">А08П03For</button> 
 										</li>
 										<li>
-											<button class="btn btn-primary" id="buttonA08P02" title="Закрытие страховки, Открепить ЗЛ иностранца" value="A08P02test" data-toggle="modal" data-target="#modalA08P02">А08П02test</button>
+											<button style="background-color: #4193ab;" class="btn btn-primary" id="buttonA08P02" title="Закрытие страховки, Открепить ЗЛ иностранца" value="A08P02test" data-toggle="modal" data-target="#modalA08P02">А08П02test</button>
 										</li>
 										
 										<div class="modal fade" id="modalA08P02" role="dialog"
@@ -1527,7 +1527,7 @@ $(document).ready(function()
 										</div>											
 										
 										<li>
-											<button class="btn btn-primary" id="buttonZP9" title="Запрос истории страховых принадлежностей" value="ZP9" data-toggle="modal" data-target="#modalZP9">ZP9</button>
+											<button style="background-color: #4193ab;" class="btn btn-primary" id="buttonZP9" title="Запрос истории страховых принадлежностей" value="ZP9" data-toggle="modal" data-target="#modalZP9">ZP9</button>
 										</li>
 										
 											<div class="modal fade" id="modalZP9" role="dialog"
@@ -1554,14 +1554,16 @@ $(document).ready(function()
 										<!-- <button type="button" id="A08P14" class="btn btn-primary" value="A08P14">А08П14</button> -->
 										</li>
 										<li>
-										<button type="button" id="A03P07" class="btn btn-primary" value="A03P07">А03П07</button>
+										<button style="background-color: #4193ab;" type="button" id="A03P07" class="btn btn-primary" value="A03P07">А03П07</button>
 										</li>
-										
+										<li>
+										<button style="background-color: #4193ab;" type="button" id="A03P08" class="btn btn-primary" value="A03P08">А03П08</button>
+										</li>
 										<li>
 											<!-- <button  class="btn btn-primary" id="ZP1Ajax"	value="ZP1Ajax">ZP1test</button> -->
 										</li>
 										<li>
-											<button class="btn btn-primary" id="buttonZP1"  data-toggle="modal" data-target="#modalZP1beta">ZP1beta</button>
+											<button style="background-color: #4193ab;" class="btn btn-primary" id="buttonZP1"  data-toggle="modal" data-target="#modalZP1beta">ZP1beta</button>
 										</li>
 										
 										<div class="modal fade" id="modalZP1beta" role="dialog"

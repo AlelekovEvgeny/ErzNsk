@@ -72,7 +72,7 @@ private static final long serialVersionUID = 1L;
 					+ "select t.enp from person t, personadd d where t.person_linksmoestablishmentid <= 0 and t.person_addressid=d.personadd_addressid and d.russian = 0 and t.person_docpersonid =22  and t.person_dateinput between '"+data+"' and trunc(SYSDATE-1)");
 			*/
 	        
-	        res = stat.executeQuery("select t.enp from person t, personadd d where t.person_linksmoestablishmentid  = 0 and t.person_addressid=d.personadd_addressid  and t.person_dateinput between  '"+data+"' and trunc(SYSDATE-1)");
+	        res = stat.executeQuery("select t.enp from person t, personadd d where t.person_linksmoestablishmentid  = 0 and t.person_addressid=d.personadd_addressid  and t.person_dateinput between  '"+data+"' and trunc(SYSDATE-7)");
 			
 			data = null;
 			
@@ -83,7 +83,7 @@ private static final long serialVersionUID = 1L;
 			{
 				StringBuilder sqlStr = new StringBuilder();
 	        	sqlStr.append("");
-				sqlStr.append("insert into person_enp_output values('").append(l.get(i)).append("',SYSDATE-1,100,20,'','',50000,'')");
+				sqlStr.append("insert into person_enp_output values('").append(l.get(i)).append("',SYSDATE-7,100,20,'','',50000,'')");
 				stat.executeQuery(sqlStr.toString());
 				
 			}	

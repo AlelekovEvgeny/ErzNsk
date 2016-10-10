@@ -2,7 +2,7 @@ package help;
 
 public class Const {
 	
-	public final static String PROGRAM_PATH = "C://Pylypiv//ErzNsk_all_the_rest//excel";
+	public final static String PROGRAM_PATH = "C://Pylypiv/ErzNsk_all_the_rest/excel/";
 	public final static String AUTO_PATH = "c://output/";
 	public final static String OUTPUTDONE = "c://output/done/"; 
 

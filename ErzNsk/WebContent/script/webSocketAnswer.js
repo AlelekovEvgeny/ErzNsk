@@ -204,16 +204,27 @@ ws.onclose = function(event) {
 		// например, "убит" процесс сервера
 		  $("#dim").css("height", $(document).height());
   		  $("#dim").fadeIn(); 
+  		  console.log('test1 '+event);
+  		console.log('test1.1 '+ws);
+  		console.log('test1.2 '+JSON.stringify(ws));
 	  }
 	 
 	};	
 
 
-function closeConnect() {
+function closeConnect(event) {
 	ws.close();
+	console.log('test2 '+event);
 	alert('pfrhskb cj cnjhjys ')
 	
 }
+
+ws.onerror = function(error) {
+	console.log("Ошибка " + error.message);
+	console.log("Ошибка2 " + error);
+	console.log("Ошибка2.1 " + JSON.stringify(error));
+	};
+
 /*
  * функция при загрузке страницы Index.jsp передает имя пользователя
  */

@@ -717,10 +717,10 @@ $(document).ready(function()
 				        		 		{
 				        		 			
 				        					$('#modalfoms').modal('hide');
-				        	       	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
-				        					$('#tamessage').val("> Послан запрос "+this.value+"...");
+				        	       	 		//setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
+				        					//$('#tamessage').val("> Послан запрос "+this.value+"...");
 				        					// отправляем ключ что это такой-то запрос
-				        					searchInDirectory('A08P08');
+				        					
 				        					
 				        					let hotInstan1 = $('#list1onsc').handsontable('getInstance');
 				        					let e1 =hotInstan1.countRows()-hotInstan1.countEmptyRows(true);
@@ -753,7 +753,9 @@ $(document).ready(function()
 		        	        	        		 		
 		        	        	        		 		$('#btnexportfromhandsontableTOExcel').trigger('click');
 		 		        				        	 	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0;
+		 		        				        	 	
 		 		        				        		if(res.info > 0){console.log('info '+res.info); setTimeout ("$('#warning1').modal('show');", 2000);}
+		 		        				        		
 		 		        				        		// берем значение с нажатой кнопки  с меню запросы ффомс (кнопка верхнего уровня)
 				        	            	 			var val = $('#'+id).attr("value");
 				        	            	 			// включаем кнопку сформированного запроса
@@ -761,9 +763,9 @@ $(document).ready(function()
 				        	            	 			// включаем кнопку расформировать запрос
 				        	            	 			$('#zaprosWebExcelCancel').prop('disabled', false);
 				        	            	 			// обновляем кнопку: имя запроса 
-				        	            	 			$('#zaprosWebExcel').text('Отправить '+val);
+				        	            	 			$('#zaprosWebExcel').text('Отправить А08П08');
 				        	            	 			// устанавливаем value кнопке запрос несформирован или сформирован
-				        	            	 			$('#zaprosWebExcel').prop('value', val);
+				        	            	 			$('#zaprosWebExcel').prop('value', 'A08P08');
 				        						    },
 				        						    error: function (jqXHR, textStatus, errorThrown){
 				        						    	$('#dim2').fadeOut();spinner.stop();ajax_cnt = 0; console.log(' Произошла ошибка загрузки. Обновитесь и повторите.'+JSON.stringify(jqXHR));

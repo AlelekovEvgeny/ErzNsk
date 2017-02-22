@@ -103,18 +103,26 @@ private static final long serialVersionUID = 1L;
   		 for (int i = 0; i < listWeb.getList1().size(); i++)
   		 {
   			 String mas[] = listWeb.getList1().get(i).toString().split(",");
+  			 
   			 if ( !mas[8].trim().equalsIgnoreCase("")) 
   			 {
-  				 if(mas.length >= 24 && (!mas[23].trim().equals("У данного ЗЛ уже проставлена ДС]") && !mas[23].trim().equals("У данного ЗЛ уже проставлена ДС") && !mas[23].trim().equals("нет в regi") && !mas[23].trim().equals("нет в regi]"))){
-	  				 ArrayList<String> rows = new ArrayList<String>();
+  				 if(mas.length >= 24 && ((
+	  						 mas[23].trim().contains("У данного ЗЛ уже проставлена ДС") || 
+	  						 mas[23].trim().contains("нет в regi")) || (
+	  						 mas[2].trim().contains("Окато не 50000 или открты СП в ЕС") ||
+	  						 mas[2].trim().contains("Откреплен в РС"))
+  						  )){
+  					 
+	  				/* ArrayList<String> rows = new ArrayList<String>();
 	  				 for (int j = 0; j < mas.length; j++)
 	  				 {
 	  					 mas[j]=mas[j].replaceAll("\\?", "И").replaceAll("[^A-Za-zА-Яа-я0-9- -.-:-{-}-№-]", "").replaceAll("null", "").replaceAll("\\]", "").replaceAll("\\[", "").trim();
 	  					 rows.add(mas[j]);
 	  				 }
 	  				 table.add(rows);
-	  				 try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}
+	  				 try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}*/
   				 }else {
+  					
   					ArrayList<String> rows = new ArrayList<String>();
 	  				 for (int j = 0; j < mas.length; j++)
 	  				 {

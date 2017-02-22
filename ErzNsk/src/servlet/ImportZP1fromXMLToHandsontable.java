@@ -87,7 +87,7 @@ public class ImportZP1fromXMLToHandsontable extends HttpServlet {
 	  {
 		for (int j = 0; j < parsedatauprak2ZP1.size() ; j++)
 		{
-			if(parsedatauprmessZP1.get(i).get(67).trim().equals(parsedatauprak2ZP1.get(j).get(0).trim()) )
+			if(parsedatauprmessZP1.get(i).get(68).trim().equals(parsedatauprak2ZP1.get(j).get(0).trim()) )
 			{
 				parsedatauprak2ZP1.get(j).add(0, parsedatauprmessZP1.get(i).get(3));	// birthday
 				parsedatauprak2ZP1.get(j).add(0, parsedatauprmessZP1.get(i).get(2));	// lastname
@@ -97,7 +97,7 @@ public class ImportZP1fromXMLToHandsontable extends HttpServlet {
 			}
 			
 			// msa && npp
-			if(	parsedatauprmessZP1.get(i).get(67).trim().equals(parsedatauprak2ZP1.get(j).get(5).trim()) && parsedatauprak2ZP1.get(j).get(19).trim().equals("100"))
+			if(	parsedatauprmessZP1.get(i).get(68).trim().equals(parsedatauprak2ZP1.get(j).get(5).trim()) && parsedatauprak2ZP1.get(j).get(19).trim().equals("100"))
 			{
 				// добавляем на второй лист столбец zp1ok 
 				parsedatauprmessZP1.get(i).add("1");

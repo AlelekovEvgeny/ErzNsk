@@ -73,7 +73,7 @@ $(document).ready(function()
 	//setTimeout ("$('textarea#textareamess').animate({opacity: 0}, 0 );", 0);
 	setTimeout ("$('body').animate({opacity: 0.0}, 0 );", 0);
 	setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
-	//setTimeout ("$('#updateonsite').modal('show');", 3000);
+	setTimeout ("$('#updateonsite').modal('show');", 2000);
 	$('#zaprosWebExcel').prop('value', '');
 
 	
@@ -1419,9 +1419,7 @@ $(document).ready(function()
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="loadGoznakError" id="errorgz"><i
-							class="fa fa-warning faa-flash animated-hover"></i> Ошибки
-							Гознака</a></li>
+					<li><a href="loadGoznakError" id="errorgz"><i class="fa fa-warning faa-flash animated-hover"></i> Ошибки Гознака</a></li>
 					<li><a href="#" data-toggle="modal"
 						data-target=".bs-example-modal-lg" id="zapros"><i
 							class="fa fa-space-shuttle faa-passing animated-hover"></i>
@@ -1537,9 +1535,9 @@ $(document).ready(function()
 										</li>
 										<li>
 											
-										<!-- 	<button class="btn btn-primary" id="menuindex"
+										 	<button class="btn btn-primary" id="menuindex"
 												title="Запрос страховой принадлежности по ФИОД и УДЛ"
-												value="ZP1Fiod">ZP1Fiod</button>  -->
+												value="ZP1Fiod">ZP1Fiod</button> 
 										</li>
 										<li>
 											<!-- 	<form id = "A08v01Create" method = "post" action="message">
@@ -1941,33 +1939,29 @@ $(document).ready(function()
 					<!-- КОНЕЦ генерирования енп -->
 					
 					<!-- ОБНОВЛЕНИЯ -->
-					<div class="modal fade" id="updateonsite" role="dialog"
+					<% if(user.equals("maltsekaterina")){ %>
+				<!-- <div class="modal fade" id="updateonsite" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button btn-primary" class="close"
 										data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h3 class="modal-title">Обновления на сайте</h3>
+									<h3 class="modal-title"></h3>
 									<p></p>
 
 								</div>
-								<div class="modal-body">29.09.2015 В раздел "Разные
-									запросы" добавлен запрос "Внешний ЕНП -> Внутренний ЕНП".
-									Пользуйтесь кнопкой "помощь"<br>
-									05.11.2015 В раздел "Разные запросы" добавлен запрос "Исправление внешнего ЕНП". Пользуйтесь кнопкой "помощь".<br>
-									09.11.2015 В раздел "Разные запросы" добавлен запрос "Задание П03". См. инструкцию.
-									17.11.2015 В раздел "Разные запросы" добавлен запрос "Задание П02". На данный момент выгружаются только НЕ гражданство 643
-									Временно вернул старую кнопку A08P02, чтобы не подключать старый сайт
-									<p style="font-size:120%;color: red;">23.11.2015 Добавлена кнопка Zp9 по пасспорту и по енп внутреннему</p>
-									</div>
+								<div class="modal-body">
+								<img src="image/maxresdefault.jpg"  height="500" width="500">
+								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-success"
-										data-dismiss="modal">Закрыть окно</button>
+										data-dismiss="modal">Спасибо :) !!!</button>
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->	
+				<%	} %>
 					<!-- КОНЕЦ ОБНОВЛЕНИЯ -->
 					<!-- Предупреждение при формировании запроса на первом листе -->
 					<div class="modal fade" id="warning1" role="dialog"

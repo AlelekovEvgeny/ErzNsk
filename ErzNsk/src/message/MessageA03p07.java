@@ -100,7 +100,7 @@ public class MessageA03p07 extends MessageCommon {
 			
 			
 			/*
-			 * По умолчанию pid29 присвоил 777
+			 * По умолчанию pid29 элемент в колекции 777
 			 * Если формируется сообщение п02 то pid29 равен 20
 			 */
 			if(Pid29 == 20) {
@@ -247,7 +247,7 @@ public class MessageA03p07 extends MessageCommon {
 				
 				pid.addContent( new Element("PID.23", namespace).addContent(dataList.get(i).get(BORN)));
 				
-				pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(67)));
+				pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(68)));
 				pid.addContent(new Element("PID.30", namespace).addContent("Y"));
 				
 				

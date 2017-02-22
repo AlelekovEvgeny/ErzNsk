@@ -72,7 +72,7 @@ private static final long serialVersionUID = 1L;
 					+ "select t.enp from person t, personadd d where t.person_linksmoestablishmentid <= 0 and t.person_addressid=d.personadd_addressid and d.russian = 0 and t.person_docpersonid =22  and t.person_dateinput between '"+data+"' and trunc(SYSDATE-1)");
 			*/
 	        
-	        res = stat.executeQuery("select t.enp from person t, personadd d where t.person_linksmoestablishmentid  = 0 and t.person_addressid=d.personadd_addressid  and t.person_dateinput between  '"+data+"' and trunc(SYSDATE-7)");
+	        res = stat.executeQuery("select t.enp from person t, personadd d where t.person_linksmoestablishmentid  <= 0 and t.person_addressid=d.personadd_addressid  and t.person_dateinput between  '"+data+"' and trunc(SYSDATE-7)");
 			
 			data = null;
 			

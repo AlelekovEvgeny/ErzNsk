@@ -179,8 +179,8 @@ private static final long serialVersionUID = 1L;
 						 						for (int k = 0; k < listWeb2.size(); k++)
 						 						{
 						 							f2m = (ArrayList<String>) listWeb2.get(k);
-						 								//PERSON_DATECHANGE
-						 								if(f2m.get(26).trim().equals(f.get(0).trim())){	 f.set(9, f2m.get(13));	}
+						 								//PERSON_DATEINPUT
+						 								if(f2m.get(26).trim().equals(f.get(0).trim())){	 f.set(9, f2m.get(25));	}
 													
 												}
 						 					}	
@@ -189,8 +189,8 @@ private static final long serialVersionUID = 1L;
 						 						for (int k = 0; k < listWeb2.size(); k++)
 						 						{
 						 							f2m = (ArrayList<String>) listWeb2.get(k);
-						 								//PERSON_DATECHANGE
-						 								if(f2m.get(26).trim().equals(f.get(0).trim())){	 f.set(9, f2m.get(13));	}
+						 								//PERSON_DATEINPUT
+						 								if(f2m.get(26).trim().equals(f.get(0).trim())){	 f.set(9, f2m.get(25));	}
 													
 												}
 						 					}	

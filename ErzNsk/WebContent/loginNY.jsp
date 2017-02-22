@@ -16,10 +16,11 @@
 <html>
 <head>
 	<title>Вход в систему</title>
-	<link rel="stylesheet" href="css/styles.css" type="text/css"/>
+	<!-- <link rel="stylesheet" href="css/styles.css" type="text/css"/>-->
 	
 	<!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/stylesnow.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
@@ -38,12 +39,13 @@ $(document).ready(function() {
     <div class="container">
 
       <form class="form-signin"  method="post" action="login">
-        <h3 class="form-signin-heading" >  <i class="fa fa-user text-primary">  Вход в систему</i></h3>
+        <h3 class="form-signin-heading" ><a class="btn btn-lg btn-success" href="#">  <i class="fa fa-user">  Вход в систему</i></h3></a>
         <input type="text" class="form-control"  name="username" id="username"  placeholder="Логин">
         <input type="password" name="password" id="password"  class="form-control" placeholder="Пароль">
        <br> 
-        <button class="btn btn-group-sm btn-primary btn-block" id="enterLogin" type="submit"><i class="fa fa-sign-in""></i> Вход</button>
-      </form>
+        <button class="btn btn-group-sm btn-success btn-block" id="enterLogin" type="submit"><i class="fa fa-sign-in""></i> Вход</button>
+      </form><br>
+      <h2 id="newyear">C наступающим Новым Годом !!!</h2>
 
     </div> <!-- /container -->
 

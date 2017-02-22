@@ -218,12 +218,10 @@ public class ProcessErrorGZ extends HttpServlet {
             	
             	if(count == 0)
             	{
-            		System.out.println("!!!!!!!!1 "+ token.substring(token.indexOf("=")+2,token.length()-1));
 	                return token.substring(token.indexOf("=")+2,token.length()-1);
             	}
             	else
             	{
-	            	System.out.println("!!!!!!!!2 "+ token.substring(count,token.length()-1));
 	                return token.substring(count,token.length()-1);
             	}
             }
@@ -1006,10 +1004,13 @@ public class ProcessErrorGZ extends HttpServlet {
     	int allsize = 0;
     	double rez = 0;
     	int pr= 0; 
+    	int active = Thread.activeCount();
+    	System.out.println("Before start "+active);
     	for (int i = 0; i < ts.size(); i++) {
             UtilForErrorGz ut = new UtilForErrorGz();    		
     		exec.execute(new AutoThread(ts.get(i),ut,listEnpForDeleteFromExcel));
-    		listcol.add(String.valueOf(++numberOfTasks));
+    		active = Thread.activeCount();
+    		listcol.add(String.valueOf(++numberOfTasks)+"("+String.valueOf(active)+")");
     	}
     	exec.shutdown();
     	allsize = listcol.size();
@@ -1020,6 +1021,13 @@ public class ProcessErrorGZ extends HttpServlet {
     		pr =(int) (rez *100.0);
     		request.getSession().setAttribute("size", pr);
     		//System.out.println("pr "+ pr);
+    		active = Thread.activeCount();
+    		Thread all[] = new Thread[active];
+            Thread.enumerate(all);
+
+            for (int i = 0; i < active; i++) {
+               System.out.println(i + ": " + all[i]);
+            }
     		Thread.sleep(10000);
     	}
     	pr = 100;

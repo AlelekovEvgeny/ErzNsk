@@ -1405,7 +1405,6 @@ public abstract class MessageCommon implements Message {
 	     if (status == null) status = "нет в registry";
 	     
 	     list.get(i).add(status.substring(0, 10));
-	     
 		 stmt.close();
 	 }
 	 rs.close();

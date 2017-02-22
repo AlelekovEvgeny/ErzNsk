@@ -16,47 +16,47 @@
 <html>
 <head>
 	<title>Вход в систему</title>
-	<!-- <link rel="stylesheet" href="css/styles.css" type="text/css"/>-->
+	<link rel="stylesheet" href="css/styles.css" type="text/css"/>
 	
 	<!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/stylesnow.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	setTimeout ("$('body').animate({opacity: 0.0}, 0 );", 0);
-	setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
-
-});
-</script>
+<style>
+body{ margin:0px; background:#000; }
+#bg_container{ height:auto;width:auto; overflow:hidden; }
+#bg{ width:100%; }
+#content{ position:absolute; top:0px; padding:30px; color:#FFF; text-shadow:#000 2px 2px; width:100%; }
+</style>
 </head>
 <body>
-
-
-
-    <div class="container">
+<div id="bg_container">
+  <video id="bg" src="image/videoplayba.mp4" autoplay="true" loop="true" muted="true"></video>
+</div>
+<div id="content">
+  <div class="container">
 
       <form class="form-signin"  method="post" action="login">
-        <h3 class="form-signin-heading" ><a class="btn btn-lg btn-success" href="#">  <i class="fa fa-user">  Вход в систему</i></h3></a>
+        <h3 class="form-signin-heading" >  <i class="fa fa-user text-link">  Вход в систему</i></h3>
         <input type="text" class="form-control"  name="username" id="username"  placeholder="Логин">
         <input type="password" name="password" id="password"  class="form-control" placeholder="Пароль">
        <br> 
-        <button class="btn btn-group-sm btn-success btn-block" id="enterLogin" type="submit"><i class="fa fa-sign-in""></i> Вход</button>
-      </form><br>
-      <h2 id="newyear">C новым годом!</h2>
+        <button class="btn btn-group-sm btn-primary btn-block" id="enterLogin" type="submit"><i class="fa fa-sign-in""></i> Вход</button>
+      </form>
 
     </div> <!-- /container -->
-
-	<script type="text/javascript" src="script/checkNumber.js"></script>
-	<script type="text/javascript" src="script/checkNumberLogin.js"></script>
-	
-	 <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+</div>
    
     <script src="js/bootstrap.js"></script>
-    
+    <script type="text/javascript">
+    $(document).ready(function()
+    		{ 
+    				var vid = document.getElementById("bg");
+    				vid.playbackRate = 1;
+
+    		});
+
+	</script>
 </body>
 </html>

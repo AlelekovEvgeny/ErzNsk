@@ -1,5 +1,5 @@
 $.getScript('js/spin.js');
-var ws = new WebSocket("ws://asu-srp:8081/ErzNsk/wsAnswer");
+var ws = new WebSocket("ws://asu-srp:8082/ErzNsk/wsAnswer");
 //флаг открытли запрос
 var nowCount =0;
 var user;

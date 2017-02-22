@@ -59,11 +59,10 @@ public class A08P08_process  extends HttpServlet  {
 	      } catch ( Exception e) {
 			e.printStackTrace();
 	      }
-	      System.out.println("TESTTTT "+ls);
-	     // ArrayList<ArrayList<String>> inf = sonar(ls); 
+	     ArrayList<ArrayList<String>> inf = sonar(ls); 
 	      Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();
 	      ind.put("list1", ls);
-	     // ind.put("info", inf);
+	      ind.put("info", inf);
 	      
 	      
 	      json= new Gson().toJson(ind);   
@@ -97,7 +96,12 @@ public class A08P08_process  extends HttpServlet  {
 						 for (int j3 = 1; j3 < listWeb3.size(); j3++)
 					 	 {
 							 f3= (ArrayList<String>)listWeb3.get(j3);
-							 if(f3.get(12).trim().equals("50000") && !f3.get(11).trim().equals("") && f3.get(19).trim().equals("0")){
+							 if(
+							   f3.get(12).trim().equals("50000") &&
+							   !f3.get(11).trim().equals("") &&
+							   f3.get(19).trim().equals("0") &&
+							   f3.get(0).trim().equals(f1.get(0)) 
+							   ){
 								 
 								 DateFormat inputFormat = new SimpleDateFormat("YYYY-MM-dd");
 								 
@@ -149,11 +153,18 @@ public class A08P08_process  extends HttpServlet  {
 							 }
 							 else{
 								 // не наш окато или открыта сп
+								// f1.set(2,"Окато не 50000 или открты СП в ЕС");
+								 if(f1.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) && f3.get(19).trim().equals("0")){
+									 f1.set(2,"Окато не 50000 или открты СП в ЕС");
+								 }
 							 }
 					 	 }
 					 }
 					 else{
-						 // линк смо ме5ньше нуля
+						// f1.set(2,"Откреплен в РС");
+						 if(f1.get(0).trim().equalsIgnoreCase(f2.get(26).trim()) && Integer.parseInt(f2.get(11).trim()) <= 0){
+							 f1.set(2,"Откреплен в РС"); 
+						 }
 					 }
 					 
 				 }
@@ -497,5 +508,27 @@ public class A08P08_process  extends HttpServlet  {
 	 cunvertCurrentDate = cunvertCurrentDate.substring(6,10)+"-"+cunvertCurrentDate.substring(3,5)+"-"+cunvertCurrentDate.substring(0,2);
 	    return cunvertCurrentDate;
  }
+ 
+ 
+ private ArrayList<ArrayList<String>> sonar(ArrayList<ArrayList<String>> ls)
+ {
+	 // f1.set(2,"Окато не 50000 или открты СП в ЕС");
+	 ArrayList<ArrayList<String>> info = new ArrayList<ArrayList<String>>();
+	 int sht = 0;
+     for (int i = 0; i < ls.size(); i++)
+     {
+    	 //System.out.println("ntcn "+ls.get(i).get(23));
+			 if(ls.get(i).get(2).equals("Окато не 50000 или открты СП в ЕС") || ls.get(i).get(2).equals("Откреплен в РС"))
+			 {
+				 sht = sht +1;
+			 }
+     }
+     
+     ArrayList<String> list = new ArrayList<String>();
+		 list.add(String.valueOf(sht));
+		 info.add(list);
+		 return info;
+ }
+ 
  
 }

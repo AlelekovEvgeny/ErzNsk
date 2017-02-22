@@ -101,8 +101,7 @@ public class WsAnswer extends WebSocketServlet {
 		 * .CharBuffer) Алгоритм При старте index.jsp подлючается скрипт
 		 * webSocketAnswer и происходит подлючение по сокету При каждом нажатии
 		 * на запросы фомс отправляется на сервер имя пользователя При нажатии
-		 * на zp1 отправляется что сообщение zp1 и при выборе варианта экселя
-		 * отправляется 0 или 1 Эти 2 ключа кладутся в коллекцию и запускается
+		 * на zp1 отправляется что сообщение zp1. 2 ключа кладутся в коллекцию и запускается
 		 * по ифу то что пришло с клиента.
 		 */
 		protected void onTextMessage(CharBuffer arg0) throws IOException 
@@ -209,7 +208,7 @@ public class WsAnswer extends WebSocketServlet {
 																	System.out.println("Зашла на сервер сокет первая часть A08P08 "+ listKluchi);
 																}
 																else{
-																	if(listKluchi.get(0).equals("A08P08"))
+																	if(listKluchi.size() == 1 && listKluchi.get(0).equals("A08P08"))
 																	{
 																			listKluchi.add(arg0.toString());
 																			System.out.println("Зашла на сервер сокет второя часть запроса A08P08 "+ listKluchi);
@@ -396,7 +395,7 @@ public class WsAnswer extends WebSocketServlet {
 						Load zpLoad = new ZpLoadMock();
 						if (zpLoad.load(fileUpr2)) {
 							String excelFile = userMachine + ".xls";
-							File excelFileEssence = new File("\\\\asu-paa\\ErzNsk\\" + excelFile);
+							File excelFileEssence = new File("\\\\asu-srp\\ErzNsk_all_the_rest\\excel\\" + excelFile);
 							if (excelFileEssence.exists()) {
 								new AnswerZp().loadToExcel(userMachine);
 								CharBuffer buffer4 = CharBuffer
@@ -633,7 +632,7 @@ public class WsAnswer extends WebSocketServlet {
 				// instead pv.44
 				uSER_PERSON_SURNAME = 14;
 				
-				d2=61;
+				d2=12;
 				eNP = 0;
 					int PERSON_SERPOLICY = 777; int PERSON_NUMPOLICY = 777;int PERSON_REGNUMBER = 777;int PERSON_ESTABLISHMENTAMBUL = 777;int PERSON_DATECHANGE = 777,PERSON_ESTABLISHMENTDENT = 777,PERSON_SOCIALID = 777,PERSON_STATUSID = 777;int PERSON_INSPECTION = 777,PERSON_OPERATION = 777,PERSON_STATUSREC = 777,PERSON_OUTID = 777,PERSON_INSPECTORID = 777,PERSON_ESTABLISHMENTID = 777,PERSON_DATEPOLICY = 777;pERSON_DATEINPUT = 777;int SMO_OLD = 777,PERSONADD_ADDRESSID = 777,PERSONADD_PRIM = 777;sNILS = 777;int TELEDOM = 777,TELEWORK = 777,EMAIL = 777,TELE2 = 777,DOK_VI = 777;int ZA = 777;zAD= 777; int ZAP = 777;int PRED = 777;d_V= 777;d_SER= 777;d_NUM= 777;int D_DATE = 777,METHOD = 777,PETITION = 777,FPOLIC = 777;pR_FAM = 777;pR_IM= 777;pR_OT= 777;int PR_TEL = 777;int PR_ADRES = 777;vS_NUM= 777;vS_DATE= 777;int D1 = 777;int ENP_DATE = 777;lAST_FAM =777;lAST_IM= 777;lAST_OT= 777;lAST_DR= 777;int KATEG = 777,DATE_PRIK = 777,MSA =777;
 				    eNP_1= 777;eNP_2= 777; p14cx1= 777;p14cx5= 777;p14cx6= 777;p14cx7= 777;xPN1= 777;xPN2 = 777;xPN3= 777;uSERNAME= 777;zADMINUS1= 777;zADPLUS40= 777;nBLANC= 777;vS_DATEPLUS1= 777;uSER_ENP= 777;uSER_PERSON_KINDFIRSTNAME= 777;uSER_PERSON_KINDLASTNAME= 777;uSER_SMO= 777;uSER_D_12= 777; d_12_PLUS1= 777;uSER_DOC_DATE= 777;uSER_DOCID= 777;uSER_NUMDOC= 777;uSER_SERDOC= 777;pFR_NOTID= 777;pFR_ID= 777; pFR_SNILS= 777;uSER_POL= 777;uSER_D_13= 777;uSER_OKATO_3= 777;uSER_TYPE_POL= 777;oKATO_3 = 777;
@@ -776,7 +775,9 @@ public class WsAnswer extends WebSocketServlet {
 				
 				if (task.add(userMachine))
 				{
-					messageforallquery(messageZP1Fiod,myoutbound);
+					messageforallqueryZP1Fiod(messageZP1Fiod,myoutbound);
+					
+					
 				}
 			}
         	
@@ -1013,6 +1014,79 @@ public class WsAnswer extends WebSocketServlet {
 		}
 
 
+		/*
+		 * Перегружаем для старого ZP1Fiod
+		 *
+		 */
+		private void messageforallqueryZP1Fiod(Message mes, WsOutbound myoutbound) throws Exception {
+			if (mes.create(userMachine)) {
+				 new AnswerData().loadToExcel(mes.getDataList(), userMachine +".xls");
+				String file = "50000-" + mes.getGuidBhs() + ".uprmes";
+				String fileUpr2 = "50000-" + mes.getGuidBhs();
+				String sentMessages = "";
+				File to_file = new File(Const.OUTPUTDONE + fileUpr2 + ".uprak2");
+
+				CharBuffer buffer3 = CharBuffer.wrap("Отправлен " + file);
+				myoutbound.writeTextMessage(buffer3);
+
+				if (ConstantiNastrojki.otladkaXML.equals("0")) {
+					while ("".equals(sentMessages)) {
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+
+						if (to_file.exists()) {
+							sentMessages = "> Получен " + to_file.toString();
+							CharBuffer buffer5 = CharBuffer.wrap(sentMessages);
+							myoutbound.writeTextMessage(buffer5);
+
+							//CharBuffer buffer66 = CharBuffer.wrap("q");
+							//myoutbound.writeTextMessage(buffer66);
+						} else {
+							CharBuffer buffer6 = CharBuffer
+									.wrap("> ожидаем ответа uprak2");
+							myoutbound.writeTextMessage(buffer6);
+						}
+					}
+					
+						Load zpLoad = new ZpLoadMock();
+						if (zpLoad.load(fileUpr2)) {
+							String excelFile = userMachine + ".xls";
+							File excelFileEssence = new File("\\\\asu-srp\\ErzNsk_all_the_rest\\excel\\" + excelFile);
+							if (excelFileEssence.exists()) {
+								new AnswerZp().loadToExcel(userMachine);
+								CharBuffer buffer4 = CharBuffer
+										.wrap("> загружено в эксель");
+								myoutbound.writeTextMessage(buffer4);
+								System.out.println("ПУТЬ эеселя "
+										+ excelFileEssence);
+								// если ключ пришел 1 или 0
+								if (listKluchi.get(1).equals("1")) {
+									if (Desktop.isDesktopSupported()) {
+										Desktop.getDesktop().open(
+												excelFileEssence);
+									}
+
+								}
+
+							} else {
+								System.out
+										.println("загрузки в эксель не произошло");
+							}
+
+						} else {
+							System.out.println("ошибка в парсинге упр2");
+						}
+					
+				} else {
+					CharBuffer buffer5 = CharBuffer.wrap("> режим отладки");
+					myoutbound.writeTextMessage(buffer5);
+				}
+			}
+		}
+		
 		/*
 		 * Перегружаем для работы по старому
 		 *

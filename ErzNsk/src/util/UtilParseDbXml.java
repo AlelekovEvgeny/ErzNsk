@@ -1,17 +1,29 @@
 package util;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import dao.impl.Employee;
-import dao.impl.Employees;
-import dao.impl.Secondlist;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import help.Const;
+import model.other.Employee;
+import model.other.Employees;
+import model.other.Secondlist;
+import model.other.ZP3;
 
 
 public class UtilParseDbXml {
@@ -26,6 +38,7 @@ public class UtilParseDbXml {
 	}
 		
 	public  ArrayList<ArrayList<String>> unMarshalingExample(String name) throws JAXBException {
+		
 		JAXBContext jaxbContext = JAXBContext.newInstance(Employees.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		Employees emps = (Employees) jaxbUnmarshaller.unmarshal(new File(Const.OUTPUTDONE+name+".xml"));
@@ -40,6 +53,75 @@ public class UtilParseDbXml {
 		
 		return colBig;
 	}
+	
+	
+	/**
+	 * Метод unmarshaled необходимые данные  из ответа (uprak2) запроса zp3
+	 * @param name - имя файла (ответа) 
+	 * @param prefix - расширение файла (ответа)
+	 * @return - коллекцию объектов ZP3
+	 * @throws JAXBException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public  List<ZP3> unMarshalingGenralEnp(String name,String prefix) throws JAXBException, ParserConfigurationException, SAXException, IOException {
+		
+		ZP3 zp3;
+		List<ZP3> zp3_list = new ArrayList<ZP3>();
+		//String name = "50000-60C89D04-6FF4-7FED-23E1-AFFC4239350F";
+		//String prefix = "uprak2";
+		// TODO Auto-generated method stub
+		 File fXmlFile = new File(Const.OUTPUTDONE+name+"."+prefix);
+		 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+		 
+		 Document doc = dBuilder.parse(fXmlFile);
+		 doc.getDocumentElement().normalize();
+		 
+		 NodeList nl = doc.getElementsByTagName("RSP_ZK2.QUERY_RESPONSE");
+		 
+		 for (int i = 0; i < nl.getLength(); i++)
+		 {
+			 Node rsp_zk2_qery_response = nl.item(i);
+			 zp3  = new ZP3();
+			 
+			 if (rsp_zk2_qery_response.getNodeType() == Node.ELEMENT_NODE)
+			 {
+				 Element eElement = (Element) rsp_zk2_qery_response;
+				 NodeList ALL_PID3 = eElement.getElementsByTagName("PID.3");
+				 // get first actual ENP from all tags a pid.3
+				 Node pid3 = ALL_PID3.item(0);
+				 Element el = (Element) pid3;
+				 
+				 zp3.setENP_OUT(el.getElementsByTagName("CX.1").item(0).getTextContent());
+				 
+				 NodeList IN1_3 = eElement.getElementsByTagName("IN1.3");
+				 Node ALL_IN1_3 = IN1_3.item(0);
+				 Element IN1_3_CX_1 = (Element) ALL_IN1_3;
+				 
+				 zp3.setNUM_INSUR(IN1_3_CX_1.getElementsByTagName("CX.1").item(0).getTextContent());
+				 
+				 zp3.setIN1_12(eElement.getElementsByTagName("IN1.12").item(0).getTextContent().substring(0, 10));
+				 try{
+					 zp3.setIN1_13(eElement.getElementsByTagName("IN1.13").item(0).getTextContent().substring(0, 10));
+				 }catch(Exception ex){zp3.setIN1_13("");}
+				 zp3.setOKATO(eElement.getElementsByTagName("IN1.15").item(0).getTextContent());
+				 zp3.setTYPE(eElement.getElementsByTagName("IN1.35").item(0).getTextContent());
+				 zp3.setNUM_POL(eElement.getElementsByTagName("IN1.36").item(0).getTextContent());
+
+				 zp3_list.add(zp3);
+				 //System.out.println(zp3.toString());
+				 
+				 
+			 }
+		 }
+		 
+		 return zp3_list;
+	}
+	
+	
 
 	
 	public void marshaling(String name,ArrayList<ArrayList<String>> ls ) throws JAXBException

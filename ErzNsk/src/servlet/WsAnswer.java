@@ -18,30 +18,32 @@ import javax.xml.bind.JAXBException;
 
 import loadparse.Load;
 import loadparse.ZpLoadMock;
-import message.Message;
-import message.MessageA03p07;
-import message.MessageA08p01;
-import message.MessageA08p02;
-import message.MessageA08p03;
-import message.MessageA08p03For;
-import message.MessageA08p03kol;
-import message.MessageA08p03pr;
-import message.MessageA08p04;
-import message.MessageA08p06;
-import message.MessageA08p08;
-import message.MessageA08p14;
-import message.MessageA08p16;
-import message.MessageA08v01;
-import message.MessageA13p09;
-import message.MessageA24p10;
-import message.MessageA24p102;
-import message.MessageP26;
-import message.MessageP27;
-import message.MessageZp1;
-import message.MessageZp1Fiod;
-import message.MessageZp1pr;
-import message.MessageZp9;
-import model.handsontable.ListWebForXMLQuery;
+import model.message.Message;
+import model.message.MessageA03p07;
+import model.message.MessageA08p01;
+import model.message.MessageA08p02;
+import model.message.MessageA08p03;
+import model.message.MessageA08p03For;
+import model.message.MessageA08p03kol;
+import model.message.MessageA08p03pr;
+import model.message.MessageA08p04;
+import model.message.MessageA08p06;
+import model.message.MessageA08p08;
+import model.message.MessageA08p14;
+import model.message.MessageA08p16;
+import model.message.MessageA08v01;
+import model.message.MessageA13p09;
+import model.message.MessageA24p10;
+import model.message.MessageA24p102;
+import model.message.MessageP26;
+import model.message.MessageP27;
+import model.message.MessageZp1;
+import model.message.MessageZp1Fiod;
+import model.message.MessageZp1pr;
+import model.message.MessageZp3;
+import model.message.MessageZp9;
+import model.other.ListWebForXMLQuery;
+import services.Services;
 
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.StreamInbound;
@@ -85,6 +87,7 @@ public class WsAnswer extends WebSocketServlet {
 		private Task task;
 		private HttpServletRequest request;
 		WsOutbound myoutbound;
+		Services services = new Services();
 		private SocketMess(HttpServletRequest request){
 			this.request= request;
 		}
@@ -190,39 +193,54 @@ public class WsAnswer extends WebSocketServlet {
 													}
 													else
 													{
-														if(arg0.toString().equals("A03P07"))
-														{
+														if(arg0.toString().equals("ZP3")){
+															
 															listKluchi.add(arg0.toString());
-															System.out.println("Зашла на сервер сокет первая часть A03P07 "+ listKluchi);
-														}else
-														{
-															if(arg0.toString().length() >= 10 && arg0.toString().contains("A03P07"))
+															System.out.println("Зашла на сервер сокет первая часть ZP3 "+ listKluchi);
+														}
+														else{
+															
+															if(arg0.toString().length() >= 10 && arg0.toString().contains("ZP3secondpart"))
 															{
 																	listKluchi.add(arg0.toString());
-																	System.out.println("Зашла на сервер сокет второя часть запроса A03P07 "+ listKluchi);
-															}
-															else{
-																if(arg0.toString().equals("A08P08"))
-																{
-																	listKluchi.add(arg0.toString());
-																	System.out.println("Зашла на сервер сокет первая часть A08P08 "+ listKluchi);
-																}
-																else{
-																	if(listKluchi.size() == 1 && listKluchi.get(0).equals("A08P08"))
+																	System.out.println("Зашла на сервер сокет второя часть запроса ZP3 "+ listKluchi);
+															}else{
+															
+																	if(arg0.toString().equals("A03P07"))
 																	{
-																			listKluchi.add(arg0.toString());
-																			System.out.println("Зашла на сервер сокет второя часть запроса A08P08 "+ listKluchi);
-																	}
-																	else
-																	{
-																		// доработать для остальных
 																		listKluchi.add(arg0.toString());
-																		listKluchi.add("ostalnizaprosi");
-																		System.out.println("Зашла на сервер остальные запросы "+ listKluchi);
+																		System.out.println("Зашла на сервер сокет первая часть A03P07 "+ listKluchi);
+																	}else
+																	{
+																		if(arg0.toString().length() >= 10 && arg0.toString().contains("A03P07"))
+																		{
+																				listKluchi.add(arg0.toString());
+																				System.out.println("Зашла на сервер сокет второя часть запроса A03P07 "+ listKluchi);
+																		}
+																		else{
+																			if(arg0.toString().equals("A08P08"))
+																			{
+																				listKluchi.add(arg0.toString());
+																				System.out.println("Зашла на сервер сокет первая часть A08P08 "+ listKluchi);
+																			}
+																			else{
+																				if(listKluchi.size() == 1 && listKluchi.get(0).equals("A08P08"))
+																				{
+																						listKluchi.add(arg0.toString());
+																						System.out.println("Зашла на сервер сокет второя часть запроса A08P08 "+ listKluchi);
+																				}
+																				else
+																				{
+																					// доработать для остальных
+																					listKluchi.add(arg0.toString());
+																					listKluchi.add("ostalnizaprosi");
+																					System.out.println("Зашла на сервер остальные запросы "+ listKluchi);
+																				}
+																			}
+																		}
 																	}
-																}
-															}
-														}
+															}		
+														}	
 													}
 												}
 											}
@@ -689,6 +707,7 @@ public class WsAnswer extends WebSocketServlet {
 				//}
 			}
         	
+        	
         	if(vidZaprosa.toString().equals("buttonZP9"))
 			{
         		if(!jsonString.equals("ostalnizaprosi"))
@@ -915,9 +934,72 @@ public class WsAnswer extends WebSocketServlet {
 				}
 			}
 			
+			if(vidZaprosa.toString().equals("ZP3"))
+			{
+				System.out.println("Поймали ZP3");
+				Message messageZp3 = new MessageZp3();
+				
+				
+				ArrayList<ArrayList<String>> ls = new ArrayList<ArrayList<String>>();
+				messageNoDate(messageZp3,myoutbound,ls,"ZP3");
+				
+			}
+			
 			
         }
 
+		/**
+		 * Метод "ждет" ответа uorak2, где сообщение (запрос) сформирован без входяшей информации.
+		 * Например такие запросы как ZP3, ZP2 и так далее
+		 * @throws IOException 
+		 */
+		private void messageNoDate(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {
+			
+			if(mes.create(userMachine, list,kluch)){
+				
+				String file = "50000-" + mes.getGuidBhs() + ".uprmes";
+				String fileUpr2 = "50000-" + mes.getGuidBhs();
+				String sentMessages = "";
+				File to_file = new File(Const.OUTPUTDONE + fileUpr2 + ".uprak2");
+
+				CharBuffer buffer3 = CharBuffer.wrap("Отправлен " + file);
+				myoutbound.writeTextMessage(buffer3);
+				
+				if (ConstantiNastrojki.otladkaXML.equals("0")) {
+					
+					while ("".equals(sentMessages)) {
+						
+						try {
+							Thread.sleep(20000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						if (to_file.exists()) {
+							sentMessages = "> пришел " + to_file.toString();
+							CharBuffer buffer5 = CharBuffer.wrap(sentMessages);
+							myoutbound.writeTextMessage(buffer5);
+							
+							
+							services.zp3process(fileUpr2,"uprak2"); 
+							
+							
+							
+							//CharBuffer buffer66 = CharBuffer.wrap("q");
+							//myoutbound.writeTextMessage(buffer66);
+						} else {
+							CharBuffer buffer6 = CharBuffer
+									.wrap("> ожидаем ответа uprak2");
+							myoutbound.writeTextMessage(buffer6);
+						}
+					}
+				}else {
+					CharBuffer buffer5 = CharBuffer.wrap("> режим отладки");
+					myoutbound.writeTextMessage(buffer5);
+				}
+			}
+		}
+		
 		private void messageforallquery(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {
 			if (mes.create(userMachine, list,kluch)) 
 			{

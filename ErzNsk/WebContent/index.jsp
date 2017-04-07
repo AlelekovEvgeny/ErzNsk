@@ -1144,6 +1144,24 @@ $('#A03P07').click(function ()
 	 		}		
  	     });   	 
    	     
+   	     
+$('#buttonZP3').click(function ()
+	     { 
+			console.log('sfdfsdfsdfd');
+	
+	 		if ($('.panel#tableexcel').is(':visible')) 
+	 		{
+	 			
+				$('#modalfoms').modal('hide');
+      	 		setTimeout ("$('ul#login-dp').slideDown(2000);", 1000);  	
+				$('#tamessage').val("> Послан запрос "+this.value+"...");
+				// отправляем ключ что это такой-то запрос
+				searchInDirectory('ZP3');
+				// в качестве второго индификационного флага
+		        searchInDirectory('ZP3secondpart');	 			
+	 		}		
+	     });   	 
+
 $('#ZP1taskA8P4').click(function ()
 	     { 
 	
@@ -1621,6 +1639,9 @@ $(document).ready(function()
 											</div>		
 										<li>
 										<!-- <button type="button" id="A08P14" class="btn btn-primary" value="A08P14">А08П14</button> -->
+										</li>
+										<li>
+											<button style="background-color: #4193ab;" class="btn btn-primary" id="buttonZP3" title="Запрос списка подлежащих откреплению" value="ZP3">ZP3</button>
 										</li>
 										<li>
 										<button style="background-color: #4193ab;" type="button" id="A03P07" class="btn btn-primary" value="A03P07">А03П07</button>

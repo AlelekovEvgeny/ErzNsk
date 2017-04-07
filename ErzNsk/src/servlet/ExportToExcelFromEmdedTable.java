@@ -1,6 +1,7 @@
 package servlet;
 
 import help.Const;
+import model.other.ListWeb;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -22,8 +23,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import model.handsontable.ListWeb;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;

@@ -35,11 +35,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import model.handsontable.ListWebForXMLQuery;
 import oracle.ConnectionPoolOracle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+
+import model.other.ListWebForXMLQuery;
 
 /**
  * Servlet implementation class ActionServlet

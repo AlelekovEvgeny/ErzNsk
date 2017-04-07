@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import model.handsontable.ListWeb;
 import oracle.ConnectionPoolOracle;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -44,6 +43,8 @@ import org.apache.tomcat.jni.Time;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+
+import model.other.ListWeb;
 
 /**
  * Servlet implementation class ActionServlet

@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 
-import model.zp1ajax.ZpLoadMock2;
 import util.UtilParseDbXml;
 
 import com.google.gson.Gson;
+
+import model.other.ZpLoadMock2;
 
 /**
  * Servlet implementation class ActionServlet

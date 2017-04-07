@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 //import java.sql.*;
 
@@ -147,34 +148,49 @@ public class TaskOracle extends ConnectOracle {
 		return resultSet;
 	}
 		
-		public ResultSet selectDataForZPAjaxQukly(Statement statement, String username, ArrayList<String> enpForZp1) throws SQLException {
+	public ResultSet selectDataForZPAjaxQukly(Statement statement, String username, ArrayList<String> enpForZp1) throws SQLException {
+	StringBuilder sqlStr = new StringBuilder();
+	sqlStr.append("select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where ");
+	for(int i=0;i<enpForZp1.size();i++)
+	{
+    	sqlStr.append("p.enp='").append(enpForZp1.get(i).trim()).append("' or ");
+    }
+	String query = sqlStr.toString();
+	query = query.substring(0, query.length()-4);
+	//System.out.println(query);
+	ResultSet resultSet = statement.executeQuery(query);
+	return resultSet;
+	}
+		
+	public ResultSet selectDataForZPAjaxQukly2(Statement statement, String username, ArrayList<String> enpForZp1) throws SQLException {
 		StringBuilder sqlStr = new StringBuilder();
-		sqlStr.append("select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where ");
 		for(int i=0;i<enpForZp1.size();i++)
 		{
-	    	sqlStr.append("p.enp='").append(enpForZp1.get(i).trim()).append("' or ");
+	    	sqlStr.append("select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where p.enp='").append(enpForZp1.get(i).trim()).append("' union select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where pa.enp='").append(enpForZp1.get(i).trim()).append("' union ");
 	    }
     	String query = sqlStr.toString();
-    	query = query.substring(0, query.length()-4);
-    	//System.out.println(query);
+    	query = query.substring(0, query.length()-6);
+    	//System.out.println("selectDataForZPAjaxQukly2 "+query);
 		ResultSet resultSet = statement.executeQuery(query);
 		return resultSet;
 		}
 		
-		public ResultSet selectDataForZPAjaxQukly2(Statement statement, String username, ArrayList<String> enpForZp1) throws SQLException {
-			StringBuilder sqlStr = new StringBuilder();
-			for(int i=0;i<enpForZp1.size();i++)
-			{
-		    	sqlStr.append("select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where p.enp='").append(enpForZp1.get(i).trim()).append("' union select * from person p left join personadd pa on p.person_addressid = pa.personadd_addressid where pa.enp='").append(enpForZp1.get(i).trim()).append("' union ");
-		    }
+    /**
+     * Метод формирует запрос по внешнему енп внутренние.
+	 * @param enpout - внешний ЕНП
+	 * @return  - возвращает одну или более подстрок запроса, то есть одному, одинаковому внешнему енп может возвратиться более одного различного внутреннего енп 
+     * @throws SQLException 
+	 */
+	public String queryforZP3(String enpout) throws SQLException
+	{
+	    	StringBuilder sqlStr = new StringBuilder();
+	    	sqlStr.append("");
+	    	
+			sqlStr.append("select ad.enp, t.enp from person t , personadd ad where t.person_addressid = ad.personadd_addressid and ad.enp='").append(enpout).append("'");
+				
 	    	String query = sqlStr.toString();
-	    	query = query.substring(0, query.length()-6);
-	    	//System.out.println("selectDataForZPAjaxQukly2 "+query);
-			ResultSet resultSet = statement.executeQuery(query);
-			return resultSet;
-			}
-		
-		
+			return query;
+	}
 		
 }
 

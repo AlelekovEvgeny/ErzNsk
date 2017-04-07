@@ -175,7 +175,6 @@ ws.onmessage =function(event)
  */
 function searchInDirectory(varrr) 
 {
-	console.log('send '+ varrr);
 	//если флаг входа 0 (т.е. соединений нет открытых)
 	 if(!nowCount)
 	 {
@@ -184,7 +183,7 @@ function searchInDirectory(varrr)
 		 ws.send(varrr);
 		
 		 // это условие для zp1 с подтверждением автоматического запуска эксель
-		 if(varrr == 'ZP1' || varrr == 'A08P02test' || varrr == 'buttonZP9' || varrr == 'Zp1Ajax' || varrr == 'Zp1taskA8P4' || varrr == 'A08P14' || varrr == 'A03P07' || varrr == 'A08P08'){nowCount=0;} else {nowCount=1;}
+		 if(varrr == 'ZP1' || varrr == 'A08P02test' || varrr == 'buttonZP9' || varrr == 'Zp1Ajax' || varrr == 'Zp1taskA8P4' || varrr == 'A08P14' || varrr == 'A03P07' || varrr == 'A08P08' || varrr == 'ZP3'){nowCount=0;} else {nowCount=1;}
 		 
 		 return true;
 	 }

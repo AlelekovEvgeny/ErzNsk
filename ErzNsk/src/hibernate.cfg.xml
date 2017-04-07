@@ -17,7 +17,7 @@
       <mapping class="pylypiv.errorGZ.domain.Person" />
      <mapping class="pylypiv.errorGZ.domain.PersonAdd" />
      <mapping class="loadparse.ZpRecord" />
-     <!-- This is in jar file -->
+     <!-- This class in jar file -->
      <mapping class="erznskutil.logic.ErrorGoznak" />
    </session-factory>
 </hibernate-configuration>

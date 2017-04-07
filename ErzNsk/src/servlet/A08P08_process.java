@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
-import model.handsontable.ListWeb;
+import model.other.ListWeb;
 
 @WebServlet("/process_A08P08")
 public class A08P08_process  extends HttpServlet  {

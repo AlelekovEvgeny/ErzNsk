@@ -20,13 +20,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.handsontable.ListWeb;
-import model.handsontable.ListWebForXMLQuery;
-import model.handsontable.ListWebForXMLQuery2;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+
+import model.other.ListWeb;
+import model.other.ListWebForXMLQuery;
+import model.other.ListWebForXMLQuery2;
 
 /**
  * Servlet implementation class ActionServlet

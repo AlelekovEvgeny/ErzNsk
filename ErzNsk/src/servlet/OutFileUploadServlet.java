@@ -331,9 +331,14 @@ public class OutFileUploadServlet extends HttpServlet {
         }
         return "";
     }
-   /*
-    * Формируем текст запроса 
-    */
+   
+    
+    
+    /**
+     * Метод формирует запрос по внешнему енп внутренние через union, то есть подходит для моножественной выборки.
+     * @param listRow коллекция содержит внешние енп
+     * @return возвращает одну или более подстрок запроса, то есть одному, одинаковому внешнему енп может возвратиться более одного различного внутреннего енп
+     */
     private String textQuery(List<ArrayList<String>> listRow)
     {
     	StringBuilder sqlStr = new StringBuilder();
@@ -346,10 +351,8 @@ public class OutFileUploadServlet extends HttpServlet {
 			
 		}
     	String query = sqlStr.toString();
-    	// убираем последний union
+    			// убираем последний union
     			query = query.substring(0, query.length()-6);
-    			//for debug
-    			//System.out.println("Test "+ query);
     			return query;
     }
     

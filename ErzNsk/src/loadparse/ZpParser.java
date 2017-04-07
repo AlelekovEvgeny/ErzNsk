@@ -11,7 +11,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import dao.impl.RecordH;
+import model.other.RecordH;
 
 public class ZpParser extends DefaultHandler {
 	private String curElement = "";

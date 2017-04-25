@@ -74,22 +74,22 @@ ws.onmessage =function(event)
 	    //Ловим с servlets/WsAnswer.java json данные по которым формировалися upmess
 	    // Потом когда придет сообшение получен **************.uprak2 будем выводить на второй лист и третий
 	    // в данном случае uprmesszp - это ключ по по которому определяется что эти данные при формировании uprmessa
-	    if(event.data.indexOf('.fromdbforuprmess') + 1)
-	    {
-	    	datauprmessZP= event.data;
-	    }
-	    
+	    if(event.data.indexOf('.fromdbforuprmess') + 1){ datauprmessZP= event.data; }
+	    let dataZP3 = ''; 
+	    if(event.data.indexOf('.zp3') >= 0){		dataZP3 = event.data;	}
     
     //если сервер отправил файл получен
     if(!event.data.localeCompare('> загружено в эксель') ||   !event.data.localeCompare('> возникла ошибка, проверьте закрыт ли эксель или бд') || !event.data.localeCompare('> режим отладки') || !event.data.localeCompare('q') || !event.data.localeCompare('> пришел'))
     {
     	nowCount= 0;
-    //	closeConnect(); //закрываем коннект со стороны клента
-    	// сворачиваем окно статус запроса
     	setTimeout ("$('ul#login-dp').slideUp(2000);", 5000);
+    	//	closeConnect(); //закрываем коннект со стороны клента
+
     	
-    	if(!event.data.localeCompare('> загружено в эксель'))
-    	{
+    	/*if(!event.data.localeCompare('> загружено в эксель')){
+
+    				// сворачиваем окно статус запроса
+        			
 			    	//
 			    	var gouser = "user=" + user;
 			    	var hotInstan1 = $('#list1onsc').handsontable('getInstance');
@@ -105,11 +105,56 @@ ws.onmessage =function(event)
 				    	hotInstan3.loadData(er.data3);
 				    })
     	}
+*/    }
+    
+    if(event.data.indexOf('выгрузка на первый лист') >= 0){
     	
-    }
+    	/*	Get the name of ZP3 marshaling file (after process original response of ZP3)
+		and will loading into handsontable
+    	 */
+    	if(event.data.indexOf('> выгрузка на первый лист') >= 0){
+    		nowCount= 0;
+    		dataZP3 = dataZP3.substring(dataZP3.indexOf('50000')-1);
+    		
+    		setTimeout ("$('ul#login-dp').slideUp(2000);", 0);
+        	let hotInstan1 = $('#list1onsc').handsontable('getInstance');
+        	hotInstan1.clear();
+        	
+        	//блок spinner'а (включение)
+         	$("#dim2").css("height", $(document).height());
+      		$("#dim2").fadeIn();
+      	    spinner.spin($('#spinner_center')[0]);
+      	    ajax_cnt++;
+      	    
+  	     let myData2 = {dataZP3}
+		 var jqxhr = $.getJSON( "ImportZP3fromXMLToHandsontable",myData2, function(er)
+		 {
+			hotInstan1.loadData(er.data2upr);
+		 })
+		 .done(function(ev)
+		 {
+			//
+		 })
+		 .fail( function(error) { console.log("error.responseJSON "+error.responseJSON); })
+		 .always(function()
+		 { 
+		 	// блок spinner (выключение) 
+			 ajax_cnt--;
+			 if (ajax_cnt <= 0) {
+			
+			   spinner.stop();
+			   $('#dim2').fadeOut();
+			       ajax_cnt = 0;
+			       
+		 	}
+		 });
+		}
+    	
+    } 
+    
     if(polucheno == "> получен" )
     {
-    	console.log(datauprmessZP);
+    	//console.log(datauprmessZP);
     	var kluch;
     	nowCount= 0;
     	var uprak2 = event.data.substring(10,52);
@@ -136,36 +181,31 @@ ws.onmessage =function(event)
    	      ajax_cnt++;   	 	
         
    	
-   	  // $('.nav-pills li:eq(2) a').tab('show');
-	   	var myData2 = {uprak2, datauprmessZP, kluch}
+	   	 var myData2 = {uprak2, datauprmessZP, kluch}
 	   	 var jqxhr = $.getJSON( "ImportZP1fromXMLToHandsontable",myData2, function(er)
 	   	 {
 	   		 
 	   		hotInstan3.loadData(er.data1zp1ajax);
 	   	 })
-	   	 
 	   	 .done(function(ev)
 	   	 {
-	   		//$('.nav-pills li:eq(1) a').tab('show');
 	   		 // вставляем данные на второй лист с большого запроса (upmessa)
 	   		 hotInstan2.loadData(ev.data2upr);
 	   	 })
-   	      
-	  .fail( function(error) {
-        console.log("error.responseJSON "+error.responseJSON);
-        })
-        
-	 .always(function()
-	 { 
-		// блок spinner (выключение) 
-	 		ajax_cnt--;
-	 	    if (ajax_cnt <= 0) {
-	 	       spinner.stop();
-	 	       $('#dim2').fadeOut();
-	 	       ajax_cnt = 0;
-	 	 	}
-		 
-	 });
+	   	 .fail( function(error) { console.log("error.responseJSON "+error.responseJSON); })
+		 .always(function()
+		 { 
+		 	// блок spinner (выключение) 
+			ajax_cnt--;
+		    if (ajax_cnt <= 0) {
+		    	
+		       spinner.stop();
+		       $('#dim2').fadeOut();
+		       ajax_cnt = 0;
+		       
+		 	}
+		 });
+	   	 
     }
 };
 

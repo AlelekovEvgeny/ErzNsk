@@ -1,8 +1,11 @@
 package oracle;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,6 +195,13 @@ public class TaskOracle extends ConnectOracle {
 			return query;
 	}
 		
+	public String update_confl_person(String enpSeconList) throws Exception{
+		
+		String jobquery = "begin update_zp3_psr.test_procedure(?, ?, ?, ?); end;";
+		
+		return jobquery;
+	}
+	
 }
 
 

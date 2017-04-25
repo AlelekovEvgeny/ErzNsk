@@ -1,9 +1,17 @@
 package model.other;
 
 import java.util.List;
-/*
- * Модель предназначена для парсинга json данных ПРИ ЭКСПОРТЕ. Происходит это 
- * когда нажимает кнопку таблица и таблица сворачивается
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * Wrapper для трех страниц которые находятся на "морде".
+ * методом POST в сервлете получаем данные с трех листов и обрабатываем их:
+ * ObjectMapper mapper = new ObjectMapper();
+ * ListWeb article = mapper.readValue(fg2, ListWeb.class);
+ * 
+ * @author pylypiv.sergey
+ *
  */
 public class ListWeb
 {

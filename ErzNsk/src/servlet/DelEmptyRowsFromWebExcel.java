@@ -111,6 +111,7 @@ private static final long serialVersionUID = 1L;
 	  						 mas[23].trim().contains("нет в regi")) || (
 	  						 mas[2].trim().contains("Окато не 50000 или открты СП в ЕС") ||
 	  						 mas[2].trim().contains("Откреплен в РС"))
+  						 
   						  )){
   					 
 	  				/* ArrayList<String> rows = new ArrayList<String>();
@@ -121,6 +122,8 @@ private static final long serialVersionUID = 1L;
 	  				 }
 	  				 table.add(rows);
 	  				 try {Thread.sleep(zadershka);} catch (InterruptedException e) {e.printStackTrace();}*/
+  				 // условие ZP3 -> A08P02	 
+  				 }else if(mas[4].trim().equals("")){ 
   				 }else {
   					
   					ArrayList<String> rows = new ArrayList<String>();

@@ -17,10 +17,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.servlet.ServletException;
@@ -31,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import oracle.ConnectionPoolOracle;
+import oracle.ConnectionPoolOracle_dawn;
+import services.Services;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -40,6 +45,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.tomcat.jni.Time;
+import org.hibernate.loader.plan.build.spi.TreePrinterHelper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -60,7 +66,8 @@ private static final long serialVersionUID = 1L;
         // TODO Auto-generated constructor stub
     }
 
-
+    Services services = new Services();
+    
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  // 1. get received JSON data from request
       BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -77,13 +84,26 @@ private static final long serialVersionUID = 1L;
       ObjectMapper mapper = new ObjectMapper();
       // 3. Convert received JSON to Article
       ListWeb article = mapper.readValue(fg2, ListWeb.class);
-      // String user = article.getGouser().replaceAll("gouser=zapros=", "");
+       String user = article.getGouser();
+       System.out.println("^^^^^^^^^^^b "+ user);
+      
       
       ArrayList<ArrayList<String>> ls = null;
+      ArrayList<ArrayList<String>> inf = null;
+
       try
       {
-    	addHead(article.getList1());
-		ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser());
+	      switch (article.getGouser()) {
+	      case "zapros=A08P02today":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
+	               break;
+	      case "zapros=A08P02howINsmo":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
+	               break;
+	      case "zapros=A08P02howINsmoPID29":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
+          		  break;
+	      case "zapros=A08P02akaZP3":   ls = processing_afterZP3(request, article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar_(ls);
+  		  		  break;
+	      
+	      }
       } catch ( Exception e) {
 		e.printStackTrace();
       }
@@ -92,7 +112,7 @@ private static final long serialVersionUID = 1L;
        * Проверка на отработку условия
        * переменная отвечает за информирование по сколько енп не полностью подтянулись все обязательные данные. Если if(f.get(0).trim().equalsIgnoreCase(f3.get(0).trim()) &&  f3.get(19).trim().equalsIgnoreCase("0")) ложно то она =1
        */
-      ArrayList<ArrayList<String>> inf = sonar(ls); 
+       
       Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();
       ind.put("list1", ls);
       ind.put("info", inf);
@@ -112,6 +132,190 @@ private static final long serialVersionUID = 1L;
  {
   // TODO Auto-generated method stub
   
+ }
+ 
+ private ArrayList<ArrayList<String>> processing_afterZP3(HttpServletRequest request, List listWeb1,List listWeb2,List listWeb3,String kluch) throws Exception 
+ {
+	 ConnectionPoolOracle_dawn.setUp();
+	 Set<String> st = new HashSet<String>(); // складываем енп при npp = 0
+	 Map<String,String> variables = new Hashtable<String,String>();
+	 ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+	 ArrayList<String> first_list,second_list,third_list;
+	 String ENPIN_FIRST_LIST       = null,
+			ENPIN_THIRD_LIST       = null,
+	 		ENPOUT_FIRST_LIST      = null, 
+			ENPOUT_THIRD_LIST      = null,
+			SMO_FIRST_LIST 	       = null,
+			SMO_THIRD_LIST 	       = null,
+			D12_FIRST_LIST 	       = null,
+			D12_THIRD_LIST 	       = null,
+			D13_FIRST_LIST 	       = null,
+			D13_THIRD_LIST         = null,
+			OKATO_FIRST_LIST       = null,
+			OKATO_THIRD_LIST       = null,
+			TYPEPOL_FIRST_LIST     = null,
+			TYPEPOL_THIRD_LIST     = null,
+			POL_FIRST_LIST 	       = null,
+			POL_THIRD_LIST         = null,
+			NNP__THIRD_LIST	       = null,
+			ENPIN_SECOND_LIST  	   = null,
+			SURNAME_SECOND_LIST    = null,
+			FIRSTNAME_SECOND_LIST  = null,
+			LASTNAME_SECOND_LIST   = null,
+			PASS_DOC_SECOND_LIST   = null,
+			NUM_DOC_SECOND_LIST    = null,
+			DATE_DOC_SECOND_LIST   = null,
+			BORN_SECOND_LIST       = null,
+			GOVER_SECOND_LIST      = null,
+			CODEDOC_SECOND_LIST    = null,
+			LINKSMO_SECOND_LIST    = null,
+			SEX_THRID_LIST         = null, 
+			BIRTHDAY_THRID_LIST    = null;
+	 
+
+	 
+	 ArrayList<String> badInsideEnp = uniqueGUID(listWeb3);
+					
+	 
+	 for (int i = 0; i < listWeb1.size(); i++)
+	 {
+		 first_list = (ArrayList<String>)listWeb1.get(i);
+		 
+		 if(!badInsideEnp.contains(first_list.get(0).trim()))
+		 {
+			 for (int j = 0; j < listWeb3.size(); j++)
+			 {
+		 		third_list = (ArrayList<String>)listWeb3.get(j);
+		 		// Запихать все переменн
+		 		ENPIN_FIRST_LIST = first_list.get(0).trim(); 
+		 		ENPIN_THIRD_LIST = third_list.get(0).trim();
+		 		
+		 		ENPOUT_FIRST_LIST = first_list.get(3).trim();
+		 		ENPOUT_THIRD_LIST = third_list.get(6).trim();
+		 		
+		 		SMO_FIRST_LIST = first_list.get(7).trim();
+		 		SMO_THIRD_LIST = third_list.get(9).trim();
+		 		
+		 		D12_FIRST_LIST = first_list.get(8).trim();
+		 		D12_THIRD_LIST = parseStringDate(third_list.get(10).trim());
+		 		
+		 		D13_FIRST_LIST = first_list.get(9).trim();
+		 		D13_THIRD_LIST = parseStringDate(third_list.get(11).trim());
+		 		
+		 		OKATO_FIRST_LIST = first_list.get(10).trim();
+		 		OKATO_THIRD_LIST = third_list.get(12).trim();
+		 		
+		 		TYPEPOL_FIRST_LIST = first_list.get(11).trim();
+		 		TYPEPOL_THIRD_LIST = third_list.get(13).trim();
+		 		
+		 		POL_FIRST_LIST = first_list.get(12).trim();
+		 		POL_THIRD_LIST = third_list.get(14).trim();
+		 		
+		 		NNP__THIRD_LIST = third_list.get(19).trim();
+		 		SEX_THRID_LIST        = third_list.get(22).trim();
+				if(third_list.get(21).trim() == null ){BIRTHDAY_THRID_LIST   = "";}else{BIRTHDAY_THRID_LIST   = third_list.get(21).trim();}
+				
+		 		
+				
+				
+				/*System.out.println(ENPIN_FIRST_LIST+" - "+ENPIN_THIRD_LIST);
+				System.out.println(ENPOUT_FIRST_LIST+" - "+ENPOUT_THIRD_LIST);
+				System.out.println(SMO_FIRST_LIST+" - "+SMO_THIRD_LIST);
+				System.out.println(D12_FIRST_LIST+" - "+D12_THIRD_LIST);
+				System.out.println(D13_FIRST_LIST+" - "+D13_THIRD_LIST);
+				System.out.println(OKATO_FIRST_LIST+" - "+OKATO_THIRD_LIST);
+				System.out.println(TYPEPOL_FIRST_LIST+" - "+TYPEPOL_THIRD_LIST);
+				System.out.println(POL_FIRST_LIST+" - "+POL_THIRD_LIST);
+				System.out.println(NNP__THIRD_LIST);*/
+				
+		 		/*equals first list vs thrid list*/
+	 			if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
+	 			   ENPOUT_FIRST_LIST.equalsIgnoreCase(ENPOUT_THIRD_LIST)   &&
+	 			   SMO_FIRST_LIST.equalsIgnoreCase(SMO_THIRD_LIST) 		   &&
+	 			   D12_FIRST_LIST.equalsIgnoreCase(D12_THIRD_LIST) 		   &&
+	 			   OKATO_FIRST_LIST.equalsIgnoreCase(OKATO_THIRD_LIST)     &&
+	 			   TYPEPOL_FIRST_LIST.equalsIgnoreCase(TYPEPOL_THIRD_LIST) &&
+	 			   POL_FIRST_LIST.equalsIgnoreCase(POL_THIRD_LIST)		   &&
+	 			 //!NNP__THIRD_LIST.equalsIgnoreCase("0") 			       &&
+	 			   D13_FIRST_LIST.equalsIgnoreCase(D13_THIRD_LIST) 		   &&
+	 			   !D13_THIRD_LIST.equals("")
+	 			   )
+	 			{
+	 				
+					first_list.set(19,SEX_THRID_LIST);
+					first_list.set(20,BIRTHDAY_THRID_LIST);
+	 				
+	 				
+	 				
+	 			}else if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
+		 	 			   ENPOUT_FIRST_LIST.equalsIgnoreCase(ENPOUT_THIRD_LIST)   &&
+		 	 			   NNP__THIRD_LIST.equalsIgnoreCase("0") 				   &&
+			 			   (!OKATO_THIRD_LIST.equalsIgnoreCase("50000") 		   ||
+	 					   (OKATO_THIRD_LIST.equalsIgnoreCase("50000") && !D13_THIRD_LIST.equals("")))
+			 			   
+	 					){
+	 				
+	 				st.add(ENPIN_FIRST_LIST);
+	 				
+	 			}
+			 } 
+			 
+			    for (int k = 1; k < listWeb2.size(); k++)
+				{
+					second_list = (ArrayList<String>)listWeb2.get(k);
+					
+					ENPIN_SECOND_LIST 	   = second_list.get(26).trim();
+					SURNAME_SECOND_LIST    = second_list.get(0).trim();
+					FIRSTNAME_SECOND_LIST  = second_list.get(1).trim();
+					LASTNAME_SECOND_LIST   = second_list.get(2).trim();
+					PASS_DOC_SECOND_LIST   = second_list.get(8).trim();
+					NUM_DOC_SECOND_LIST    = second_list.get(9).trim();
+					DATE_DOC_SECOND_LIST   = second_list.get(32).trim();
+					BORN_SECOND_LIST       = second_list.get(31).trim();
+					GOVER_SECOND_LIST      = parseGoverment(second_list.get(33).trim());
+					CODEDOC_SECOND_LIST    = second_list.get(17).trim();
+					LINKSMO_SECOND_LIST    = second_list.get(11).trim();
+					
+					
+					if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_SECOND_LIST)){
+						
+						first_list.set(4,SURNAME_SECOND_LIST);
+						first_list.set(5,FIRSTNAME_SECOND_LIST);
+						first_list.set(6,LASTNAME_SECOND_LIST);
+						first_list.set(13,PASS_DOC_SECOND_LIST);
+						first_list.set(14,NUM_DOC_SECOND_LIST);
+						first_list.set(15,DATE_DOC_SECOND_LIST);
+						first_list.set(16,BORN_SECOND_LIST);
+						first_list.set(17,GOVER_SECOND_LIST);
+						first_list.set(18,CODEDOC_SECOND_LIST);
+						
+						/*check linksmo*/
+						if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0){
+							
+							if(st.contains(ENPIN_SECOND_LIST)){
+								
+								services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST);
+							}
+						}
+					}
+					
+				}
+			 
+			 
+			  if(i > 0 											  &&
+				 first_list.get(19).equals("")  				  &&
+				 first_list.get(20).equals("")){
+				  first_list.set(6,"Нет ответа на ZP1 или в составе ответа ZP1 нет СП из ZP3 или ЕНП_внешнего него в РСЗ"); 
+			  }
+			  
+		 }
+		 else{	if(i > 0)	first_list.set(6,"в ответе два главных ЕНП"); }
+		 
+		 list.add(first_list);
+	 }
+	 
+	 
+	 return list;
  }
  
  private ArrayList<ArrayList<String>> processing(List listWeb1,List listWeb2,List listWeb3,String kluch) throws Exception 
@@ -601,6 +805,25 @@ private static final long serialVersionUID = 1L;
 		 return info;
  }
  
+ private ArrayList<ArrayList<String>> sonar_(ArrayList<ArrayList<String>> ls)
+ {
+	 ArrayList<ArrayList<String>> info = new ArrayList<ArrayList<String>>();
+	 int sht = 0;
+     for (int i = 0; i < ls.size(); i++)
+     {
+			 if(ls.get(i).get(4).trim().equals(""))
+			 {
+					 sht++;
+			 }
+     }
+     
+ 	 ArrayList<String> list = new ArrayList<String>();
+	 list.add(String.valueOf(sht));
+	 info.add(list);
+	 
+	 return info;
+ }
+ 
  /*
   * Меотд добовляет шапку в первую строку первого листа в данные которые пришли с web-таблицы
   */
@@ -699,8 +922,8 @@ private static final long serialVersionUID = 1L;
  
  private String parseStringDate(String cunvertCurrentDate) throws ParseException
  {
-	 cunvertCurrentDate = cunvertCurrentDate.substring(6,10)+"-"+cunvertCurrentDate.substring(3,5)+"-"+cunvertCurrentDate.substring(0,2);
-	    return cunvertCurrentDate;
+	 if(cunvertCurrentDate.length() == 10) cunvertCurrentDate = cunvertCurrentDate.substring(6,10)+"-"+cunvertCurrentDate.substring(3,5)+"-"+cunvertCurrentDate.substring(0,2);
+	 return cunvertCurrentDate;
  }
  
  private String parseStringDateYYY_MM_DD(String cunvertCurrentDate) throws ParseException
@@ -717,7 +940,8 @@ private static final long serialVersionUID = 1L;
  * Метод заменяет  [5450730828000030, null, null, null, null, null, null, null, null, null, null] 
  * на ""
  */
- private void chancheNUL(ArrayList<String> f)
+ 
+private void chancheNUL(ArrayList<String> f)
  {
 	 for (int i = 1; i < f.size(); i++)
 	 {
@@ -725,24 +949,44 @@ private static final long serialVersionUID = 1L;
 	 }
  }
 	
- /*
-  * Метод опознает в ответе на zp1.
-  * Если под одним гуидом приходит 2 главных енп -> тот енп(внутренний) не будет попадать на удаление п02
-  */
- private ArrayList<String> uniqueGUID(List listWeb3)
+ 
+ /**
+  * Метод делает проверку на одинаковый внешний ЕНП при одинаковом ГУИД
+  * Иначе, если при одинаковом ГУИД разные внешние ЕНП добовляем в коллекцию для дальнейшей работы.
+ * @param listWeb3 - коллекция с ответом на ZP1
+ * @return - Коллекцию с ЕНП которые не прошли проверку на одинаковый внешний ЕНП при одном ГУИД'е
+ */
+ @SuppressWarnings("unchecked")
+ private ArrayList<String> uniqueGUID(@SuppressWarnings("rawtypes") List listWeb3)
  {
 	 ArrayList<String> st  = new ArrayList<String>();
+	 ArrayList<String> frist_row  = null;
+	 ArrayList<String> second_row = null; 
+	 String
+	 		second_row_GUID   = null,
+			frist_row_GUID    = null,
+			first_row_ENPOUT  = null,
+			second_row_ENPOUT = null,
+			frist_row_ENPIN   = null;
 	 
 	 for (int i2 = 0; i2 < listWeb3.size()-1; i2++)
 	 {
-		 ArrayList<String> f= (ArrayList<String>)listWeb3.get(i2);
-		 ArrayList<String> f_plus_1= (ArrayList<String>)listWeb3.get(i2+1);
+		 frist_row  = (ArrayList<String>)listWeb3.get(i2);
+		 second_row = (ArrayList<String>)listWeb3.get(i2+1);
 		 
-		 if(	f.get(5).trim().equals(f_plus_1.get(5).trim())	)
+		 
+		 frist_row_GUID = frist_row.get(5).trim();
+		 second_row_GUID = second_row.get(5).trim();
+		 
+		 if(frist_row_GUID.equals(second_row_GUID))
 		 {
-			 if(	!f.get(6).trim().equalsIgnoreCase(f_plus_1.get(6).trim())	)
+			 first_row_ENPOUT = frist_row.get(6).trim();
+			 second_row_ENPOUT = second_row.get(6).trim();
+			 
+			 if(!first_row_ENPOUT.equalsIgnoreCase(second_row_ENPOUT)	)
 			 {
-				 st.add(f.get(0).trim());
+				 frist_row_ENPIN = frist_row.get(0).trim();
+				 st.add(frist_row_ENPIN);
 			 }
 		 }
 	 }

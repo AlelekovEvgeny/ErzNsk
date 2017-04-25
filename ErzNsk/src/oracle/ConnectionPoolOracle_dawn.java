@@ -13,11 +13,11 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 
 
-public class ConnectionPoolOracle 
+public class ConnectionPoolOracle_dawn 
 {
 	
 	
-	private ConnectionPoolOracle()
+	private ConnectionPoolOracle_dawn()
 	{
 		
 	}
@@ -34,7 +34,7 @@ public class ConnectionPoolOracle
     public static DataSource setUp() throws Exception
     {
     	Properties properties = new Properties();
-    	InputStream inputStream =ConnectionPoolOracle.class.getClassLoader().getResourceAsStream("oracle.properties");
+    	InputStream inputStream =ConnectionPoolOracle_dawn.class.getClassLoader().getResourceAsStream("oracle_dawn.properties");
     	properties.load(inputStream);
     	
     	DRIVER = properties.getProperty("jdbc.driver");
@@ -75,7 +75,7 @@ public class ConnectionPoolOracle
         //
         
                 new PoolableConnectionFactory(cf, connectionPool,null, null, false, true);
-     	if(connectionPool != null){	System.out.println("Connect JDBC Pool Oracle");}
+     	if(connectionPool != null){	/*System.out.println("Connect JDBC Pool Oracle");*/}
         
      	
      	

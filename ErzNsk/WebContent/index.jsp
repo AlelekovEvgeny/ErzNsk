@@ -477,7 +477,7 @@ $(document).ready(function()
 	        	             */  
 	        	             var id;
 	        	             var datatargetm;
-	        	             $('#A08P02today,#A08P02howINsmo,#A08P02howINsmoPID29,#buttonA08P02').click(function (idtoplevel)
+	        	             $('#A08P02today,#A08P02howINsmo,#A08P02howINsmoPID29,#buttonA08P02,#A08P02akaZP3').click(function (idtoplevel)
 			        	     {	
 	        	            	 // ловим id нажатой кнопки
     	            	 		 var ids = $(this).attr("id");
@@ -485,7 +485,7 @@ $(document).ready(function()
     	            	 		 if('buttonA08P02' === ids) {	id = ids; datatargetm = $(this).attr("data-target");  console.log('jkj '+id+'  '+ datatargetm);	}
     	            	 		 
     	            	 		//если кнопка второго уровня то 		 
- 	        	            	if( 'A08P02today' === ids || 'A08P02howINsmo' === ids || 'A08P02howINsmoPID29' === ids)
+ 	        	            	if( 'A08P02today' === ids || 'A08P02howINsmo' === ids || 'A08P02howINsmoPID29' === ids || 'A08P02akaZP3' == ids)
  		        	            {
  	        	            		var flag = 0;
 		        	            	 $(""+datatargetm).modal('hide');
@@ -510,6 +510,7 @@ $(document).ready(function()
         	            	 			 if('A08P02today' === ids){ var gouser = "zapros=A08P02today";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1),gouser	}	}
  		        				         if('A08P02howINsmo' === ids){ var gouser = "zapros=A08P02howINsmo";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
  		        				         if('A08P02howINsmoPID29' === ids){ var gouser = "zapros=A08P02howINsmoPID29";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
+ 		        				         if('A08P02akaZP3' === ids){ var gouser = "zapros=A08P02akaZP3";	var myDatap02 = { list1:hotInstance.getData(0,0,e1-1,wd1-1), list2:hotInstance2.getData(0,0,e2-1,wd2-1), list3:hotInstance3.getData(0,0,e3-1,wd3-1), gouser	} }
  		        				          
  		        				         
  		        				        $("#dim2").css("height", $(document).height());
@@ -1608,6 +1609,8 @@ $(document).ready(function()
 														<button type="button" id="A08P02howINsmoPID29" style="margin-bottom:7px;"
 														class="btn btn-primary" value="0">Закрыть датой
 														как в СМО с PID29</button>
+														<button type="button" id="A08P02akaZP3" style="margin-bottom:7px;"
+														class="btn btn-primary" value="0">Закрыть (ZP3 -> A08П02)</button>
 													</div>
 												</div>
 											</div>
@@ -1726,7 +1729,7 @@ $(document).ready(function()
 								<button class="btn btn-primary" id="drugiezaprosi" data-toggle="modal" data-target="#myModal1">Запрос ЕНП-внеш -> Енп-вн</button>
 								<button class="btn btn-primary" id="drugiezaprosi"
 									data-toggle="modal" data-target="#myModal2">Исправление внеш ЕНП</button>
-									<button class="btn btn-primary" id="drugiezaprosi"data-toggle="modal" data-target="#myModal3" disabled="disabled">Сгенерировать ЕНП</button>
+									<button class="btn btn-primary" id="drugiezaprosi" data-toggle="modal" data-target="#myModal3">Сгенерировать ЕНП</button>
 									<button class="btn btn-primary" id="taskP03">Задание П03</button>
 									<button class="btn btn-primary" id="taskP02">Задание П02</button>
 									<button class="btn btn-primary" id="taskP04">Задание П04</button>
@@ -1943,7 +1946,7 @@ $(document).ready(function()
 									<form action="GenEnp" method="post" enctype="multipart/form-data">
 										Выберите файл для загрузки формата .xls :<input type="file"
 											name="fileName"> <br>
-										<button type="submit" class="btn btn-primary" disabled="disabled">Отправить запрос</button>
+										<button type="submit" class="btn btn-primary">Отправить запрос</button>
 										<button type="button" class="btn btn-success" id="">Помощь</button>
 									</form>
 

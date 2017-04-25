@@ -937,7 +937,7 @@ public class WsAnswer extends WebSocketServlet {
 			if(vidZaprosa.toString().equals("ZP3"))
 			{
 				System.out.println("Поймали ZP3");
-				Message messageZp3 = new MessageZp3();
+				Message messageZp3 =  new MessageZp3();
 				
 				
 				ArrayList<ArrayList<String>> ls = new ArrayList<ArrayList<String>>();
@@ -955,7 +955,13 @@ public class WsAnswer extends WebSocketServlet {
 		 */
 		private void messageNoDate(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {
 			
-			if(mes.create(userMachine, list,kluch)){
+			//if(mes.create(userMachine, list,kluch)){
+				// 50000-A81268FD-7AFA-4624-BDB0-C9796596D343
+			/*	String file = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343" + ".uprmes";
+				String fileUpr2 = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343";
+				String sentMessages = "";
+				File to_file = new File(Const.OUTPUTDONE + fileUpr2 + ".uprak2");*/
+				
 				
 				String file = "50000-" + mes.getGuidBhs() + ".uprmes";
 				String fileUpr2 = "50000-" + mes.getGuidBhs();
@@ -980,13 +986,17 @@ public class WsAnswer extends WebSocketServlet {
 							CharBuffer buffer5 = CharBuffer.wrap(sentMessages);
 							myoutbound.writeTextMessage(buffer5);
 							
+							sentMessages = "> обработка и получение внутренних енп";
+							buffer5 = CharBuffer.wrap(sentMessages);
+							myoutbound.writeTextMessage(buffer5);
+								
+							services.zp3process(fileUpr2,"uprak2");
 							
-							services.zp3process(fileUpr2,"uprak2"); 
+							sentMessages = "> выгрузка на первый лист " + fileUpr2 + ".zp3";
+							buffer5 = CharBuffer.wrap(sentMessages);
+							myoutbound.writeTextMessage(buffer5);
 							
 							
-							
-							//CharBuffer buffer66 = CharBuffer.wrap("q");
-							//myoutbound.writeTextMessage(buffer66);
 						} else {
 							CharBuffer buffer6 = CharBuffer
 									.wrap("> ожидаем ответа uprak2");
@@ -997,7 +1007,7 @@ public class WsAnswer extends WebSocketServlet {
 					CharBuffer buffer5 = CharBuffer.wrap("> режим отладки");
 					myoutbound.writeTextMessage(buffer5);
 				}
-			}
+			//}
 		}
 		
 		private void messageforallquery(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {

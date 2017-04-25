@@ -111,8 +111,8 @@ public class GenEnp extends HttpServlet {
 								
 							
 				            
-				         //   loadToExcelResalt(resaltQuery,absolutePath);
-				         //   downloadExcel(response,absolutePath);
+				            loadToExcelResalt(resaltQuery,absolutePath);
+				            downloadExcel(response,absolutePath);
 		            }
 		            else
 		            {
@@ -125,14 +125,13 @@ public class GenEnp extends HttpServlet {
 				
         }
             
-      // String ss = fileSaveDir.getAbsolutePath() + File.separator;
-       //System.out.println("зфср1 "+ss);
+       String ss = fileSaveDir.getAbsolutePath() + File.separator;
+       System.out.println("зфср1 "+ss);
         
   
-       // request.getSession().setAttribute("message", fileName + " File uploaded successfully!");
-       // request.getSession().setAttribute("absolutePath",absolutePath);
-       // getServletContext().getRequestDispatcher("/response.jsp").forward(
-       //         request, response);
+       request.getSession().setAttribute("message", fileName + " File uploaded successfully!");
+       request.getSession().setAttribute("absolutePath",absolutePath);
+       getServletContext().getRequestDispatcher("/response.jsp").forward(request, response);
     }
   
     private void loadToExcelResalt( List<ArrayList<String>> resaltQuery, String absolutePath) throws FileNotFoundException, IOException
@@ -227,7 +226,7 @@ public class GenEnp extends HttpServlet {
 		String text = textQuery(listRow);
 		// создаем подключение и запрос 
 		//System.out.println("text "+text);
-		Thread.sleep(10000000);
+		//Thread.sleep(10000000);
 		List<ArrayList<String>> listRowWithEnpPerson = new QueryAkaExcelfromPool().queryGenENP(text);
 				
 		FileOutputStream fileOut = new FileOutputStream(absolutePath);
@@ -300,7 +299,7 @@ public class GenEnp extends HttpServlet {
 		{
     		
 			ArrayList<String> list = listRow.get(i);
-			sqlStr.append("select  enp.calc_kr('54'|| enp.calc_mmggggdd(persoN_birthday,person_sex + 1) || (enp.calc_nnnnn(person_birthday,person_sex + 1))) from person pp where pp.person_addressid = pa.personadd_addressid) where pa.personadd_addressid in (select p.person_addressid from person p where p.enp ='").append(list.get(0)).append("' union ");
+			sqlStr.append("select  enp.calc_kr('54'|| enp.calc_mmggggdd(pp.person_birthday,pp.person_sex + 1) || (enp.calc_nnnnn(pp.person_birthday,pp.person_sex + 1))) from person pp where pp.enp ='").append(list.get(0)).append("' union ");
 		}
     	String query = sqlStr.toString();
        query=query.substring(0, query.length()-6);

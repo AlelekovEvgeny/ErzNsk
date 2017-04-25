@@ -1,24 +1,41 @@
 package model.other;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Класс, объект которого является частью распарсеного ответа на запрос ZP3 
  * @author pylypiv.sergey
  *
  */
-public class ZP3 {
+
+@XmlRootElement(name = "ZP3")
+@XmlAccessorType (XmlAccessType.FIELD)
+public class ZP3 implements Cloneable {
 
 	public ZP3() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	
+	//@XmlElement(name = "ENP_OUT")
 	private String ENP_OUT;
+	//@XmlElement(name = "ENP_OUT_old_1")
+	private String ENP_OUT_old_1;
+	//@XmlElement(name = "NUM_INSUR")
 	private String NUM_INSUR;
+	//@XmlElement(name = "IN1_12")
 	private String IN1_12;
+	//@XmlElement(name = "IN1_13")
 	private String IN1_13;
+	//@XmlElement(name = "OKATO")
 	private String OKATO;
+	//@XmlElement(name = "TYPE")
 	private String TYPE;
+	//@XmlElement(name = "NUM_POL")
 	private String NUM_POL;
+	//@XmlElement(name = "ENP_IN")
+	private String ENP_IN;
 	
 	public String getENP_OUT() {
 		return ENP_OUT;
@@ -62,12 +79,32 @@ public class ZP3 {
 	public void setNUM_POL(String nUM_POL) {
 		NUM_POL = nUM_POL;
 	}
+	public String getENP_IN() {
+		return ENP_IN;
+	}
+	public void setENP_IN(String eNP_IN) {
+		ENP_IN = eNP_IN;
+	}
 	
+	
+	@Override
+    public ZP3 clone() throws CloneNotSupportedException {
+      return (ZP3)super.clone();
+    }
+	
+	public String getENP_OUT_old_1() {
+		return ENP_OUT_old_1;
+	}
+	public void setENP_OUT_old_1(String eNP_OUT_old_1) {
+		ENP_OUT_old_1 = eNP_OUT_old_1;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("ZP3 [ENP_OUT=");
 		builder.append(ENP_OUT);
+		builder.append(", ENP_OUT_old_1=");
+		builder.append(ENP_OUT_old_1);
 		builder.append(", NUM_INSUR=");
 		builder.append(NUM_INSUR);
 		builder.append(", IN1_12=");
@@ -80,9 +117,12 @@ public class ZP3 {
 		builder.append(TYPE);
 		builder.append(", NUM_POL=");
 		builder.append(NUM_POL);
+		builder.append(", ENP_IN=");
+		builder.append(ENP_IN);
 		builder.append("]");
 		return builder.toString();
-	}
+	}    
 	
+		
 }
 	

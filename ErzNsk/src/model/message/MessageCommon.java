@@ -386,7 +386,7 @@ public abstract class MessageCommon implements Message {
 		 */
 		if(Pid29 == 20) {
 			if(dataList.get(0).size() > 20) {
-				if(!dataList.get(i).get(Pid29).equals("")) {
+				if(!dataList.get(i).get(Pid29).equals("") && dataList.get(i).get(Pid29).contains("-")) {
 					pid.addContent(new Element("PID.29", namespace).addContent(dataList.get(i).get(Pid29)));
 					pid.addContent(new Element("PID.30", namespace).addContent("Y"));
 				}

@@ -22,8 +22,10 @@ import org.xml.sax.SAXException;
 import help.Const;
 import model.other.Employee;
 import model.other.Employees;
+import model.other.WrapZP3Marshaling;
 import model.other.Secondlist;
 import model.other.ZP3;
+import model.other.ZpParser2;
 
 
 public class UtilParseDbXml {
@@ -53,6 +55,42 @@ public class UtilParseDbXml {
 		
 		return colBig;
 	}
+	
+	public  ArrayList<ArrayList<String>> unMarshalingZP3(String name) throws JAXBException {
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(WrapZP3Marshaling.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		WrapZP3Marshaling emps = (WrapZP3Marshaling) jaxbUnmarshaller.unmarshal(new File(Const.OUTPUTDONE+name+".xml"));
+
+		ArrayList<ArrayList<String>> colBig = new ArrayList<ArrayList<String>>();
+		
+		for (ZP3 zp3 : emps.getList()) {
+			
+			ArrayList<String> sl = new ArrayList<String>();
+			
+			sl.add(zp3.getENP_IN());
+			sl.add("");
+			sl.add("");
+			sl.add(zp3.getENP_OUT());
+			//sl.add(zp3.getENP_OUT_old_1());
+			sl.add("");
+			sl.add("");
+			sl.add("");
+			sl.add(zp3.getNUM_INSUR());
+			sl.add(zp3.getIN1_12());
+			sl.add(zp3.getIN1_13());
+			sl.add(zp3.getOKATO());
+			sl.add(zp3.getTYPE());
+			sl.add(zp3.getNUM_POL());
+			
+			
+			colBig.add(sl);
+		}
+		
+		return colBig;
+	}
+
+	
 	
 	
 	/**
@@ -97,6 +135,12 @@ public class UtilParseDbXml {
 				 
 				 zp3.setENP_OUT(el.getElementsByTagName("CX.1").item(0).getTextContent());
 				 
+				 // get second actual (i.e. old enp ) ENP from all tags a pid.3
+				 Node pid3_2 = ALL_PID3.item(1);
+				 Element pid3_2_element = (Element) pid3_2;
+				 
+				 zp3.setENP_OUT_old_1(pid3_2_element.getElementsByTagName("CX.1").item(0).getTextContent());
+				 
 				 NodeList IN1_3 = eElement.getElementsByTagName("IN1.3");
 				 Node ALL_IN1_3 = IN1_3.item(0);
 				 Element IN1_3_CX_1 = (Element) ALL_IN1_3;
@@ -119,6 +163,25 @@ public class UtilParseDbXml {
 		 }
 		 
 		 return zp3_list;
+	}
+	
+	/**
+	 * Метод осуществяет маршалинг коллекции с объектами ZP3
+	 * @param name - имя будующего файла.
+	 * @param to_xml - коллеция для маршалинга
+	 * @throws JAXBException
+	 */
+	public  void MarshalingGenralEnp(String name,List<ZP3> to_xml) throws JAXBException{
+		
+		WrapZP3Marshaling jaxbList = new WrapZP3Marshaling();
+		jaxbList.setList(to_xml);
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(WrapZP3Marshaling.class);
+		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+		jaxbMarshaller.marshal(jaxbList, new File(Const.OUTPUTDONE+name+".xml"));
 	}
 	
 	

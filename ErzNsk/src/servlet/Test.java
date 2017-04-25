@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import help.Const;
 import model.other.ZP3;
 import services.Services;
+import util.UtilForErrorGz;
 
 public class Test {
 
@@ -26,8 +27,9 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		
-		Services services = new Services();
+		/*Services services = new Services();
 		try {
+			//services.zp3process("50000-7AE3CBD2-B2BF-D6DB-CD6C-E730309ED2DD","uprak2");
 			services.zp3process("50000-60C89D04-6FF4-7FED-23E1-AFFC4239350F","uprak2");
 		} catch (JAXBException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -35,7 +37,7 @@ public class Test {
 		}
 		
 		
-		/*ZP3 zp3 = new ZP3();
+		ZP3 zp3 = new ZP3();
 		String name = "50000-60C89D04-6FF4-7FED-23E1-AFFC4239350F";
 		String prefix = "uprak2";
 		// TODO Auto-generated method stub
@@ -81,7 +83,10 @@ public class Test {
 				 
 				 
 			 }
-		 }*/
+		 }
+		 */
+		UtilForErrorGz g = new UtilForErrorGz();
+		System.out.println("54"+g.enp_calc("09.12.1984", 1+1));
 	}
 
 }

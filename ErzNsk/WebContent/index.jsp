@@ -1439,6 +1439,7 @@ $(document).ready(function()
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="loadGoznakError" id="errorgz"><i class="fa fa-warning faa-flash animated-hover"></i> Ошибки Гознака</a></li>
+					<li><a href="chart.jsp" id="errorgz"><i class="fa fa-bar-chart" aria-hidden="true"></i> Инфографика</a></li>
 					<li><a href="#" data-toggle="modal"
 						data-target=".bs-example-modal-lg" id="zapros"><i
 							class="fa fa-space-shuttle faa-passing animated-hover"></i>
@@ -1599,18 +1600,18 @@ $(document).ready(function()
 															принадлежность</p>
 													</div>
 													<div class="modal-body">
-														<p></p>
-														<button type="button" id="A08P02today" style="margin-bottom:7px;"
-															class="btn btn-primary" value="0">Закрыть
-															сегодняшней датой</button>
-														<button type="button" id="A08P02howINsmo" style="margin-bottom:7px;"
-															class="btn btn-primary" value="0">Закрыть датой
-															как в СМО</button>
-														<button type="button" id="A08P02howINsmoPID29" style="margin-bottom:7px;"
-														class="btn btn-primary" value="0">Закрыть датой
-														как в СМО с PID29</button>
-														<button type="button" id="A08P02akaZP3" style="margin-bottom:7px;"
-														class="btn btn-primary" value="0">Закрыть (ZP3 -> A08П02)</button>
+															<li>
+																<button type="button" id="A08P02today" style="margin-bottom:7px;" class="btn btn-primary" title="Закрыть сегодняшней датой" value="0">ЗСД</button>
+															</li>
+															<li>
+																<button type="button" id="A08P02howINsmo" style="margin-bottom:7px;" class="btn btn-primary" title="Закрыть датой как в СМО" value="0">ЗДкС</button>
+															</li>
+															<li>
+																<button type="button" id="A08P02howINsmoPID29" style="margin-bottom:7px;" class="btn btn-primary"  title="Закрыть датой как в СМО с PID29" value="0">ЗДкСсPID29</button>	
+															</li>
+															<li>
+																<button type="button" id="A08P02akaZP3" style="margin-bottom:7px;" class="btn btn-primary" title="Закрыть ZP3 -> A08П02" value="0">З_ZP3_A08П02</button>
+															</li>
 													</div>
 												</div>
 											</div>

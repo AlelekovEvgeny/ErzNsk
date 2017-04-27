@@ -51,7 +51,7 @@ public class Refresh_Tab_errorGZ extends HttpServlet {
    
    
    try {
-		dataSource = ConnectionPoolOracle.setUp();
+		dataSource = ConnectionPoolOracle.getConnectionDataSource();
 		conn = dataSource.getConnection();
 		ConnectionPoolOracle.printStatus();
 		

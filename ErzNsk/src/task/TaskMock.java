@@ -16,7 +16,7 @@ public class TaskMock implements Task {
 		Statement statement = null;
 		Connection conn = null;
 		try {
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			TaskOracle taskOracle = new TaskOracle();
 			// удаляем задание БД

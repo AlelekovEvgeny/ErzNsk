@@ -955,7 +955,7 @@ public class WsAnswer extends WebSocketServlet {
 		 */
 		private void messageNoDate(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {
 			
-			//if(mes.create(userMachine, list,kluch)){
+			if(mes.create(userMachine, list,kluch)){
 				// 50000-A81268FD-7AFA-4624-BDB0-C9796596D343
 			/*	String file = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343" + ".uprmes";
 				String fileUpr2 = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343";
@@ -1007,7 +1007,7 @@ public class WsAnswer extends WebSocketServlet {
 					CharBuffer buffer5 = CharBuffer.wrap("> режим отладки");
 					myoutbound.writeTextMessage(buffer5);
 				}
-			//}
+			}
 		}
 		
 		private void messageforallquery(Message mes, WsOutbound myoutbound,	ArrayList<ArrayList<String>> list, String kluch) throws Exception {

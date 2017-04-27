@@ -22,16 +22,28 @@ public class ConnectionPoolOracle_dawn
 		
 	}
 	
-	public static String DRIVER;
-    public static String URL;
-    public static String USERNAME;
-    public static String PASSWORD;
+	private static String DRIVER;
+	private static String URL;
+	private static String USERNAME;
+	private static String PASSWORD;
 
-    private static GenericObjectPool connectionPool = null;
+    private static GenericObjectPool connectionPool;
+    private static javax.sql.DataSource pool; 
     
     
+    static
+    {
+    	try{
+    		
+			pool = setUp();
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+    }
 
-    public static DataSource setUp() throws Exception
+    private static DataSource setUp() throws Exception
     {
     	Properties properties = new Properties();
     	InputStream inputStream =ConnectionPoolOracle_dawn.class.getClassLoader().getResourceAsStream("oracle_dawn.properties");

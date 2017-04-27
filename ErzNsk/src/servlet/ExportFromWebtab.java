@@ -136,8 +136,8 @@ private static final long serialVersionUID = 1L;
  
  private ArrayList<ArrayList<String>> processing_afterZP3(HttpServletRequest request, List listWeb1,List listWeb2,List listWeb3,String kluch) throws Exception 
  {
-	 ConnectionPoolOracle_dawn.setUp();
 	 Set<String> st = new HashSet<String>(); // складываем енп при npp = 0
+	 Map<String,String> s2 = new Hashtable<String,String>();
 	 Map<String,String> variables = new Hashtable<String,String>();
 	 ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 	 ArrayList<String> first_list,second_list,third_list;
@@ -170,7 +170,8 @@ private static final long serialVersionUID = 1L;
 			CODEDOC_SECOND_LIST    = null,
 			LINKSMO_SECOND_LIST    = null,
 			SEX_THRID_LIST         = null, 
-			BIRTHDAY_THRID_LIST    = null;
+			BIRTHDAY_THRID_LIST    = null,
+	 		GUID_THRID_LIST    	   = null;
 	 
 
 	 
@@ -244,7 +245,7 @@ private static final long serialVersionUID = 1L;
 	 				
 					first_list.set(19,SEX_THRID_LIST);
 					first_list.set(20,BIRTHDAY_THRID_LIST);
-	 				
+	 				break;
 	 				
 	 				
 	 			}else if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
@@ -255,7 +256,9 @@ private static final long serialVersionUID = 1L;
 			 			   
 	 					){
 	 				
-	 				st.add(ENPIN_FIRST_LIST);
+	 				//st.add(ENPIN_FIRST_LIST);
+	 				GUID_THRID_LIST = third_list.get(5).trim();
+	 				s2.put(ENPIN_FIRST_LIST, OKATO_THIRD_LIST+"!"+GUID_THRID_LIST);
 	 				
 	 			}
 			 } 
@@ -288,13 +291,14 @@ private static final long serialVersionUID = 1L;
 						first_list.set(16,BORN_SECOND_LIST);
 						first_list.set(17,GOVER_SECOND_LIST);
 						first_list.set(18,CODEDOC_SECOND_LIST);
+						String mas [] = null;
 						
-						/*check linksmo*/
+						
 						if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0){
-							
-							if(st.contains(ENPIN_SECOND_LIST)){
-								
-								services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST);
+							if(s2.containsKey(ENPIN_SECOND_LIST)){
+								mas = s2.get(ENPIN_FIRST_LIST).split("!");
+								services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST,mas[0],mas[1]);
+								break;
 							}
 						}
 					}
@@ -323,7 +327,7 @@ private static final long serialVersionUID = 1L;
 	 ResultSet rs = null;
      Connection conn = null;
      PreparedStatement stmt = null;
-	 DataSource dataSource = ConnectionPoolOracle.setUp();
+	 DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
      ConnectionPoolOracle.printStatus();
      conn = dataSource.getConnection();
      ConnectionPoolOracle.printStatus();

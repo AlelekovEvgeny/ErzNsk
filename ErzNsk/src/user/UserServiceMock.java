@@ -28,7 +28,7 @@ public class UserServiceMock implements UserService {
 		
 		try {
 			
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			// выдергиваем из таблицы пользователей
 			resultSet = new UserOracle().selectUsers(statement);

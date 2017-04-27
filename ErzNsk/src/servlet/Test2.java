@@ -33,7 +33,7 @@ public class Test2 {
 		/*Services ser = new Services();
 		ser.update_confl_person("5457910890000455");*/
 		
-		ConnectionPoolOracle_dawn.setUp();
+		//ConnectionPoolOracle_dawn.setUp();
 		Connection connection = ConnectionPoolOracle_dawn.getConnectionDataSource().getConnection();
 		
 		String jobquery = "begin update_zp3_psr.update_zp3_erznsk(?, ?, ?, ?); end;";

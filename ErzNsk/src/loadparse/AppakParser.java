@@ -31,7 +31,7 @@ public class AppakParser extends DefaultHandler {
     @Override 
     public void startDocument() throws SAXException { 
     	try {
-    	 DataSource dataSource = ConnectionPoolOracle.setUp();
+    	 DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
     	 conn = dataSource.getConnection();
          ConnectionPoolOracle.printStatus();
          statement = conn.createStatement();

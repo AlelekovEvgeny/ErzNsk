@@ -32,7 +32,7 @@ List<ArrayList<String>> listRow = new ArrayList<ArrayList<String>>();
         PreparedStatement stmt = null;
 			     
 
-		DataSource dataSource = ConnectionPoolOracle.setUp();
+		DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
 	    ConnectionPoolOracle.printStatus();
 
 			        try
@@ -89,7 +89,7 @@ List<ArrayList<String>> listRow = new ArrayList<ArrayList<String>>();
         PreparedStatement stmt = null;
 			     
 
-		DataSource dataSource = ConnectionPoolOracle.setUp();
+		DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
 	    ConnectionPoolOracle.printStatus();
 
 			        try
@@ -135,7 +135,7 @@ List<ArrayList<String>> listRow = new ArrayList<ArrayList<String>>();
         PreparedStatement stmt = null;
 			     
 
-		DataSource dataSource = ConnectionPoolOracle.setUp();
+		DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
 	    ConnectionPoolOracle.printStatus();
 
 			        try
@@ -192,7 +192,7 @@ List<ArrayList<String>> listRow = new ArrayList<ArrayList<String>>();
         PreparedStatement stmt = null;
 			     
 
-		DataSource dataSource = ConnectionPoolOracle.setUp();
+		DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
 	    ConnectionPoolOracle.printStatus();
 
 			        try

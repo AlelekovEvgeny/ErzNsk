@@ -83,17 +83,19 @@ public class DataSource {
      * @throws SQLException
      * @throws Exception
      */
-    public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3) throws SQLException, Exception{
+    public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3,String OKATO_npp0,String GUID_npp0) throws SQLException, Exception{
 		
 		connection = ConnectionPoolOracle_dawn.getConnectionDataSource().getConnection();
 		
-		String jobquery = "begin update_zp3_psr.update_zp3_erznsk(?, ?, ?, ?); end;";
+		String jobquery = "begin update_zp3_psr.update_zp3_erznsk(?, ?, ?, ?, ?, ?); end;";
 		CallableStatement callStmt = connection.prepareCall(jobquery);
 		
 		callStmt.setString(1, enpIN);
 		callStmt.setString(2, enpOUT_ZP3);
 		callStmt.setString(3, USERNAME);
 		callStmt.setString(4, POL_ZP3);
+		callStmt.setString(5, OKATO_npp0);
+		callStmt.setString(6, GUID_npp0);
 		
 		callStmt.executeUpdate();
 		

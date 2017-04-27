@@ -24,7 +24,7 @@ public class AnswerZp extends AnswerMock {
 		Statement statement = null;
 		Connection conn = null;
 		try {
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			// Выполняем запрос (приложение 1)
 			ResultSet resultSet = new ZpOracle().selectZp(statement, userMachine);

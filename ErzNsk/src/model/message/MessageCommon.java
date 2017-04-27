@@ -194,7 +194,7 @@ public abstract class MessageCommon implements Message {
 		Statement statement = null;
 		Connection conn = null;
 		try {
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			for (int i = 0; i < personEnpGuid.size(); i++) 
 			{
@@ -225,7 +225,7 @@ public abstract class MessageCommon implements Message {
 		Statement statement = null;
 		Connection conn = null;
 		try {
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			for (int i = 0; i < personEnpOutput.size(); i++) {
 				taskOracle.insertToPersonEnpOutput(statement, personEnpOutput.get(i).get(0), personEnpOutput.get(i).get(1).replace("-", "")
@@ -551,7 +551,7 @@ public abstract class MessageCommon implements Message {
 		
 		try {
 			long timeSelect0 = System.currentTimeMillis();
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			
 			// ДЕЛАЕМ запрос select из таблиц
@@ -908,7 +908,7 @@ public abstract class MessageCommon implements Message {
 		ResultSet resultSet = null;
 		
 		try {
-			conn = ConnectionPoolOracle.setUp().getConnection();
+			conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 			statement = conn.createStatement();
 			
 			// ДЕЛАЕМ запрос select из таблиц
@@ -1088,7 +1088,7 @@ public abstract class MessageCommon implements Message {
 	ResultSet resultSet = null;
 
 	try {
-		conn = ConnectionPoolOracle.setUp().getConnection();
+		conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 		statement = conn.createStatement();
 		
 		// ДЕЛАЕМ запрос select из таблиц
@@ -1293,7 +1293,7 @@ public abstract class MessageCommon implements Message {
 	ResultSet resultSet = null;
 	
 	try {
-		conn = ConnectionPoolOracle.setUp().getConnection();
+		conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 		statement = conn.createStatement();
 		
 		// ДЕЛАЕМ запрос select из таблиц
@@ -1373,7 +1373,7 @@ public abstract class MessageCommon implements Message {
  {
 	 String status = null;
 	 
-	 Connection conn = ConnectionPoolOracle.setUp().getConnection();
+	 Connection conn = ConnectionPoolOracle.getConnectionDataSource().getConnection();
 	 PreparedStatement stmt = null;
 	 ResultSet rs = null;
 	 

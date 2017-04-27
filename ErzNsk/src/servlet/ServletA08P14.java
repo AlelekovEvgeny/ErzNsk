@@ -116,7 +116,7 @@ private static final long serialVersionUID = 1L;
 	 ResultSet rs = null;
      Connection conn = null;
      PreparedStatement stmt = null;
-	 DataSource dataSource = ConnectionPoolOracle.setUp();
+	 DataSource dataSource = ConnectionPoolOracle.getConnectionDataSource();
      ConnectionPoolOracle.printStatus();
      conn = dataSource.getConnection();
      ConnectionPoolOracle.printStatus();

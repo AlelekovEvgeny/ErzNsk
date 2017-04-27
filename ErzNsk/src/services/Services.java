@@ -21,9 +21,9 @@ public class Services {
 	dao.impl.DataSource dataSource = new dao.impl.DataSource();
 	
 	
-	public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3) throws Exception{
+	public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3,String OKATO_npp0,String GUID_npp0) throws Exception{
 		
-		dataSource.update_confl_person(enpIN, enpOUT_ZP3, USERNAME, POL_ZP3);
+		dataSource.update_confl_person(enpIN, enpOUT_ZP3, USERNAME, POL_ZP3,OKATO_npp0,GUID_npp0);
 	}
 	
 	
@@ -52,7 +52,7 @@ public class Services {
 	 */
 	private List<ZP3> process_generalEnpOut(List<ZP3> parsed_xml_zp3) throws Exception{
 		
-		ConnectionPoolOracle.setUp();
+		ConnectionPoolOracle.getConnectionDataSource();
 		
 		for(int i = 0; i < parsed_xml_zp3.size(); i ++){
 			

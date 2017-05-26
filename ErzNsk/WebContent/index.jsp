@@ -1809,32 +1809,7 @@ $(document).ready(function()
 						</div>
 					</div>
 					<!-- конец Блок Импорт экселя на handsontable -->
-					<!--  Блок Импорт упрак2 -->
-					<div class="modal fade" id="importuprak2_mod" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button btn-primary" class="close"
-										data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h3 class="modal-title">Импорт сообщения Uprak2 для web-таблицы</h3>
-									<p>Импорт Uprak2</p>
-								</div>
-								<div class="modal-body">
-									<form id="upload-form_uprak2" action="ImportUprak2" method="post" enctype="multipart/form-data">Выберите файл для загрузки формата .uprak2 :<input type="file"name="fileName"> <br>
-										<button type="submit" class="btn btn-primary" id="activateGetJson2" >Отправить</button>
-										<button type="button" class="btn btn-success" id="help_import_uprak2">Помощь</button>
-									</form>
-									
-									
-									<div id="text_help_import_uprak2" style="margin-top: 15px"></div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть окно</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- конец Блок Импорт упрак2 -->
+					
 					<!--  Блок Импорт zp3 и тд -->
 					<div class="modal fade" id="importuprak2zp3_mod" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -1847,12 +1822,14 @@ $(document).ready(function()
 								</div>
 								<div class="modal-body">
 									<input id="zp3filename" type="text"  data-role="tagsinput"  /> 
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть окно</button>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть окно</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					
 					<!-- конец Блок Импорт zp3 и тд -->
 					<!-- Блок Запрос по ФИОД -->
 					<div class="modal fade" id="myModal" role="dialog"

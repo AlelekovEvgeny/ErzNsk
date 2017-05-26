@@ -40,7 +40,7 @@ public class ImportZP3fromXMLToHandsontable extends HttpServlet {
 		  String dataZp3 = request.getParameter("dataZP3");
 		  
 		  ArrayList<ArrayList<String>>  unmarhsalingZP3 = null;
-		  unmarhsalingZP3 = new UtilParseDbXml().unMarshalingZP3(dataZp3.replaceAll(".zp3","").replaceAll("> выгрузка на первый лист ", "").trim());
+		  unmarhsalingZP3 = new UtilParseDbXml().unMarshalingZP3(dataZp3.replaceAll(".zp3","").replaceAll("> выгрузка на первый лист ", "").replaceAll(".uprak2","").trim());
 		  unmarhsalingZP3 = addHeader(unmarhsalingZP3);
 		  
 		  Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();

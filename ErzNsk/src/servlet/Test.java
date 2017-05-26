@@ -27,16 +27,16 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		
-		/*Services services = new Services();
+		Services services = new Services();
 		try {
 			//services.zp3process("50000-7AE3CBD2-B2BF-D6DB-CD6C-E730309ED2DD","uprak2");
-			services.zp3process("50000-60C89D04-6FF4-7FED-23E1-AFFC4239350F","uprak2");
+			services.zp3process("50000-1C788881-1E84-08CA-FD02-6A39CCEDE6AD","uprak2");
 		} catch (JAXBException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
+		/*
 		ZP3 zp3 = new ZP3();
 		String name = "50000-60C89D04-6FF4-7FED-23E1-AFFC4239350F";
 		String prefix = "uprak2";
@@ -85,8 +85,8 @@ public class Test {
 			 }
 		 }
 		 */
-		UtilForErrorGz g = new UtilForErrorGz();
-		System.out.println("54"+g.enp_calc("09.12.1984", 1+1));
+		/*UtilForErrorGz g = new UtilForErrorGz();
+		System.out.println("54"+g.enp_calc("09.12.1984", 1+1));*/
 	}
 
 }

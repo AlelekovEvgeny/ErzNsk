@@ -172,7 +172,7 @@ private static final long serialVersionUID = 1L;
 			SEX_THRID_LIST         = null, 
 			BIRTHDAY_THRID_LIST    = null,
 	 		GUID_THRID_LIST    	   = null;
-	 
+	 		String mas [] = null;
 
 	 
 	 ArrayList<String> badInsideEnp = uniqueGUID(listWeb3);
@@ -213,8 +213,8 @@ private static final long serialVersionUID = 1L;
 		 		POL_THIRD_LIST = third_list.get(14).trim();
 		 		
 		 		NNP__THIRD_LIST = third_list.get(19).trim();
-		 		SEX_THRID_LIST        = third_list.get(22).trim();
-				if(third_list.get(21).trim() == null ){BIRTHDAY_THRID_LIST   = "";}else{BIRTHDAY_THRID_LIST   = third_list.get(21).trim();}
+		 		if(third_list.get(22) == null){SEX_THRID_LIST          = "";}else{SEX_THRID_LIST    = third_list.get(22).trim();}
+				if(third_list.get(21) == null ){BIRTHDAY_THRID_LIST   = "";}else{BIRTHDAY_THRID_LIST   = third_list.get(21).trim();}
 				
 		 		
 				
@@ -237,7 +237,7 @@ private static final long serialVersionUID = 1L;
 	 			   OKATO_FIRST_LIST.equalsIgnoreCase(OKATO_THIRD_LIST)     &&
 	 			   TYPEPOL_FIRST_LIST.equalsIgnoreCase(TYPEPOL_THIRD_LIST) &&
 	 			   POL_FIRST_LIST.equalsIgnoreCase(POL_THIRD_LIST)		   &&
-	 			 //!NNP__THIRD_LIST.equalsIgnoreCase("0") 			       &&
+	 			   //!NNP__THIRD_LIST.equalsIgnoreCase("0") 			       &&
 	 			   D13_FIRST_LIST.equalsIgnoreCase(D13_THIRD_LIST) 		   &&
 	 			   !D13_THIRD_LIST.equals("")
 	 			   )
@@ -245,22 +245,22 @@ private static final long serialVersionUID = 1L;
 	 				
 					first_list.set(19,SEX_THRID_LIST);
 					first_list.set(20,BIRTHDAY_THRID_LIST);
-	 				break;
 	 				
-	 				
-	 			}else if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
-		 	 			   ENPOUT_FIRST_LIST.equalsIgnoreCase(ENPOUT_THIRD_LIST)   &&
-		 	 			   NNP__THIRD_LIST.equalsIgnoreCase("0") 				   &&
-			 			   (!OKATO_THIRD_LIST.equalsIgnoreCase("50000") 		   ||
-	 					   (OKATO_THIRD_LIST.equalsIgnoreCase("50000") && !D13_THIRD_LIST.equals("")))
-			 			   
-	 					){
-	 				
-	 				//st.add(ENPIN_FIRST_LIST);
-	 				GUID_THRID_LIST = third_list.get(5).trim();
-	 				s2.put(ENPIN_FIRST_LIST, OKATO_THIRD_LIST+"!"+GUID_THRID_LIST);
 	 				
 	 			}
+	 					if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
+		 	 			   ENPOUT_FIRST_LIST.equalsIgnoreCase(ENPOUT_THIRD_LIST)   &&
+		 	 			   NNP__THIRD_LIST.equalsIgnoreCase("0") 				   //&&
+		 	 			   //!OKATO_THIRD_LIST.equalsIgnoreCase("50000")
+			 			   /*(!OKATO_THIRD_LIST.equalsIgnoreCase("50000") 		   ||
+	 					   (OKATO_THIRD_LIST.equalsIgnoreCase("50000") && !D13_THIRD_LIST.equals("")))*/  /*вмеренно, убрали всез кто на 50000 из зп1*/
+	 					){
+	 				
+			 				//st.add(ENPIN_FIRST_LIST);
+			 				GUID_THRID_LIST = third_list.get(5).trim();
+			 				s2.put(ENPIN_FIRST_LIST, OKATO_THIRD_LIST+"!"+GUID_THRID_LIST+"!"+D13_THIRD_LIST);
+	 				
+	 					}
 			 } 
 			 
 			    for (int k = 1; k < listWeb2.size(); k++)
@@ -282,29 +282,40 @@ private static final long serialVersionUID = 1L;
 					
 					if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_SECOND_LIST)){
 						
-						first_list.set(4,SURNAME_SECOND_LIST);
-						first_list.set(5,FIRSTNAME_SECOND_LIST);
-						first_list.set(6,LASTNAME_SECOND_LIST);
-						first_list.set(13,PASS_DOC_SECOND_LIST);
-						first_list.set(14,NUM_DOC_SECOND_LIST);
-						first_list.set(15,DATE_DOC_SECOND_LIST);
-						first_list.set(16,BORN_SECOND_LIST);
-						first_list.set(17,GOVER_SECOND_LIST);
-						first_list.set(18,CODEDOC_SECOND_LIST);
-						String mas [] = null;
+						if(s2.containsKey(ENPIN_FIRST_LIST)){
+							
+							mas = s2.get(ENPIN_FIRST_LIST).split("!");
+							
+							first_list.set(4,SURNAME_SECOND_LIST);
+							first_list.set(5,FIRSTNAME_SECOND_LIST);
+							first_list.set(6,LASTNAME_SECOND_LIST);
+							first_list.set(13,PASS_DOC_SECOND_LIST);
+							first_list.set(14,NUM_DOC_SECOND_LIST);
+							first_list.set(15,DATE_DOC_SECOND_LIST);
+							first_list.set(16,BORN_SECOND_LIST);
+							first_list.set(17,GOVER_SECOND_LIST);
+							first_list.set(18,CODEDOC_SECOND_LIST);
+						}
 						
-						
-						if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0){
-							if(s2.containsKey(ENPIN_SECOND_LIST)){
-								mas = s2.get(ENPIN_FIRST_LIST).split("!");
+						if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0 	&&
+						   !mas[0].trim().equals("50000")	&&
+						   s2.containsKey(ENPIN_SECOND_LIST)){
+							
+								//mas = s2.get(ENPIN_FIRST_LIST).split("!");
 								services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST,mas[0],mas[1]);
 								break;
-							}
-						}
+								
+						}/*else if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0 	&&
+								mas[0].trim().equals("50000")				&&
+								mas[2].trim().equals("")				&&
+								 s2.containsKey(ENPIN_SECOND_LIST) 			&&
+								 i > 0){
+							
+								first_list.set(6,"Конфликт открепления ЦС с РС");
+						}*/
 					}
 					
 				}
-			 
 			 
 			  if(i > 0 											  &&
 				 first_list.get(19).equals("")  				  &&

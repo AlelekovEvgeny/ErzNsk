@@ -1,6 +1,8 @@
 package util;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,6 @@ public class UtilParseDbXml {
 		JAXBContext jaxbContext = JAXBContext.newInstance(WrapZP3Marshaling.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		WrapZP3Marshaling emps = (WrapZP3Marshaling) jaxbUnmarshaller.unmarshal(new File(Const.OUTPUTDONE+name+".xml"));
-
 		ArrayList<ArrayList<String>> colBig = new ArrayList<ArrayList<String>>();
 		
 		for (ZP3 zp3 : emps.getList()) {
@@ -111,6 +112,11 @@ public class UtilParseDbXml {
 		//String prefix = "uprak2";
 		// TODO Auto-generated method stub
 		 File fXmlFile = new File(Const.OUTPUTDONE+name+"."+prefix);
+		 
+		 if(fXmlFile.canExecute()){
+			 System.out.println("WERWE "+fXmlFile.length());	 
+		 }
+		 
 		 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
@@ -156,7 +162,7 @@ public class UtilParseDbXml {
 				 zp3.setNUM_POL(eElement.getElementsByTagName("IN1.36").item(0).getTextContent());
 
 				 zp3_list.add(zp3);
-				 //System.out.println(zp3.toString());
+				 System.out.println(zp3.toString());
 				 
 				 
 			 }

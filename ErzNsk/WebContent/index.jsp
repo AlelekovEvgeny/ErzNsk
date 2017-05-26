@@ -38,6 +38,7 @@ String createTime =""+new Date(session.getCreationTime());
 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.css" rel="stylesheet">
+<link href="assets/css/bootstrap-tagsinput.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css"
 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/font-awesome-animation.css">
@@ -45,14 +46,14 @@ String createTime =""+new Date(session.getCreationTime());
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script src="js/jquery.form.js"></script>	
+<script src="js/jquery.form.js"></script>
+<script src="js/bootstrap.js"></script>	
+<script src="assets/script/bootstrap-tagsinput.js"></script>
 <script src="js/spin.js"></script>
 <script src="script/webSocketAnswer.js"></script>
-<script src="js/bootstrap.js"></script>
 <script src="js/handsontable.full.js"></script>
 <script src="js/numeral.js"></script>
 <script src="js/moment.js"></script>
@@ -344,6 +345,48 @@ $(document).ready(function()
 	           			});
    	       			  
 	    	        });
+   	       			
+   	       		$('input').on('itemAdded', function(event) {
+   	       	  		
+		   	    		let dataZP3 = $('#zp3filename').val();
+		   	    		
+		   	        	
+		   	        	//блок spinner'а (включение)
+		   	         	$("#dim2").css("height", $(document).height());
+		   	      		$("#dim2").fadeIn();
+		   	      	    spinner.spin($('#spinner_center')[0]);
+		   	      	    ajax_cnt++;
+		   	      	    
+		   	  	     let myData2 = {dataZP3};
+		   	  		 let hotInstan1 = $('#list1onsc').handsontable('getInstance');
+		   			 var jqxhr = $.getJSON( "ImportZP3fromXMLToHandsontable",myData2, function(er)
+		   			 {
+		   					$('#importuprak2zp3_mod').modal('hide');
+		    	        	
+		       	        	hotInstan1.clear();
+		   			 })
+		   			 .done(function(er)
+		   			 {
+		   				hotInstan1.loadData(er.data2upr);
+		   			 })
+		   			 .fail( function(error) { console.log("error.responseJSON "+error.responseJSON); })
+		   			 .always(function()
+		   			 { 
+		   			 	// блок spinner (выключение) 
+		   				 ajax_cnt--;
+		   				 if (ajax_cnt <= 0) {
+		   				
+		   				   spinner.stop();
+		   				   $('#dim2').fadeOut();
+		   				       ajax_cnt = 0;
+		   				       
+		   			 	}
+		   			 });
+   	       			
+   	       			//end
+   	       		});
+   	       			
+   	       		
    	       			
    	       			/*
    	       				на вход подем имена упрака2 при импорте в ручную 
@@ -1792,6 +1835,25 @@ $(document).ready(function()
 						</div>
 					</div>
 					<!-- конец Блок Импорт упрак2 -->
+					<!--  Блок Импорт zp3 и тд -->
+					<div class="modal fade" id="importuprak2zp3_mod" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button btn-primary" class="close"
+										data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h3 class="modal-title">Импорт сообщения  Uprak2  типа zp3  прочее для  web-таблицы</h3>
+									<p>Импорт Uprak2</p>
+								</div>
+								<div class="modal-body">
+									<input id="zp3filename" type="text"  data-role="tagsinput"  /> 
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть окно</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- конец Блок Импорт zp3 и тд -->
 					<!-- Блок Запрос по ФИОД -->
 					<div class="modal fade" id="myModal" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">
@@ -2193,6 +2255,7 @@ $(document).ready(function()
 								<button type="button" class="btn btn-success btn-sm" id="btnexportfromhandsontableTOExcel">Экспорт</button>
 								<button class="btn btn-primary btn-sm" id="btnimportfromhandsontableTOExcel" data-toggle="modal" data-target="#importFromExcel">Импорт</button>
 								<button class="btn btn-primary btn-sm" id="btn_import_uprak2" data-toggle="modal" data-target="#importuprak2_mod">Импорт uprak2</button>
+								<button class="btn btn-primary btn-sm" id="btn_import_uprak2" data-toggle="modal" data-target="#importuprak2zp3_mod">Импорт ZP3 uprak2</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcel">Запрос не сформирован</button>
 								<button type="button" class="btn btn-success btn-sm" id="zaprosWebExcelCancel">Расформировать запрос</button>
 							</div>

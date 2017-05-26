@@ -3,6 +3,7 @@ package servlet;
 import help.Const;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -937,7 +938,7 @@ public class WsAnswer extends WebSocketServlet {
 			if(vidZaprosa.toString().equals("ZP3"))
 			{
 				System.out.println("Поймали ZP3");
-				Message messageZp3 =  new MessageZp3();
+				Message messageZp3 = new MessageZp3();
 				
 				
 				ArrayList<ArrayList<String>> ls = new ArrayList<ArrayList<String>>();
@@ -957,8 +958,8 @@ public class WsAnswer extends WebSocketServlet {
 			
 			if(mes.create(userMachine, list,kluch)){
 				// 50000-A81268FD-7AFA-4624-BDB0-C9796596D343
-			/*	String file = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343" + ".uprmes";
-				String fileUpr2 = "50000-A81268FD-7AFA-4624-BDB0-C9796596D343";
+				/*String file = "50000-A6F025D6-9AD3-1964-FF37-460721765516" + ".uprmes";
+				String fileUpr2 = "50000-A6F025D6-9AD3-1964-FF37-460721765516";
 				String sentMessages = "";
 				File to_file = new File(Const.OUTPUTDONE + fileUpr2 + ".uprak2");*/
 				
@@ -991,6 +992,7 @@ public class WsAnswer extends WebSocketServlet {
 							myoutbound.writeTextMessage(buffer5);
 								
 							services.zp3process(fileUpr2,"uprak2");
+							
 							
 							sentMessages = "> выгрузка на первый лист " + fileUpr2 + ".zp3";
 							buffer5 = CharBuffer.wrap(sentMessages);

@@ -82,7 +82,7 @@ public class Services {
 			
 			if(parsed_xml_zp3.get(i).getENP_IN() == null) parsed_xml_zp3.get(i).setENP_IN(parsed_xml_zp3.get(i).getENP_OUT_old_1());
 			
-			//System.out.println("EE "+parsed_xml_zp3.get(i)+" - "+i);
+			System.out.println("EE "+parsed_xml_zp3.get(i)+" - "+i);
 		}
 		
 		ConnectionPoolOracle.printStatus();

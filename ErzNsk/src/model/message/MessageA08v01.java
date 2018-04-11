@@ -151,7 +151,7 @@ public class MessageA08v01 extends MessageCommon {
 			switch (dataList.get(i).get(PERSON_LINKSMOESTABLISHMENTID)) {
 				case "1" : smo = "1025403200151";
 				break;
-				case "2" : smo = "1027739051460";
+				case "2" : smo = "1177746612581";
 				break;
 				case "3" : smo = "1024201390740";
 				break;
@@ -170,8 +170,13 @@ public class MessageA08v01 extends MessageCommon {
 			in1.addContent(new Element("IN1.15", namespace).addContent("50000"));
 
 			if ("".equals(dataList.get(i).get(VS_NUM)) || "NULL".equals(dataList.get(i).get(VS_NUM))) {
-				in1.addContent(new Element("IN1.35", namespace).addContent("Ï"));
-				in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));				
+				if(dataList.get(i).get(TYPE_POL).equals("Ý")){
+					in1.addContent(new Element("IN1.35", namespace).addContent("Ý"));
+					in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));
+				}else{
+					in1.addContent(new Element("IN1.35", namespace).addContent("Ï"));
+					in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));	
+				}				
 			} else {
 				in1.addContent(new Element("IN1.35", namespace).addContent("Â"));
 				in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(VS_NUM)));	
@@ -287,7 +292,7 @@ protected void createMiddle(int count, Namespace namespace,	Element rootElement,
 			switch (dataList.get(i).get(PERSON_LINKSMOESTABLISHMENTID)) {
 				case "1" : smo = "1025403200151";
 				break;
-				case "2" : smo = "1027739051460";
+				case "2" : smo = "1177746612581";
 				break;
 				case "3" : smo = "1024201390740";
 				break;
@@ -306,8 +311,13 @@ protected void createMiddle(int count, Namespace namespace,	Element rootElement,
 			in1.addContent(new Element("IN1.15", namespace).addContent("50000"));
 
 			if ("".equals(dataList.get(i).get(VS_NUM)) || "NULL".equals(dataList.get(i).get(VS_NUM))) {
-				in1.addContent(new Element("IN1.35", namespace).addContent("Ï"));
-				in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));				
+				if(dataList.get(i).get(TYPE_POL).equals("Ý")){
+					in1.addContent(new Element("IN1.35", namespace).addContent("Ý"));
+					in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));
+				}else{
+					in1.addContent(new Element("IN1.35", namespace).addContent("Ï"));
+					in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(NBLANC)));	
+				}				
 			} else {
 				in1.addContent(new Element("IN1.35", namespace).addContent("Â"));
 				in1.addContent(new Element("IN1.36", namespace).addContent(dataList.get(i).get(VS_NUM)));	

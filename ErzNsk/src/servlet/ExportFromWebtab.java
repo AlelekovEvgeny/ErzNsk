@@ -141,6 +141,7 @@ private static final long serialVersionUID = 1L;
 	 Map<String,String> variables = new Hashtable<String,String>();
 	 ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 	 ArrayList<String> first_list,second_list,third_list;
+	 
 	 String ENPIN_FIRST_LIST       = null,
 			ENPIN_THIRD_LIST       = null,
 	 		ENPOUT_FIRST_LIST      = null, 
@@ -248,6 +249,7 @@ private static final long serialVersionUID = 1L;
 	 				
 	 				
 	 			}
+	 			
 	 					if(ENPIN_FIRST_LIST.equalsIgnoreCase(ENPIN_THIRD_LIST) 	   &&
 		 	 			   ENPOUT_FIRST_LIST.equalsIgnoreCase(ENPOUT_THIRD_LIST)   &&
 		 	 			   NNP__THIRD_LIST.equalsIgnoreCase("0") 				   //&&
@@ -255,10 +257,9 @@ private static final long serialVersionUID = 1L;
 			 			   /*(!OKATO_THIRD_LIST.equalsIgnoreCase("50000") 		   ||
 	 					   (OKATO_THIRD_LIST.equalsIgnoreCase("50000") && !D13_THIRD_LIST.equals("")))*/  /*вмеренно, убрали всез кто на 50000 из зп1*/
 	 					){
-	 				
 			 				//st.add(ENPIN_FIRST_LIST);
 			 				GUID_THRID_LIST = third_list.get(5).trim();
-			 				s2.put(ENPIN_FIRST_LIST, OKATO_THIRD_LIST+"!"+GUID_THRID_LIST+"!"+D13_THIRD_LIST);
+			 				s2.put(ENPIN_FIRST_LIST, OKATO_THIRD_LIST+"!"+GUID_THRID_LIST+"!"+D13_THIRD_LIST+"!"+D12_THIRD_LIST);
 	 				
 	 					}
 			 } 
@@ -286,6 +287,7 @@ private static final long serialVersionUID = 1L;
 							
 							mas = s2.get(ENPIN_FIRST_LIST).split("!");
 							
+							
 							first_list.set(4,SURNAME_SECOND_LIST);
 							first_list.set(5,FIRSTNAME_SECOND_LIST);
 							first_list.set(6,LASTNAME_SECOND_LIST);
@@ -297,14 +299,23 @@ private static final long serialVersionUID = 1L;
 							first_list.set(18,CODEDOC_SECOND_LIST);
 						}
 						
-						if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0 	&&
-						   !mas[0].trim().equals("50000")	&&
-						   s2.containsKey(ENPIN_SECOND_LIST)){
+						if(s2.containsKey(ENPIN_SECOND_LIST)){
 							
-								//mas = s2.get(ENPIN_FIRST_LIST).split("!");
-								services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST,mas[0],mas[1]);
-								break;
+							
+							if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0 	&&
+							   !mas[0].trim().equals("50000"))
+							{
 								
+									//mas = s2.get(ENPIN_FIRST_LIST).split("!");
+								
+								String tmp = (mas[3] != null || !mas[3].equals("")) ? parseStringDateYYY_MM_DD(mas[3].trim()) :"01.01.1991";
+									services.update_confl_person(ENPIN_FIRST_LIST,ENPOUT_FIRST_LIST,(String)request.getSession().getAttribute("username"),POL_FIRST_LIST,mas[0],mas[1],tmp);
+									break;
+									
+							}
+							
+						}else{
+							
 						}/*else if(Integer.valueOf(LINKSMO_SECOND_LIST) > 0 	&&
 								mas[0].trim().equals("50000")				&&
 								mas[2].trim().equals("")				&&
@@ -317,11 +328,16 @@ private static final long serialVersionUID = 1L;
 					
 				}
 			 
+			    
+		    if(first_list.get(19) != null){
 			  if(i > 0 											  &&
 				 first_list.get(19).equals("")  				  &&
 				 first_list.get(20).equals("")){
-				  first_list.set(6,"Нет ответа на ZP1 или в составе ответа ZP1 нет СП из ZP3 или ЕНП_внешнего него в РСЗ"); 
+				 first_list.set(6,"Нет ответа на ZP1 или в составе ответа ZP1 нет СП из ZP3 или ЕНП_внешнего него в РСЗ"); 
 			  }
+		    }else{
+		    	first_list.set(6,"Нет ответа на ZP1 или в составе ответа ZP1 нет СП из ZP3 или ЕНП_внешнего него в РСЗ");
+		    }  
 			  
 		 }
 		 else{	if(i > 0)	first_list.set(6,"в ответе два главных ЕНП"); }

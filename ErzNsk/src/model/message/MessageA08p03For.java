@@ -118,7 +118,7 @@ public class MessageA08p03For extends MessageCommon {
 			switch (dataList.get(i).get(PERSON_LINKSMOESTABLISHMENTID)) {
 				case "1" : smo = "1025403200151";
 				break;
-				case "2" : smo = "1027739051460";
+				case "2" : smo = "1177746612581";
 				break;
 				case "3" : smo = "1024201390740";
 				break;
@@ -219,7 +219,7 @@ public class MessageA08p03For extends MessageCommon {
 			switch (dataList.get(i).get(PERSON_LINKSMOESTABLISHMENTID)) {
 				case "1" : smo = "1025403200151";
 				break;
-				case "2" : smo = "1027739051460";
+				case "2" : smo = "1177746612581";
 				break;
 				case "3" : smo = "1024201390740";
 				break;

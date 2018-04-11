@@ -21,9 +21,9 @@ public class Services {
 	dao.impl.DataSource dataSource = new dao.impl.DataSource();
 	
 	
-	public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3,String OKATO_npp0,String GUID_npp0) throws Exception{
+	public void update_confl_person(String enpIN,String enpOUT_ZP3,String USERNAME,String POL_ZP3,String OKATO_npp0,String GUID_npp0,String D12) throws Exception{
 		
-		dataSource.update_confl_person(enpIN, enpOUT_ZP3, USERNAME, POL_ZP3,OKATO_npp0,GUID_npp0);
+		dataSource.update_confl_person(enpIN, enpOUT_ZP3, USERNAME, POL_ZP3,OKATO_npp0,GUID_npp0, D12);
 	}
 	
 	

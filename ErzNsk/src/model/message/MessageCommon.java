@@ -335,12 +335,12 @@ public abstract class MessageCommon implements Message {
 			pid3_5.addContent(new Element("CX.8", namespace).addContent(dataList.get(i).get(D2)));
 		}
 
-		/*if (!"".equals(dataList.get(i).get(SNILS))) {	
+		if (!"".equals(dataList.get(i).get(SNILS))) {	
 			Element pid3_3 = new Element("PID.3", namespace);
 			pid.addContent(pid3_3);
 			pid3_3.addContent(new Element("CX.1", namespace).addContent(dataList.get(i).get(SNILS)));
 			pid3_3.addContent(new Element("CX.5", namespace).addContent("PEN"));
-		}*/
+		}
 					
 		Element pid3_4 = new Element("PID.3", namespace);
 		pid.addContent(pid3_4);
@@ -379,6 +379,49 @@ public abstract class MessageCommon implements Message {
 		pid.addContent(pid26);
 		pid26.addContent(new Element("CWE.1", namespace).addContent(dataList.get(i).get(RUSSIAN)));
 		pid26.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.5.0.25.3"));
+
+		/*
+		 * ѕризнак иностранца в соотсесвии 7 приказом.
+		 * ѕришлось сделать таблицу соответсви€ тк у нас другие ид 
+		 **/
+		if(! dataList.get(i).get(RUSSIAN).equals("RUS")){
+			if(dataList.get(i).get(PERSON_DOCPERSONID).equals("5") || dataList.get(i).get(PERSON_DOCPERSONID).equals("10")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("1"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("3") || dataList.get(i).get(PERSON_DOCPERSONID).equals("8")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("4"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("2") || dataList.get(i).get(PERSON_DOCPERSONID).equals("7")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("3"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("11")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("5"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("12")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("6"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("13")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("7"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("14")){
+				Element pid26_2 = new Element("PID.26", namespace);
+				pid.addContent(pid26_2);
+				pid26_2.addContent(new Element("CWE.1", namespace).addContent("8"));
+				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
+			}
+		}
 
 		/*
 		 * ѕо умолчанию pid29 присвоил 777

@@ -1,5 +1,8 @@
 $.getScript('js/spin.js');
-var ws = new WebSocket("ws://asu-srp:8082/ErzNsk/wsAnswer");
+var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+console.log('Current used port '+ full);
+var port = +location.port ? ':'+location.port: '';
+var ws = new WebSocket("ws://asu-srp"+port+"/ErzNsk/wsAnswer");
 //флаг открытли запрос
 var nowCount =0;
 var user;

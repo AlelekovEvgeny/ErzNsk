@@ -38,13 +38,14 @@ public abstract class MessageCommon implements Message {
 			USER_PERSON_SURNAME = 41, USER_PERSON_KINDFIRSTNAME = 42, USER_PERSON_KINDLASTNAME = 43, USER_SMO = 44, USER_D_12 = 45, USER_D_13 = 46, 
 			USER_OKATO_3 = 47, USER_TYPE_POL = 48, USER_POL = 49, RUSSIAN = 50, D_V = 51, D_SER = 52, D_NUM = 53, PR_FAM = 54, PR_IM = 55, PR_OT = 56,
 			LAST_FAM = 57, LAST_IM = 58, LAST_OT = 59, LAST_DR = 60, PFR_SNILS = 61, PFR_ID = 62, PFR_NOTID = 63, USER_SERDOC = 64, USER_NUMDOC = 65,
-			USER_DOCID = 66, USER_DOC_DATE = 67, D_12_PLUS1 = 68,
+			USER_DOCID = 66, USER_DOC_DATE = 67, D_12_PLUS1 = 68,KATEG = 69,
 			/*
-			 *  дл€ всех сообщений кроме п02 =777
+			 *  дл€ всех сообщений кроме п02 
 			 *  если формируетс€ п02 то pid29 становитс€ равный 20 и за счет этого формируетс€ тэг pid29 и из коллекции под двадцатым элементом лежит
 			 *  дата pid29
 			 */
 			Pid29 = 777;
+			
 	
 
 	
@@ -384,38 +385,41 @@ public abstract class MessageCommon implements Message {
 		 * ѕризнак иностранца в соотсесвии 7 приказом.
 		 * ѕришлось сделать таблицу соответсви€ тк у нас другие ид 
 		 **/
+		
+		KATEG = dataList.get(0).get(0).equals("PERSON_SERDOC") ? 69 : 21;
+		
 		if(! dataList.get(i).get(RUSSIAN).equals("RUS")){
-			if(dataList.get(i).get(PERSON_DOCPERSONID).equals("5") || dataList.get(i).get(PERSON_DOCPERSONID).equals("10")){
+			if(dataList.get(i).get(KATEG).equals("5") || dataList.get(i).get(KATEG).equals("10")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("1"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("3") || dataList.get(i).get(PERSON_DOCPERSONID).equals("8")){
+			}else if(dataList.get(i).get(KATEG).equals("3") || dataList.get(i).get(KATEG).equals("8")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("4"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("2") || dataList.get(i).get(PERSON_DOCPERSONID).equals("7")){
+			}else if(dataList.get(i).get(KATEG).equals("2") || dataList.get(i).get(KATEG).equals("7")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("3"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("11")){
+			}else if(dataList.get(i).get(KATEG).equals("11")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("5"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("12")){
+			}else if(dataList.get(i).get(KATEG).equals("12")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("6"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("13")){
+			}else if(dataList.get(i).get(KATEG).equals("13")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("7"));
 				pid26_2.addContent(new Element("CWE.3", namespace).addContent("1.2.643.2.40.3.3.0.6.19"));
-			}else if(dataList.get(i).get(PERSON_DOCPERSONID).equals("14")){
+			}else if(dataList.get(i).get(KATEG).equals("14")){
 				Element pid26_2 = new Element("PID.26", namespace);
 				pid.addContent(pid26_2);
 				pid26_2.addContent(new Element("CWE.1", namespace).addContent("8"));
@@ -759,6 +763,8 @@ public abstract class MessageCommon implements Message {
 		USER_DOC_DATE = uSER_DOC_DATE;
 		D_12_PLUS1 = d_12_PLUS1;
 		Pid29 = pid29;
+		
+		
 		
 	}
 	
@@ -1466,6 +1472,8 @@ public abstract class MessageCommon implements Message {
 	 cunvertCurrentDate = cunvertCurrentDate.substring(8,10)+"."+cunvertCurrentDate.substring(5,7)+"."+cunvertCurrentDate.substring(0,4);
 	    return cunvertCurrentDate;
  }
+
+
  
 }
 

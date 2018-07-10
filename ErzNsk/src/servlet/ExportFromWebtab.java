@@ -94,13 +94,13 @@ private static final long serialVersionUID = 1L;
       try
       {
 	      switch (article.getGouser()) {
-	      case "zapros=A08P02today":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
+	      case "zapros=A08P02today":  addHead(article.getList1());         ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
 	               break;
-	      case "zapros=A08P02howINsmo":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
+	      case "zapros=A08P02howINsmo":  addHead(article.getList1());      ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
 	               break;
 	      case "zapros=A08P02howINsmoPID29":  addHead(article.getList1()); ls = processing(article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar(ls);
           		  break;
-	      case "zapros=A08P02akaZP3":   ls = processing_afterZP3(request, article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar_(ls);
+	      case "zapros=A08P02akaZP3":                                      ls = processing_afterZP3(request, article.getList1(),article.getList2(),article.getList3(),article.getGouser()); inf = sonar_(ls);
   		  		  break;
 	      
 	      }
@@ -506,6 +506,9 @@ private static final long serialVersionUID = 1L;
 					 					 				f.set(23, fun2(f2.get(0).trim(),f2.get(1).trim(),f2.get(2).trim(),f2.get(3).trim(),stmt,rs,conn));
 			 					 					}
 							 					}
+			 					 				f2m = (ArrayList<String>) listWeb1.get(0);
+			 					 				f2m.set(24, "KATEG");
+			 					 				f.set(24, f2.get(65));
 						 					}
 						 				}
 					 				}
@@ -856,7 +859,7 @@ private static final long serialVersionUID = 1L;
  }
  
  /*
-  * Меотд добовляет шапку в первую строку первого листа в данные которые пришли с web-таблицы
+  * Меотд добавляет шапку в первую строку первого листа в данные которые пришли с web-таблицы
   */
  private void addHead(List listWeb1)
  {
@@ -865,7 +868,7 @@ private static final long serialVersionUID = 1L;
 		if(f.size()<=13)
 		{	
 				 f= (ArrayList<String>)listWeb1.get(0);
-				 f.add("PassDOC");f.add("NumDOC");f.add("DateDOC");f.add("BORN");f.add("GOVER");f.add("CODEDOC");f.add("SEX");f.add("BIRTHDAY");f.add("");f.add("D2");f.add("PID29");
+				 f.add("PassDOC");f.add("NumDOC");f.add("DateDOC");f.add("BORN");f.add("GOVER");f.add("CODEDOC");f.add("SEX");f.add("BIRTHDAY");f.add("");f.add("D2");f.add("PID29");f.add("KATEG");
 				 
 				 
 				 // добовляем "шапку" в первую строку

@@ -65,7 +65,7 @@ public class TaskOracle extends ConnectOracle {
 				" trunc(xt.user_d_12) user_d_12, trunc(xt.user_d_13) user_d_13, xt.user_okato_3, xt.user_type_pol, xt.user_pol, "+
 				" nvl((select alfa3 from developer.oksm o where o.kod = russian and rownum = 1),'RUS'), pa.d_v, pa.d_ser, pa.d_num, pa.pr_fam, pa.pr_im, pa.pr_ot, pa.last_fam, pa.last_im, pa.last_ot, pa.last_dr, "+
 				" xt.pfr_snils, xt.pfr_id, xt.pfr_notid, xt.USER_SERDOC, xt.USER_NUMDOC, xt.USER_DOCID, xt.USER_DOC_DATE, "+
-				" trunc(pi.d_12 + 1) D_12_PLUS1 "+
+				" trunc(pi.d_12 + 1) D_12_PLUS1, pa.kateg "+
 				" from person p "+
 				" left join personadd pa on p.person_addressid = pa.personadd_addressid "+
 				" left join xml_person_enp_input pi on pi.gd in (select xp.guid from xml_person_enp xp where xp.enp = p.enp) and pi.npp = 0 and rownum = 1 "+
@@ -134,7 +134,7 @@ public class TaskOracle extends ConnectOracle {
 					" trunc(xt.user_d_12) user_d_12, trunc(xt.user_d_13) user_d_13, xt.user_okato_3, xt.user_type_pol, xt.user_pol, "+
 					" nvl((select alfa3 from developer.oksm o where o.kod = russian and rownum = 1),'RUS'), pa.d_v, pa.d_ser, pa.d_num, pa.pr_fam, pa.pr_im, pa.pr_ot, pa.last_fam, pa.last_im, pa.last_ot, pa.last_dr, "+
 					" xt.pfr_snils, xt.pfr_id, xt.pfr_notid, xt.USER_SERDOC, xt.USER_NUMDOC, xt.USER_DOCID, xt.USER_DOC_DATE, "+
-					" trunc(pi.d_12 + 1) D_12_PLUS1 "+
+					" trunc(pi.d_12 + 1) D_12_PLUS1, pa.kateg"+
 					" from person p "+
 					" left join personadd pa on p.person_addressid = pa.personadd_addressid "+
 					" left join xml_person_enp_input pi on pi.gd in (select xp.guid from xml_person_enp xp where xp.enp = p.enp) and pi.npp = 0 and rownum = 1 "+

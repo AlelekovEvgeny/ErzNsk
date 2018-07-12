@@ -1,5 +1,6 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -17,7 +18,9 @@ import util.UtilParseDbXml;
 
 import com.google.gson.Gson;
 
+import help.Const;
 import model.other.ZpLoadMock2;
+import services.Services;
 
 /**
  * Servlet implementation class ActionServlet
@@ -38,9 +41,17 @@ public class ImportZP3fromXMLToHandsontable extends HttpServlet {
 	  try {	  
 		  String json = null ;
 		  String dataZp3 = request.getParameter("dataZP3");
+		  String processed_name = dataZp3.replaceAll(".zp3","").replaceAll("> выгрузка на первый лист ", "").replaceAll(".uprak2","").trim();
+		  
+		  
+		  File f = new File(Const.OUTPUTDONE+processed_name+".xml");
+		  if(!f.exists()){
+			  Services services = new Services();
+			  services.zp3process(processed_name,"uprak2");
+		  }
 		  
 		  ArrayList<ArrayList<String>>  unmarhsalingZP3 = null;
-		  unmarhsalingZP3 = new UtilParseDbXml().unMarshalingZP3(dataZp3.replaceAll(".zp3","").replaceAll("> выгрузка на первый лист ", "").replaceAll(".uprak2","").trim());
+		  unmarhsalingZP3 = new UtilParseDbXml().unMarshalingZP3(processed_name);
 		  unmarhsalingZP3 = addHeader(unmarhsalingZP3);
 		  
 		  Map<String, ArrayList<ArrayList<String>>> ind = new LinkedHashMap<String, ArrayList<ArrayList<String>>>();
@@ -51,7 +62,7 @@ public class ImportZP3fromXMLToHandsontable extends HttpServlet {
 	     response.setCharacterEncoding("UTF-8");
 	     response.getWriter().write(json.toString());
      
-	  } catch (JAXBException e) {
+	  } catch (Exception e) {
 			e.printStackTrace();
 		  }
 	  
@@ -103,6 +114,8 @@ public class ImportZP3fromXMLToHandsontable extends HttpServlet {
 	f.add("BIRTHDAY");
 	f.add("");
 	f.add("D2");
+	f.add("");
+	f.add("KATEG");
 	 
 	 unmarhsalingZP3.add(0,f);
 	 return unmarhsalingZP3;

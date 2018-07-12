@@ -169,6 +169,7 @@ private static final long serialVersionUID = 1L;
 			BORN_SECOND_LIST       = null,
 			GOVER_SECOND_LIST      = null,
 			CODEDOC_SECOND_LIST    = null,
+			KATEG_SECOND_LIST    = null,
 			LINKSMO_SECOND_LIST    = null,
 			SEX_THRID_LIST         = null, 
 			BIRTHDAY_THRID_LIST    = null,
@@ -278,6 +279,7 @@ private static final long serialVersionUID = 1L;
 					BORN_SECOND_LIST       = second_list.get(31).trim();
 					GOVER_SECOND_LIST      = parseGoverment(second_list.get(33).trim());
 					CODEDOC_SECOND_LIST    = second_list.get(17).trim();
+					KATEG_SECOND_LIST    = second_list.get(65).trim();
 					LINKSMO_SECOND_LIST    = second_list.get(11).trim();
 					
 					
@@ -297,6 +299,7 @@ private static final long serialVersionUID = 1L;
 							first_list.set(16,BORN_SECOND_LIST);
 							first_list.set(17,GOVER_SECOND_LIST);
 							first_list.set(18,CODEDOC_SECOND_LIST);
+							first_list.set(24,KATEG_SECOND_LIST);
 						}
 						
 						if(s2.containsKey(ENPIN_SECOND_LIST)){
@@ -986,7 +989,7 @@ private void chancheNUL(ArrayList<String> f)
  
  /**
   * Метод делает проверку на одинаковый внешний ЕНП при одинаковом ГУИД
-  * Иначе, если при одинаковом ГУИД разные внешние ЕНП добовляем в коллекцию для дальнейшей работы.
+  * Иначе, если при одинаковом ГУИД разные внешние ЕНП добавляем в коллекцию для дальнейшей работы (будем выдавать предупреждение по таким ГУИД).
  * @param listWeb3 - коллекция с ответом на ZP1
  * @return - Коллекцию с ЕНП которые не прошли проверку на одинаковый внешний ЕНП при одном ГУИД'е
  */

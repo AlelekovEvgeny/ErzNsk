@@ -126,6 +126,7 @@ public class A08P08_process  extends HttpServlet  {
 								 f1.set(11,f2.get(31));
 								 // GOVER
 								 f1.set(12,parseGoverment(f2.get(33)));
+								 f1.set(25,parseGoverment(f2.get(30)));
 								 // sex
 								 f1.set(13,f3.get(22).trim());
 								 //BIRTHDAY
@@ -201,6 +202,7 @@ public class A08P08_process  extends HttpServlet  {
 					 f.set(22,"zp1_bf");
 					 f.set(23,"zp1_pol");
 					 f.set(24,"zp1_№pol");
+					 f.set(25,"snils");
 					 
 					 
 					 // добовляем "шапку" в первую строку
